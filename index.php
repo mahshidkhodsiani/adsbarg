@@ -2,98 +2,59 @@
 <html lang="fa" dir="rtl">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <meta name="handheldfriendly" content="true">
     <meta name="MobileOptimized" content="width">
     <meta name="description">
-    <meta name="author" content="G-ADS">
-    <meta name="keywords" content="Mordenize">
+    <!-- <meta name="keywords" content="Mordenize"> -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
      
-    <link rel="stylesheet" href="https://my.g-ads.org/assets/css/select2.css">
-    <link rel="stylesheet" href="https://my.g-ads.org/assets/css/datatable.css?v=14030701">
-    <link rel="stylesheet" href="https://my.g-ads.org/assets/css/jalali.css">
-    <link rel="stylesheet" href="https://my.g-ads.org/assets/css/style.min.css?v=14030701">
-    <script src="https://my.g-ads.org/assets/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/select2.css">
+    <link rel="stylesheet" href="css/datatable.css">
+    <link rel="stylesheet" href="css/jalali.css">
+    <link rel="stylesheet" href="css/style.min.css">
+    <script src="js/jquery.min.js"></script>
     <link rel="stylesheet" href="css/mainstyles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    
+
+
     <title>صفحه اصلی</title>
+    <style>
+      body {
+        font-family: "g", 'sans-serif' !important;
+        /* font-family: "g" !important; */
+      }
+      /* Reset padding and margin for the body */
+      body, html {
+          margin: 0 !important;
+          padding: 0 !important;
+          overflow-x: hidden !important; /* Prevents horizontal scrolling */
+      }
+
+    </style>
+
   </head>
   <body id="mainArea" class="mainArea" >
     <!-- لــودر صفحات  -->
     <div class="preloader" style="display: none;">
-      <img src="https://my.g-ads.org/assets/img/icon/fav@128.png" alt="loader" class="lds-ripple img-fluid">
+      <img src="images/logo.png" alt="loader" class="lds-ripple img-fluid">
     </div>
+
     <!-- شروع صفحه -->
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" >
-      <!-- سایدبار --> <?php
+      <!-- سایدبار --> 
+       <?php
             include 'sidebar.php';  
-        ?> <div class="sidebarHolder"></div>
+        ?> 
+      <div class="sidebarHolder"></div>
       <!-- کانتینر اصلی دیتا -->
       <div class="body-wrapper bg-light" >
         <!-- هدر بالای صفحه -->
-        <header class="app-header">
-          <nav class="navbar navbar-expand-lg navbar-light">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link sidebartoggler nav-icon-hover ms-n3" id="headerCollapse" href="javascript:void(0)">
-                  <i class="ti ti-menu-2"></i>
-                </a>
-              </li>
-            </ul>
-            <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
-              <!-- <li class="nav-item"><span class="badge bg-dark fw-bold rounded-5 me-2 py-2"><i class="ti ti-wallet align-top"></i> ۳۵۷.۹۸۷.۷۸۹</span></li> -->
-              <li id="message-count" class="cursor-pointer nav-item">
-                <span class="me-3 position-relative notifTop">
-                  <i class="ti ti-bell fs-8"></i>
-                </span>
-              </li>
-              <li class="nav-item dropdown">
-                <div class="nav-link pe-0" href="javascript:void(0)" id="user-profile" data-bs-toggle="dropdown" aria-expanded="false">
-                  <div class="d-flex align-items-center cursor-pointer">
-                    <div class="userTxt me-2 text-end">
-                      <p id="dashBoard_fullNameTop" class="mb-1 fs-2 fw-bolder mb-2 lh-1">مهشید خودسیانی</p>
-                      <span class="d-block text-primary mt-0 lh-1 fs-2">دسترسی کاربر</span>
-                    </div>
-                    <div class="user-profile-img">
-                      <img id="dashBoard_img1" src="https://my.g-ads.org/assets/img/pic/user.jpg" class="rounded-circle" width="35" height="35" alt="">
-                    </div>
-                  </div>
-                </div>
-                <div class="dropdown-menu content-dd dropdown-menu-end" aria-labelledby="user-profile" id="user-profile-dropdown">
-                  <div class="profile-dropdown position-relative" data-simplebar="">
-                    <div class="d-flex align-items-center py-9 mx-7 border-bottom">
-                      <img id="dashBoard_img2" src="https://my.g-ads.org/assets/img/pic/user.jpg" class="rounded-circle" width="80" height="80" alt="">
-                      <div class="ms-3">
-                        <h5 id="dashBoard_fullName" class="mb-1 fs-3 fw-bolder">مهشید خودسیانی</h5>
-                        <span class="mb-1 d-block text-primary">دسترسی کاربر</span>
-                        <p class="mb-0 d-flex text-dark align-items-center gap-2">
-                          <i class="ti ti-map-pin fs-4 text-muted"></i> آی پی: <b id="ip">158.58.63.110</b>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="d-grid py-4 px-7 pt-8">
-                      <div class="upgrade-plan bg-light-primary position-relative overflow-hidden rounded-4 p-4 mb-9">
-                        <div class="row">
-                          <div class="col-7">
-                            <h5 class="fs-4 mb-3 w-100 fw-semibold text-dark"> کیورد پلنر جی ادز </h5>
-                            <a class="btn btn-primary text-white" href="https://g-ads.org/persian-kw/" target="_blank">ورود</a>
-                          </div>
-                          <div class="col-5">
-                            <div class="m-n4">
-                              <img src="https://my.g-ads.org/assets/img/pic/profileMenuBg.png" alt="" class="w-100 ">
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <button class="btn btn-outline-danger" onclick="signOut()">
-                        <i class="ti ti-logout me-1"></i>خروج </button>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </nav>
-        </header>
+        <?php
+        include "header.php";
+        ?>
         <div class="container-fluid">
           <div class="row" id="notify-content"></div>
           <div class="row">
@@ -109,7 +70,7 @@
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                 <path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4"></path>
               </svg>
-              <a href="https://t.me/gadsinfo_bot" target="_blank" class="text-white fw-bolder">دریافت باقی مانده شارژ اکانت و امکانات دیگر در ربات تلگرامی جی ادز <i class="ti ti-circle-arrow-left fs-5 ms-2"></i>
+              <a href="#" target="_blank" class="text-white fw-bolder">دریافت باقی مانده شارژ اکانت و امکانات دیگر در ربات تلگرامی  <i class="fa fa-circle-arrow-left fs-5 ms-2"></i>
               </a>
             </div>
             <div class="container-fluid" id="dashboard">
@@ -123,7 +84,7 @@
                         <div class="d-flex align-items-center">
                           <div>
                             <h5 class="card-title fw-semibold">
-                              <img src="/assets/img/icon/USD.svg" alt="قیمت دلار امروز"> قیمت دلار <span>70,801</span> تومان
+                              <img src="" alt="قیمت دلار امروز"> قیمت دلار <span>70,801</span> تومان
                             </h5>
                             <div class="d-flex gap-2">
                               <span>
@@ -499,16 +460,16 @@
                   </div>
                 </div>
                 <!-- آخرین اکانت های شارژ شده -->
-                <div class="row mb-4" style="padding-left: 0;">
+                <div class="row mb-4">
                   <div class="col-12 d-flex flex-row justify-content-between mb-md-4 mb-0 align-items-center">
                     <p class="fs-4 fw-bolder mb-0">
-                      <i class="ti ti-ad me-1 fs-8 text-primary"></i> لیست اکانت‌ها
+                      <!-- <i class="fa fa-file"></i> لیست اکانت‌ها -->
                     </p>
-                    <a href="https://my.g-ads.org/Client/ClientAccount/AccountsGoogle" class="btn btn-sm mb-1 waves-effect waves-light btn-outline-primary d-none d-md-block">مشاهده اکانت‌ها <i class="ti ti-circle-arrow-left"></i>
+                    <a href="#" class="btn btn-sm mb-1 waves-effect waves-light btn-outline-primary d-none d-md-block">مشاهده اکانت‌ها <i class="fa fa-circle-arrow-left"></i>
                     </a>
                   </div>
                   <div class="col-12 d-block d-md-none  px-4">
-                    <a href="https://my.g-ads.org/Client/ClientAccount/AccountsGoogle" class="btn mb-1 waves-effect waves-light btn-outline-primary w-100 my-3">مشاهده اکانت‌ها <i class="ti ti-circle-arrow-left"></i>
+                    <a href="#" class="btn mb-1 waves-effect waves-light btn-outline-primary w-100 my-3">مشاهده اکانت‌ها <i class="fa fa-circle-arrow-left"></i>
                     </a>
                   </div>
                   <div class="col-12 order-2 order-md-1">
@@ -625,7 +586,7 @@
                   <div class="col-md-7 col-12 d-flex align-items-stretch">
                     <div class="card w-100 bg-white overflow-hidden">
                       <div id="activity-status">
-                        <img src="https://g-ads.org/wp-content/uploads/2024/01/panelAds.jpg" alt="" class="img-fluid">
+                        <img src="images/banner.jpg" alt="" class="img-fluid">
                       </div>
                     </div>
                   </div>
@@ -641,9 +602,9 @@
                             <p class="card-subtitle">نمای کلی از آخرین سفارش های شما</p>
                           </div>
                           <div>
-                            <a href="https://my.g-ads.org/Client/ClientInvoice/Invoices" class="btn mb-1 waves-effect waves-light btn-outline-primary d-none d-md-block">مشاهده سفارشات <i class="ti ti-circle-arrow-left"></i>
+                            <a href="#" class="btn mb-1 waves-effect waves-light btn-outline-primary d-none d-md-block">مشاهده سفارشات <i class="fa fa-circle-arrow-left"></i>
                             </a>
-                            <a href="https://my.g-ads.org/Client/ClientInvoice/Invoices" class="btn mb-1 waves-effect waves-light btn-outline-primary d-block d-md-none w-100">مشاهده سفارشات <i class="ti ti-circle-arrow-left"></i>
+                            <a href="#" class="btn mb-1 waves-effect waves-light btn-outline-primary d-block d-md-none w-100">مشاهده سفارشات <i class="fa fa-circle-arrow-left"></i>
                             </a>
                           </div>
                         </div>
@@ -684,7 +645,7 @@
                           <p class="card-subtitle">نمای کلی آخرین تیکت‌های شما</p>
                         </div>
                         <ul class="timeline-widget mb-1 position-relative" id="tickets"></ul>
-                        <a href="https://my.g-ads.org/Client/ClientTicket/Tickets" class="btn btn-outline-primary w-100 mt-4"> مشاهده تیکت ها <i class="ti ti-circle-arrow-left fs-6"></i>
+                        <a href="" class="btn btn-outline-primary w-100 mt-4"> مشاهده تیکت ها <i class="fa fa-circle-arrow-left fs-6"></i>
                         </a>
                       </div>
                     </div>
@@ -778,6 +739,7 @@
         </div>
       </div>
     </div>
+    
     <div class="toast-container p-3 top-0 start-0" id="toastPlacement" data-original-class="toast-container p-3"></div>
     <div class="modal fade" id="model" tabindex="-1" aria-labelledby="model_Label" aria-hidden="true">
       <div class="modal-dialog modal-fullscreen">
@@ -844,7 +806,7 @@
       </div>
       <hr>
       <p class="text-center text-primary">
-        <a href="https://my.g-ads.org/Client/ClientMessage/Messages" class="fw-bolder text-primary"> تاریخچه اعلان‌‌ها <i class="ti ti-arrow-left ms-2 fs-7"></i>
+        <a href="" class="fw-bolder text-primary"> تاریخچه اعلان‌‌ها <i class="ti ti-arrow-left ms-2 fs-7"></i>
         </a>
       </p>
     </div>
@@ -855,7 +817,7 @@
           <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex">
               <div>
-                <img decoding="async" src="https://g-ads.org/wp-content/uploads/2023/09/z_sharifi.jpg" alt="شریفی - کارشناس گوگل ادز" class="me-2">
+                <img decoding="async" src="" alt="شریفی - کارشناس گوگل ادز" class="me-2">
               </div>
               <div>
                 <p class="fw-bold fs-4 mb-0 text-primary">زهرا شریفی</p>
@@ -875,11 +837,12 @@
             </div>
           </div>
         </div>
-        <div id="a0c692e5-8e23-43ca-a171-145a2f0f9f0c" class="expertBox bg-white shadow px-2 py-3 w-100 rounded-3 mb-3">
+
+        <!-- <div id="a0c692e5-8e23-43ca-a171-145a2f0f9f0c" class="expertBox bg-white shadow px-2 py-3 w-100 rounded-3 mb-3">
           <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex">
               <div>
-                <img decoding="async" src="https://g-ads.org//wp-content/uploads/2023/09/n_tehrani.jpg" alt="تهرانی - کارشناس گوگل ادز" class="me-2">
+                <img decoding="async" src="#" alt="تهرانی - کارشناس گوگل ادز" class="me-2">
               </div>
               <div>
                 <p class="fw-bold fs-4 mb-0 text-primary">نفس تهرانی</p>
@@ -898,12 +861,13 @@
               </a>
             </div>
           </div>
-        </div>
+        </div> -->
+
         <div id="fdf40a35-a079-40f1-bbae-5f4e6fcf175d" class="d-none expertBox bg-white shadow px-2 py-3 w-100 rounded-3 mb-3">
           <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex">
               <div>
-                <img decoding="async" src="https://g-ads.org/wp-content/uploads/2024/07/sh_kiazar.jpg" alt="کیا - کارشناس گوگل ادز" class="me-2">
+                <img decoding="async" src="#" alt="کیا - کارشناس گوگل ادز" class="me-2">
               </div>
               <div>
                 <p class="fw-bold fs-4 mb-0 text-primary">شیوا کیا</p>
@@ -927,7 +891,7 @@
           <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex">
               <div>
-                <img decoding="async" src="https://g-ads.org//wp-content/uploads/2023/09/m_siminpour.jpg" alt="سیمین پور - کارشناس گوگل ادز" class="me-2">
+                <img decoding="async" src="#" alt="سیمین پور - کارشناس گوگل ادز" class="me-2">
               </div>
               <div>
                 <p class="fw-bold fs-4 mb-0 text-primary">ملیحه سیمین پور</p>
@@ -951,7 +915,7 @@
           <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex">
               <div>
-                <img decoding="async" src="https://g-ads.org//wp-content/uploads/2023/09/k_bonakdar.jpg" alt="بنکدار - کارشناس گوگل ادز" class="me-2">
+                <img decoding="async" src="#" alt="بنکدار - کارشناس گوگل ادز" class="me-2">
               </div>
               <div>
                 <p class="fw-bold fs-4 mb-0 text-primary">نیکا بنکدار</p>
@@ -975,7 +939,7 @@
           <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex">
               <div>
-                <img decoding="async" src="https://g-ads.org//wp-content/uploads/2023/09/f_mohammadi.jpg" alt="محمدی - کارشناس گوگل ادز" class="me-2">
+                <img decoding="async" src="#" alt="محمدی - کارشناس گوگل ادز" class="me-2">
               </div>
               <div>
                 <p class="fw-bold fs-4 mb-0 text-primary">فرهاد محمدی</p>
@@ -997,7 +961,8 @@
         </div>
       </div>
     </footer>
-    <!-- <script src="https://my.g-ads.org/assets/js/bootstrap.bundle.min.js"></script> -->
+
+    <script src="js/bootstrap.bundle.min.js"></script>
     <!-- <script src="https://my.g-ads.org/assets/js/bootstrap-switch.js"></script> -->
 
     <!-- <script src="https://my.g-ads.org/assets/js/app-style-switcher.js"></script> -->
@@ -1006,14 +971,10 @@
     <script src="js/app.init.js"></script>
     <script src="js/jalali.js"></script>
     <script src="js/sidebarmenu.js"></script>
-    <!-- <script src="https://my.g-ads.org/assets/js/custom.js"></script> -->
-    <!-- <script src="https://my.g-ads.org/assets/js/apex.js"></script> -->
-    <!-- <script src="https://my.g-ads.org/assets/js/select2.js"></script> -->
-    <!-- <script src="https://my.g-ads.org/assets/js/datatable/jqueryDatatable.js"></script> -->
-
-
-
-   
+    <!-- <script src="https://my.g-ads.org/assets/js/custom.js"></script>
+    <script src="https://my.g-ads.org/assets/js/apex.js"></script>
+    <script src="https://my.g-ads.org/assets/js/select2.js"></script>
+    <script src="https://my.g-ads.org/assets/js/datatable/jqueryDatatable.js"></script> -->
 
 
     <script src="js/javascripts.js"></script>

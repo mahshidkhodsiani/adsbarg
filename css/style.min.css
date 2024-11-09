@@ -38814,11 +38814,11 @@ html[dir=rtl] body {
     direction: rtl
 }
 
-html[dir=rtl] .page-wrapper::before {
+/* html[dir=rtl] .page-wrapper::before {
     left: unset;
     right: -100px;
     transform: rotate(-50deg)
-}
+} */
 
 html[dir=rtl] .left-sidebar {
     border-right: 0;
@@ -39549,9 +39549,9 @@ html[dir=rtl] .timeline-widget .timeline-item .timeline-time {
     opacity: 1
 }
 
-.page-wrapper {
+/* .page-wrapper {
     position: relative
-}
+} */
 
 .body-wrapper {
     position: relative

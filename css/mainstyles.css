@@ -1,5 +1,4 @@
 
-
 #message-content .accordion-item .accordion-button span {
     display: contents;
   }
@@ -25,22 +24,7 @@
     display: none;
   }
   
-  @media screen and (max-width: 768px) {
-    .page-wrapper.show-sidebar .sidebarHolder {
-      background: #000;
-      opacity: 0.8;
-      inset: 0;
-      position: fixed;
-      z-index: 10;
-      overflow-x: hidden;
-    }
-  
-    .page-wrapper.show-sidebar .body-wrapper {
-        /* background-color: #000 !important; */
-        position: fixed;
-        width: 100%;
-    }
-  }
+ 
   .expertBox {
     position: fixed;
     bottom: 10px;
