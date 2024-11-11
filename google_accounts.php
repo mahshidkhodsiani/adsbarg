@@ -54,10 +54,21 @@
         <!-- هدر بالای صفحه -->
         <?php
         include "header.php";
+        include "config.php";
+
+        $query = "SELECT * FROM accounts ";
+        $result = $conn->query($query);
+        $accounts = [];
+
+        while ($row = $result->fetch_assoc()) {
+            $accounts[] = $row;
+        }
         ?>
         <div class="container-fluid">
           <div class="row" id="notify-content"></div>
           <div class="col-md-12">
+
+
             <div class="card mb-2 mb-md-3">
               <div class="card-body pb-0 px-2 px-md-3">
                 <div class="d-flex align-items-center justify-content-between mb-1 mb-md-3">
@@ -116,80 +127,86 @@
               </div>
             </div>
 
-
             <div class="row" id="accountsgoogle_g">
-              <div class="accountGoogle_item col-12 col-md-4 mb-2" data-accounttype="0" data-id="a2c4032c-71e7-4a68-bbe5-6278ba722618" data-currencycode="USD" data-customerid="Temporary">
-                <div class="card mb-0">
-                  <div class="card-header text-end pb-2 cursor-pointer position-relative bg-white">
-                    <div class="px-0 rounded-pill collapsed accBoxHed">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                          <span class="campTypeBadge " #state#=""> GoogleAds </span>
-                        </div>
-                        <div class="d-flex flex-row justify-content-end mb-1">
-                          <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="تغییر نوع اکانت" class="accountGoogle_accountType badge bg-light-warning border rounded-5 border-primary text-primary flex-row fs-2 me-1">
-                            <i class="fa fa-shield-off"></i>
-                            <b>اختصاصی</b>
-                          </span>
-                          <span class="badge bg-primary border rounded-5 border-primary text-white flex-row fs-2 text-uppercase">USD</span>
-                        </div>
-                      </div>
-                      <p class="accountGoogle_name fw-bolder fs-7 mb-0" style="direction: ltr;">mahshidkhodsiani2</p>
-                      <p class="mb-1" style="direction:ltr">CID: <span>Temporary</span>
-                      </p>
-                      <p class="text-start mt-2">
-                        <button class=" btn btn-sm btn-success icoAccordian text-white" data-bs-toggle="collapse" data-bs-target="#acc_a2c4032c-71e7-4a68-bbe5-6278ba722618" aria-expanded="false" aria-controls="acc_a2c4032c-71e7-4a68-bbe5-6278ba722618">
-                          <!-- <i class="fa fa-circle-arrow-right"></i> -->
-                          <i class="fa fa-circle-arrow-down"></i> شارژ کنید </button>
-                        <a class="btn btn-sm btn-outline-info" href="https://my.g-ads.org/Client/ClientAccount/AccountGoogle/a2c4032c-71e7-4a68-bbe5-6278ba722618">جزئیات اکانت</a>
-                      </p>
-                      <div class="row">
-                        <div class="col-4 text-center">
-                          <strong>0</strong>
-                          <br>
-                          <span>کلیک امروز</span>
-                        </div>
-                        <div class="col-4 text-center">
-                          <strong>0</strong>
-                          <br>
-                          <span>هزینه امروز</span>
-                        </div>
-                        <div class="col-4 text-center">
-                          <strong>0</strong>
-                          <br>
-                          <span>ایمپرشن امروز</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <?php
+                $count = 0;
+                foreach ($accounts as $account) {
+                    // Check if it's the start of a new row
+                    if ($count % 3 == 0 && $count != 0) {
+                        echo '</div><div class="row" id="accountsgoogle_g">';
+                    }
+                    ?>
+                    <div class="accountGoogle_item col-12 col-md-4 mb-2" data-accounttype="0" data-id="<?= $account['id'] ?>" data-currencycode="<?= $account['currency'] ?>" data-customerid="">
+                        <div class="card mb-0">
+                            <div class="card-header text-end pb-2 cursor-pointer position-relative bg-white">
+                                <div class="px-0 rounded-pill collapsed accBoxHed">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <span class="campTypeBadge"> <?= $account['method'] ?> </span>
+                                        </div>
+                                        <div class="d-flex flex-row justify-content-end mb-1">
+                                            <span class="accountGoogle_accountType badge bg-light-warning border rounded-5 border-primary text-primary flex-row fs-2 me-1">
+                                                <i class="fa fa-shield-off"></i>
+                                                <b>اختصاصی</b>
+                                            </span>
+                                            <span class="badge bg-primary border rounded-5 border-primary text-white flex-row fs-2 text-uppercase"><?= $account['currency'] ?></span>
+                                        </div>
+                                    </div>
+                                    <p class="accountGoogle_name fw-bolder fs-7 mb-0" style="direction: ltr;"><?= $account['username'] ?></p>
+                                    <p class="mb-1" style="direction:ltr">CID: <span>Temporary</span></p>
+                                    <p class="text-start mt-2">
+                                        <button class="btn btn-sm btn-success icoAccordian text-white" data-bs-toggle="collapse" data-bs-target="#acc_<?= $account['id'] ?>" aria-expanded="false" aria-controls="acc_<?= $account['id'] ?>">
+                                            <i class="fa fa-circle-arrow-down"></i> شارژ کنید
+                                        </button>
+                                        <a class="btn btn-sm btn-outline-info" href="https://my.g-ads.org/Client/ClientAccount/AccountGoogle/<?= $account['id'] ?>">جزئیات اکانت</a>
+                                    </p>
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            <strong>0</strong><br>
+                                            <span>کلیک امروز</span>
+                                        </div>
+                                        <div class="col-4 text-center">
+                                            <strong>0</strong><br>
+                                            <span>هزینه امروز</span>
+                                        </div>
+                                        <div class="col-4 text-center">
+                                            <strong>0</strong><br>
+                                            <span>ایمپرشن امروز</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                  <div class="card-body p-0 shadow-none">
-                    <div class="collapse p-3" id="acc_a2c4032c-71e7-4a68-bbe5-6278ba722618">
-                      <form action="#">
-                        <div class="form-floating mb-2">
-                          <input type="text" class="accountGoogle_amount form-control mb-2 text-end" placeholder="عدد وارد کنید">
-                          <div class="linear-activity d-none">
-                            <div class="indeterminate"></div>
-                          </div>
-                          <label>
-                            <i class="ti ti-USD me-2 fs-5 text-primary fw-bolder"></i>مقدار دلار را وارد کنید </label>
+                            <div class="card-body p-0 shadow-none">
+                                <div class="collapse p-3" id="acc_<?= $account['id'] ?>">
+                                    <form action="invoice.php" method="POST">
+                                        <div class="form-floating mb-2">
+                                          <input type="hidden" name="id_account" value="<?= $account['id'] ?>">
+                                            <input type="text" class="accountGoogle_amount form-control mb-2 text-end" placeholder="عدد وارد کنید" required>
+                                            <label><i class="ti ti-USD me-2 fs-5 text-primary fw-bolder"></i>مقدار دلار را وارد کنید </label>
+                                        </div>
+                                        <p class="form-control-feedback text text-center">قیمت ارز با کارمزد: <span class="accountGoogle_currencyIranAmount">0</span></p>
+                                        <p class="accountGoogle_serviceCost_parent text-center">قابل پرداخت: <span class="accountGoogle_serviceCost fw-bolder text-success fs-6">0</span></p>
+                                        <div class="text-center">
+                                            <button  class="accountGoogle_submit btn btn-primary" name="charge">شارژ کن <i class="fa fa-rocket"></i></button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                        <p class="form-control-feedback text text-center">قیمت ارز با کارمزد: <span class="accountGoogle_currencyIranAmount">0</span>
-                        </p>
-                        <p class="accountGoogle_serviceCost_parent text-center"> قابل پرداخت: <span class="accountGoogle_serviceCost fw-bolder text-success fs-6">0</span>
-                        </p>
-                        <div class="text-center">
-                          <button type="button" class="accountGoogle_submit btn btn-primary" disabled="">شارژ کن <i class="fa fa-rocket"></i>
-                          </button>
-                        </div>
-                      </form>
                     </div>
-                  </div>
-                </div>
-              </div>
+                    <?php
+                    $count++;
+                }
+                ?>
             </div>
+           
           </div>
         </div>
+
+
+
+
 
 
       </div>
@@ -224,3 +241,9 @@
   </body>
   </body>
 </html>
+
+<?php
+
+if(isset($_POST['charge'])){
+  echo "<h1>". $_POST['id_account'] ."</h1>";
+}

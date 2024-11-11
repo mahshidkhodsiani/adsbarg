@@ -8,6 +8,8 @@ if (!isset($_SESSION["user_data"])) {
     header("Location: login.php");
     exit(); // Stop further execution of the script
 }
+
+$id = $_SESSION["user_data"]["id"];
 ?>
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
@@ -224,8 +226,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Insert data into database
-    $stmt = $conn->prepare("INSERT INTO accounts (currency, username, email, method, website) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $currencyCode, $name, $email, $network, $url);
+    $stmt = $conn->prepare("INSERT INTO accounts (currency, username, email, user_id, method, website) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $currencyCode, $name, $email, $id, $network, $url);
+
 
     if ($stmt->execute()) {
         echo "Account created successfully!";

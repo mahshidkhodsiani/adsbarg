@@ -46,7 +46,7 @@ $current_page = basename($_SERVER['PHP_SELF']); // Gets the current page's file 
         </a>
       </li>
       <li class="sidebar-item">
-        <a class="sidebar-link <?php echo ($current_page == 'google_acounts.php') ? 'active' : ''; ?>" href="google_acounts.php" aria-expanded="false">
+        <a class="sidebar-link <?php echo ($current_page == 'google_accounts.php') ? 'active' : ''; ?>" href="google_accounts.php" aria-expanded="false">
           <!-- <span><i class="fa fa-google"></i></span> -->
           <span><img src="images/google.png" height="17px" width="17px"></span>
           <span class="hide-menu">گوگل اکانت‌ها</span>
