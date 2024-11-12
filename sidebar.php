@@ -53,13 +53,13 @@ $current_page = basename($_SERVER['PHP_SELF']); // Gets the current page's file 
         </a>
       </li>
       <li class="sidebar-item">
-        <a class="sidebar-link <?php echo ($current_page == 'products.php') ? 'active' : ''; ?>" href="products.php" aria-expanded="false">
+        <a class="sidebar-link <?php echo ($current_page == 'services.php') ? 'active' : ''; ?>" href="services.php" aria-expanded="false">
           <span><i class="fa fa-clone"></i></span>
           <span class="hide-menu">سرویس ها</span>
         </a>
       </li>
       <li class="sidebar-item">
-        <a class="sidebar-link <?php echo ($current_page == 'invoices.php') ? 'active' : ''; ?>" href="#" aria-expanded="false">
+        <a class="sidebar-link <?php echo ($current_page == 'invoices.php') ? 'active' : ''; ?>" href="invoices.php" aria-expanded="false">
           <span><i class="fa fa-file-invoice"></i></span>
           <span class="hide-menu">سفارشات</span>
         </a>

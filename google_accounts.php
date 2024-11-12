@@ -182,7 +182,7 @@
                                     <form action="invoice.php" method="POST">
                                         <div class="form-floating mb-2">
                                           <input type="hidden" name="id_account" value="<?= $account['id'] ?>">
-                                            <input type="text" class="accountGoogle_amount form-control mb-2 text-end" placeholder="عدد وارد کنید" required>
+                                            <input type="text" name="amount_charge" class="accountGoogle_amount form-control mb-2 text-end" placeholder="عدد وارد کنید" required>
                                             <label><i class="ti ti-USD me-2 fs-5 text-primary fw-bolder"></i>مقدار دلار را وارد کنید </label>
                                         </div>
                                         <p class="form-control-feedback text text-center">قیمت ارز با کارمزد: <span class="accountGoogle_currencyIranAmount">0</span></p>

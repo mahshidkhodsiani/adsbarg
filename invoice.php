@@ -1,3 +1,15 @@
+<?php
+
+session_start();
+
+// Check if the user data is set in the session
+if (!isset($_SESSION["user_data"])) {
+    // Redirect to the login page
+    header("Location: login.php");
+    exit(); // Stop further execution of the script
+}
+$id = $_SESSION["user_data"]["id"];
+?>
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
   <head>
@@ -56,18 +68,83 @@
             </div>
 
             <?php 
-            if (isset($_POST['id_account'])){
+            if (isset($_POST['charge'])){
                 // echo $_POST['id_account'];
                 include "config.php";
                 include "functions.php";
                 include 'PersianCalendar.php';
 
-                $id_account = $_POST['id_account'];
-                $query = "SELECT * FROM `accounts` WHERE id = '$id_account'";
-                $result = $conn->query($query);
-                if ($result->num_rows > 0) {
-                    $row = $result->fetch_assoc();
+                if (isset($_POST['id_account'])){
+                    $id_account = $_POST['id_account'];
+                    $query = "SELECT * FROM `accounts` WHERE id = '$id_account'";
+                    $result = $conn->query($query);
+                    if ($result->num_rows > 0) {
+                        $row = $result->fetch_assoc();
+                    }
                 }
+              
+                if (isset($_POST['amount_charge']) && $_POST['amount_charge'] != '') {
+                    $amount = $_POST['amount_charge'];
+                    $stmt = $conn->prepare("INSERT INTO orders (user_id, amount, status, shenaseh, type) VALUES (?, ?, ?, ?, 'charge')");
+                    $random = generateRandomID(); 
+                    $status = 2; 
+                    $stmt->bind_param("isis", $id, $amount, $status, $random);
+                    // Execute the statement
+                    if ($stmt->execute()) {
+                        $last_id = $conn->insert_id;
+                        
+                        // Prepare the SELECT query
+                        $stmt = $conn->prepare("SELECT * FROM orders WHERE id = ? AND user_id = ? AND status = ?");
+                        $stmt->bind_param("iii", $last_id, $id, $status); 
+                        $stmt->execute();
+                        
+                        $result = $stmt->get_result();
+                        if ($result->num_rows > 0) {
+                            $last_row = $result->fetch_assoc();
+                        } else {
+                            echo "No records found.";
+                        }
+                    }
+                $stmt->close();
+                } elseif (isset($_POST['amount_service']) && $_POST['amount_service'] != '') {
+                    $amount = "6/500/000" . " تومان";
+                    $stmt = $conn->prepare("INSERT INTO orders (user_id, amount, status, shenaseh, type) VALUES (?, ?, ?, ?, 'sefaresh')");
+                    $random = generateRandomID(); 
+                    $status = 2; 
+                    $stmt->bind_param("isis", $id, $amount, $status, $random);
+                    // Execute the statement
+                    if ($stmt->execute()) {
+                        $last_id = $conn->insert_id;
+                        
+                        // Prepare the SELECT query
+                        $stmt = $conn->prepare("SELECT * FROM orders WHERE id = ? AND user_id = ? AND status = ?");
+                        $stmt->bind_param("iii", $last_id, $id, $status); 
+                        $stmt->execute();
+                        
+                        $result = $stmt->get_result();
+                        if ($result->num_rows > 0) {
+                            $last_row = $result->fetch_assoc();
+                            
+                        } else {
+                            echo "No records found.";
+                        }
+                    }
+                    $stmt->close();
+                }elseif(isset($_POST['show_invoice']) && $_POST['show_invoice'] != '') {
+                    $idinvoice = $_POST['show_invoice'];
+                    $sql = "SELECT * FROM orders WHERE id = $idinvoice";
+                    $result= $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                        $row = $result->fetch_assoc();
+                    }
+                }
+
+
+               
+                
+
+                
+ 
             ?>
         
 
@@ -90,7 +167,8 @@
 
             <div class="row mt-4 bg-light py-4">
                 <div class="col-md-4 d-flex flex-column">
-                    <p class="text-primary fs-4 mb-2">‌نام کاربر: <strong id="fullName"><?=get_name($row['user_id'])?></strong></p>
+                    <p class="text-primary fs-4 mb-2">‌نام کاربر: <strong id="fullName"><?= isset($_POST['id_account']) ? get_name($row['user_id']) : get_name($id) ?></strong></p>
+
                     <p class="text-primary fs-4 mb-0">
                         نوع فاکتور: <strong id="isOfficialInvoice">فاکتور غیر رسمی</strong>
                     </p>
@@ -104,7 +182,7 @@
                 </div>
                 <div class="col-md-4 d-flex flex-column">
                     <p class="text-primary fs-4 mb-0">
-                        شناسه سفارش: <br> <strong class="fs-6 fw-boler" id="trackNo">G1-12065-8-87194</strong>
+                        شناسه سفارش: <br> <strong class="fs-6 fw-boler" id="trackNo"><?= $last_row['shenaseh']?></strong>
                     </p>
                 </div>
             </div>
@@ -162,7 +240,7 @@
                 </div>
                 <div class="col-md-6" style="text-align: left;">
                     <div id="pardakhtmethod" style="display: none;">
-                        <p>جمع کل : 1/200/000</p>
+                        <p>جمع کل : <?= $amount ?></p>
                         <button class="btn btn-success btn" onclick="show_methods()">انتخاب روش پرداخت</button>
                     </div>
                 </div>
