@@ -1,0 +1,16 @@
+for create exe app
+pyinstaller --onefile --name "adsbarg-scraper" --add-data "DB_info.txt;." --hidden-import "concurrent.futures" --icon=shovel_9381300.ico main.py
+
+for create virtual invironment
+python -m venv adsbarg-scraper
+
+for activate venv
+./adsbarg-scraper/Scripts/activate
+
+install packages:
+selenium
+mysql.connector
+webdriver-manager
+pyinstaller
+
+All packages must be installed in venv ...
