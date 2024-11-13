@@ -74,6 +74,7 @@ $id = $_SESSION["user_data"]["id"];
                 include "functions.php";
                 include 'PersianCalendar.php';
 
+                // 1
                 if (isset($_POST['id_account'])){
                     $id_account = $_POST['id_account'];
                     $query = "SELECT * FROM `accounts` WHERE id = '$id_account'";
@@ -83,6 +84,7 @@ $id = $_SESSION["user_data"]["id"];
                     }
                 }
               
+                // 2
                 if (isset($_POST['amount_charge']) && $_POST['amount_charge'] != '') {
                     $amount = $_POST['amount_charge'];
                     $stmt = $conn->prepare("INSERT INTO orders (user_id, amount, status, shenaseh, type) VALUES (?, ?, ?, ?, 'charge')");
@@ -101,11 +103,15 @@ $id = $_SESSION["user_data"]["id"];
                         $result = $stmt->get_result();
                         if ($result->num_rows > 0) {
                             $last_row = $result->fetch_assoc();
+                            $shenaseh = $last_row['shenaseh'];
+
                         } else {
                             echo "No records found.";
                         }
                     }
-                $stmt->close();
+                    $stmt->close();
+
+                // 3
                 } elseif (isset($_POST['amount_service']) && $_POST['amount_service'] != '') {
                     $amount = "6/500/000" . " تومان";
                     $stmt = $conn->prepare("INSERT INTO orders (user_id, amount, status, shenaseh, type) VALUES (?, ?, ?, ?, 'sefaresh')");
@@ -124,7 +130,7 @@ $id = $_SESSION["user_data"]["id"];
                         $result = $stmt->get_result();
                         if ($result->num_rows > 0) {
                             $last_row = $result->fetch_assoc();
-                            
+                            $shenaseh = $last_row['shenaseh'];
                         } else {
                             echo "No records found.";
                         }
@@ -136,14 +142,12 @@ $id = $_SESSION["user_data"]["id"];
                     $result= $conn->query($sql);
                     if ($result->num_rows > 0) {
                         $row = $result->fetch_assoc();
+                        $shenaseh = $row['shenaseh'];
+                        $amount = $row['amount'];
+
                     }
                 }
 
-
-               
-                
-
-                
  
             ?>
         
@@ -182,7 +186,7 @@ $id = $_SESSION["user_data"]["id"];
                 </div>
                 <div class="col-md-4 d-flex flex-column">
                     <p class="text-primary fs-4 mb-0">
-                        شناسه سفارش: <br> <strong class="fs-6 fw-boler" id="trackNo"><?= $last_row['shenaseh']?></strong>
+                        شناسه سفارش: <br> <strong class="fs-6 fw-boler" id="trackNo"><?= $shenaseh?></strong>
                     </p>
                 </div>
             </div>
