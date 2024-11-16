@@ -103,6 +103,10 @@ $id = $_SESSION["user_data"]["id"];
                                   <input type="text" class="form-control search-chat py-2 ps-5 text-right" id="txtSearch" placeholder="جست و جو">
                                   <i class="ti ti-search position-absolute top-50  translate-middle-y fs-6 text-dark me-3" style="right:10px"></i>
                               </form>
+                              <button class="btn btn-light-info mb-2 font-medium text-info px-4 rounded-pill cursor-pointer" onclick="ticket_show()">
+                                  <span class="d-md-inline d-none">تیکت جدید</span><i class="fa fa-plus"></i>
+                              </button>
+
                               </div>
 
                               <?php
@@ -114,18 +118,14 @@ $id = $_SESSION["user_data"]["id"];
                               $offset = ($page - 1) * $rows_per_page; // Offset for SQL query
 
                               // Total rows in the table
-                              $total_rows_query = "SELECT COUNT(*) AS total FROM payments LEFT JOIN orders ON payments.order_id = orders.id";
+                              $total_rows_query = "SELECT COUNT(*) AS total FROM tickets";
                               $total_rows_result = $conn->query($total_rows_query);
                               $total_rows = $total_rows_result->fetch_assoc()['total'];
                               $total_pages = ceil($total_rows / $rows_per_page); // Total pages
 
                               // Fetch rows for the current page
-                              $sql = "SELECT payments.*, orders.* 
-                                      FROM payments 
-                                      LEFT JOIN orders 
-                                      ON payments.order_id = orders.id 
-                                      ORDER BY payments.id DESC 
-                                      LIMIT $rows_per_page OFFSET $offset";
+                              $sql = "SELECT * FROM tickets ORDER BY id DESC";
+                              // echo $sql;
                               $result = $conn->query($sql);
                               ?>
 
@@ -133,10 +133,8 @@ $id = $_SESSION["user_data"]["id"];
                                   <thead>
                                       <tr>
                                           <th scope="col">ردیف</th>
-                                          <th scope="col">نوع سفارش</th>
-                                          <th scope="col">وضعیت</th>
-                                          <th scope="col">مبلغ</th>
-                                          <th scope="col">عملیات</th>
+                                          <th scope="col">موضوع</th>
+                                          <th scope="col">متن</th>
                                       </tr>
                                   </thead>
                                   <tbody>
@@ -147,24 +145,13 @@ $id = $_SESSION["user_data"]["id"];
                                       ?>
                                           <tr>
                                               <th scope="row"><?= $i ?></th>
-                                              <td><?= $row['type'] ?></td>
+                                              <td><?= $row['title'] ?></td>
                                               <td>
-                                                  <?php
-                                                  if ($row['status'] == 2) echo "در حالت پرداخت";
-                                                  if ($row['status'] == 1) echo "پرداخت شده";
+                                                  <?=
+                                                    $row['text'];
                                                   ?>
                                               </td>
-                                              <td><?= $row['amount'] ?></td>
-                                              <td>
-                                                  <div class="d-flex align-items-center flex-row">
-                                                      <form action="invoice.php" method="POST">
-                                                          <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
-                                                          <button class="btn btn-outline-info btn-circle btn-sm" name="charge">
-                                                              <i class="fs-5 fa fa-credit-card"></i>
-                                                          </button>
-                                                      </form>
-                                                  </div>
-                                              </td>
+                                            
                                           </tr>
                                       <?php
                                               $i++;
@@ -200,31 +187,31 @@ $id = $_SESSION["user_data"]["id"];
 
 
 
-                              <form class="" enctype="multipart/form-data">
+                              <form action="" method="POST" enctype="multipart/form-data" id="new_ticket" style="display: none;">
                                 <div class="row">
                                   <h3>فرم ثبت تیکت</h3>
                                   
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" placeholder="موضوع تیکت">
+                                        <input type="text" class="form-control" placeholder="موضوع تیکت" name="title">
                                     </div>
                                 </div>
                                 <div class="row mt-1">
 
                                     <div class="col-md-6">
-                                        <textarea class="form-control" rows="8">متن تیکت</textarea>
+                                        <textarea class="form-control" rows="8" name="matn">متن تیکت</textarea>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                       <div class="custom-file-upload">
                                         <label for="fileUpload" class="btn btn-outline-primary">فایل ضمیمه</label>
-                                        <input type="file" id="fileUpload" class="form-control" hidden>
+                                        <input type="file" id="fileUpload" class="form-control" hidden name="zamimeh">
                                       </div>
                                     </div>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-md-6">
-                                        <button type="submit" class="btn btn-success w-100 py-8 mb-4 rounded-2">ارسال تیکت</button>
+                                        <button name="submit" class="btn btn-success w-100 py-8 mb-4 rounded-2">ارسال تیکت</button>
                                     </div>
                                 </div>
                               </form>
@@ -246,79 +233,21 @@ $id = $_SESSION["user_data"]["id"];
       </div>
     </div>
     
-    <div class="toast-container p-3 top-0 start-0" id="toastPlacement" data-original-class="toast-container p-3"></div>
-    <div class="modal fade" id="model" tabindex="-1" aria-labelledby="model_Label" aria-hidden="true">
-      <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content">
-          <div class="modal-body">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5">...</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <iframe width="100%" height="200vh" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
-            </div>
-            <div class="modal-footer"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="modalConfirm" class="modal fade mx-auto" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-          <div class="modal-header modal-colored-header bg-warning text-white rounded-top rounded-right">
-            <h4 class="modal-title fs-4 fw-bolder">توجه</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body pb-0">
-            <p class="text-center modal-message">آیا مطمئن هستید؟</p>
-          </div>
-          <div class="modal-footer text-center justify-content-center">
-            <button type="button" class="btn btn-light" data-bs-dismiss="modal">خیر</button>
-            <button type="button" id="btn_modalConfirm_yes" data-bs-dismiss="modal" class="btn btn-warning text-warning font-medium text-dark"> بله </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="modalPrompt" class="modal fade mx-auto" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-bg">
-        <div class="modal-content">
-          <div class="modal-header modal-colored-header bg-warning text-white rounded-top rounded-right">
-            <h4 class="modal-title fs-4 fw-bolder">ورود اطلاعات</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body pb-0">
-            <p class="text-center modal-message">مقدار مورد نظر را وارد کنید</p>
-            <br>
-            <div class="form-group">
-              <input type="text" class="form-control" id="txt_modalPrompt">
-            </div>
-          </div>
-          <div class="modal-footer text-center justify-content-center">
-            <button type="button" id="btn_modalPrompt_yes" data-bs-dismiss="modal" class="btn btn-warning text-warning font-medium text-dark"> ثبت </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="offcanvas offcanvas-start bg bg-white" tabindex="1" id="sidebar_message" aria-labelledby="sidebar_message_label" style="z-index: 100000;">
-      <div class="offcanvas-header">
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </div>
-      <div class="offcanvas-body text-center accordion" id="message-content">
-        <div class="emptyMessageBox text-center" style="margin-top: 200px;opacity: 0.3;">
-          <i class="ti ti-message-x fs-10 mb-3"></i>
-          <h2 class="fw-bolder text-center mt-3 fs-5">اعلان جدیدی وجود ندارد</h2>
-        </div>
-      </div>
-      <hr>
-      <p class="text-center text-primary">
-        <a href="" class="fw-bolder text-primary"> تاریخچه اعلان‌‌ها <i class="ti ti-arrow-left ms-2 fs-7"></i>
-        </a>
-      </p>
-    </div>
+  
     <div id="modalContainer"></div>
     <?php include "footer.php"; ?>
  
+    <script>
+      function ticket_show(){
+        // Show the form
+        var form = document.getElementById("new_ticket");
+        form.style.display = "";
+
+        // Scroll to the form at the bottom
+        form.scrollIntoView({ behavior: "smooth" });
+      }
+
+    </script>
 
     <script src="js/bootstrap.bundle.min.js"></script>
     <!-- <script src="https://my.g-ads.org/assets/js/bootstrap-switch.js"></script> -->
@@ -344,3 +273,42 @@ $id = $_SESSION["user_data"]["id"];
   </body>
   </body>
 </html>
+
+<?php
+
+include "config.php";
+
+if(isset($_POST['submit'])){
+
+  var_dump($_POST);
+  
+  $title = $_POST['title'];
+  $text = $_POST['matn'];
+  $file = $_FILES['zamimeh'];
+
+  // Ensure user folder exists
+  $user_folder = "uploads/" . $id;  // Use user ID for the folder name
+
+  // Check if the folder exists, if not, create it
+  if (!file_exists($user_folder)) {
+      mkdir($user_folder, 0777, true);  // Create the folder with proper permissions
+  }
+
+  // Define the target file path
+  $target_file = $user_folder . "/" . basename($file["name"]);
+
+  // Move the uploaded file to the user-specific folder
+  move_uploaded_file($file["tmp_name"], $target_file);
+
+  // Insert the ticket data into the database
+  $sql = "INSERT INTO tickets (title, text, file, user_id) 
+          VALUES ('$title', '$text', '$target_file', '$id')";
+  $result = $conn->query($sql);
+
+  // Display the result of the insert query
+  if($result){
+      echo "<script>alert('تیکت با موفقیت ارسال شد.')</script>";
+  }else{
+      echo "<script>alert('خطا در ارسال تیکت.')</script>";
+  }
+}
