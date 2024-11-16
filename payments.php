@@ -105,96 +105,102 @@ $id = $_SESSION["user_data"]["id"];
                             </form>
                             </div>
 
+                            <?php
+                            include "config.php";
+
+                            // Pagination parameters
+                            $rows_per_page = 10; // Number of rows per page
+                            $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1; // Current page
+                            $offset = ($page - 1) * $rows_per_page; // Offset for SQL query
+
+                            // Total rows in the table
+                            $total_rows_query = "SELECT COUNT(*) AS total FROM payments LEFT JOIN orders ON payments.order_id = orders.id";
+                            $total_rows_result = $conn->query($total_rows_query);
+                            $total_rows = $total_rows_result->fetch_assoc()['total'];
+                            $total_pages = ceil($total_rows / $rows_per_page); // Total pages
+
+                            // Fetch rows for the current page
+                            $sql = "SELECT payments.*, orders.* 
+                                    FROM payments 
+                                    LEFT JOIN orders 
+                                    ON payments.order_id = orders.id 
+                                    ORDER BY payments.id DESC 
+                                    LIMIT $rows_per_page OFFSET $offset";
+                            $result = $conn->query($sql);
+                            ?>
+
                             <table class="table">
-                              <thead>
-                                  <tr>
-                                      <th scope="col">ردیف</th>
-                                      <th scope="col">نوع سفارش</th>
-                                      <th scope="col">وضعیت</th>
-                                      <th scope="col">مبلغ</th>
-                                      <th scope="col">عملیات</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <?php
-                                  include "config.php";
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ردیف</th>
+                                        <th scope="col">نوع سفارش</th>
+                                        <th scope="col">وضعیت</th>
+                                        <th scope="col">مبلغ</th>
+                                        <th scope="col">عملیات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    if ($result->num_rows > 0) {
+                                        $i = $offset + 1; // Adjust row number for pagination
+                                        while ($row = $result->fetch_assoc()) {
+                                    ?>
+                                        <tr>
+                                            <th scope="row"><?= $i ?></th>
+                                            <td><?= $row['type'] ?></td>
+                                            <td>
+                                                <?php
+                                                if ($row['status'] == 2) echo "در حالت پرداخت";
+                                                if ($row['status'] == 1) echo "پرداخت شده";
+                                                ?>
+                                            </td>
+                                            <td><?= $row['amount'] ?></td>
+                                            <td>
+                                                <div class="d-flex align-items-center flex-row">
+                                                    <form action="invoice.php" method="POST">
+                                                        <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
+                                                        <button class="btn btn-outline-info btn-circle btn-sm" name="charge">
+                                                            <i class="fs-5 fa fa-credit-card"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                            $i++;
+                                        }
+                                    } else {
+                                        echo "<tr><td colspan='5'>No records found.</td></tr>";
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
 
-                                  // Define pagination parameters
-                                  $rows_per_page = 10; // Number of rows per page
-                                  $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1; // Current page
-                                  $offset = ($page - 1) * $rows_per_page; // Offset for SQL query
-
-                                  // Total rows in the orders table for the given user_id
-                                  $total_rows_query = "SELECT COUNT(*) AS total FROM orders WHERE user_id = $id";
-                                  $total_rows_result = $conn->query($total_rows_query);
-                                  $total_rows = $total_rows_result->fetch_assoc()['total'];
-                                  $total_pages = ceil($total_rows / $rows_per_page); // Total pages
-
-                                  // Fetch rows for the current page
-                                  $sql = "SELECT * FROM orders WHERE user_id = $id ORDER BY id DESC LIMIT $rows_per_page OFFSET $offset";
-                                  $result = $conn->query($sql);
-
-                                  if ($result->num_rows > 0) {
-                                      $i = $offset + 1; // Adjust row number for pagination
-                                      while ($row = $result->fetch_assoc()) {
-                                  ?>
-                                  <tr>
-                                      <th scope="row"><?= $i ?></th>
-                                      <td><?= $row['type'] ?></td>
-                                      <td>
-                                          <?php
-                                          if ($row['status'] == 2) echo "در حالت پرداخت";
-                                          if ($row['status'] == 1) echo "پرداخت شده";
-                                          ?>
-                                      </td>
-                                      <td><?= $row['amount'] ?></td>
-                                      <td>
-                                          <div class="d-flex align-items-center flex-row">
-                                              <form action="invoice.php" method="POST">
-                                                  <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
-                                                  <button class="btn btn-outline-info btn-circle btn-sm" name="charge">
-                                                      <i class="fs-5 fa fa-credit-card"></i>
-                                                  </button>
-                                              </form>
-                                          </div>
-                                      </td>
-                                  </tr>
-                                  <?php
-                                          $i++;
-                                      }
-                                  } else {
-                                      echo "<tr><td colspan='5'>No records found.</td></tr>";
-                                  }
-                                  ?>
-                              </tbody>
-                          </table>
-
-                          <!-- Pagination Links -->
-                          <nav>
-                              <ul class="pagination justify-content-center">
-                                  <!-- Previous Link -->
-                                  <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
-                                      <a class="page-link" href="?page=<?= $page - 1 ?>">قبلی</a>
-                                  </li>
-                                  
-                                  <!-- Page Numbers -->
-                                  <?php for ($p = 1; $p <= $total_pages; $p++) : ?>
-                                      <li class="page-item <?= ($p == $page) ? 'active' : '' ?>">
-                                          <a class="page-link" href="?page=<?= $p ?>"><?= $p ?></a>
-                                      </li>
-                                  <?php endfor; ?>
-                                  
-                                  <!-- Next Link -->
-                                  <li class="page-item <?= ($page >= $total_pages) ? 'disabled' : '' ?>">
-                                      <a class="page-link" href="?page=<?= $page + 1 ?>">بعدی</a>
-                                  </li>
-                              </ul>
-                          </nav>
+                            <!-- Pagination Links -->
+                            <nav>
+                                <ul class="pagination justify-content-center">
+                                    <!-- Previous Link -->
+                                    <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
+                                        <a class="page-link" href="?page=<?= $page - 1 ?>">قبلی</a>
+                                    </li>
+                                    
+                                    <!-- Page Numbers -->
+                                    <?php for ($p = 1; $p <= $total_pages; $p++) : ?>
+                                        <li class="page-item <?= ($p == $page) ? 'active' : '' ?>">
+                                            <a class="page-link" href="?page=<?= $p ?>"><?= $p ?></a>
+                                        </li>
+                                    <?php endfor; ?>
+                                    
+                                    <!-- Next Link -->
+                                    <li class="page-item <?= ($page >= $total_pages) ? 'disabled' : '' ?>">
+                                        <a class="page-link" href="?page=<?= $page + 1 ?>">بعدی</a>
+                                    </li>
+                                </ul>
+                            </nav>
 
 
 
-
-
+                                
                         </div>
                         </div>
                     </div>
