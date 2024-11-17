@@ -1,3 +1,18 @@
+<?php
+
+session_start();
+
+// Check if the user data is set in the session
+if (!isset($_SESSION["user_data"])) {
+    // Redirect to the login page
+    header("Location: login.php");
+    exit(); // Stop further execution of the script
+}
+
+$id = $_SESSION["user_data"]["id"];
+$admin = $_SESSION["user_data"]["admin"];
+
+?>
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
   <head>
@@ -23,7 +38,7 @@
     <title>صفحه اصلی</title>
     <style>
       body {
-        font-family: "g", 'sans-serif' !important;
+        font-family: "tahoma" !important;
         /* font-family: "g" !important; */
       }
       /* Reset padding and margin for the body */

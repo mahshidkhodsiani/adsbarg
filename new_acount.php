@@ -36,7 +36,8 @@ $id = $_SESSION["user_data"]["id"];
     <title>صفحه اصلی</title>
     <style>
       body {
-        font-family: "g", 'sans-serif' !important;
+        /* font-family: "g", 'sans-serif' !important; */
+        font-family: "tahoma" !important;
         /* font-family: "g" !important; */
       }
       /* Reset padding and margin for the body */

@@ -8,6 +8,10 @@ if (!isset($_SESSION["user_data"])) {
     header("Location: login.php");
     exit(); // Stop further execution of the script
 }
+
+$id = $_SESSION["user_data"]["id"];
+$admin = $_SESSION["user_data"]["admin"];
+
 ?>
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
@@ -34,7 +38,8 @@ if (!isset($_SESSION["user_data"])) {
     <title>صفحه اصلی</title>
     <style>
       body {
-        font-family: "g", 'sans-serif' !important;
+        font-family: "tahoma" !important;
+        /* font-family: "g", 'sans-serif' !important; */
         /* font-family: "g" !important; */
       }
       /* Reset padding and margin for the body */
@@ -88,6 +93,8 @@ if (!isset($_SESSION["user_data"])) {
               <!-- <div class="alert alert-warning"><p class="fw-bolder mb-1">اطلاعیه تاخیر در شارژ اکانت‌های مانثلی</p>به دلیل به روزرسانی زیرساخت،‌شارژ اکانت‌های مانثلی با تاخیر و در روز دوشنبه ۲۱ خردادانجام خواهد شد. از صبوری شما متشکریم.</div> -->
               <div class="">
                 <!--   نمودار قیمت ارز ها دسکتاپ -->
+                   
+
                 <div class="row d-md-flex" id="currencys">
                   <div class="col-md-4 d-flex align-items-stretch">
                     <div class="card w-100 bg-light-primary shadow-sm overflow-hidden">

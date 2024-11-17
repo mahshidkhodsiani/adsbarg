@@ -9,6 +9,8 @@ if (!isset($_SESSION["user_data"])) {
     exit(); // Stop further execution of the script
 }
 $id = $_SESSION["user_data"]["id"];
+$admin = $_SESSION["user_data"]["admin"];
+
 ?>
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
@@ -35,7 +37,7 @@ $id = $_SESSION["user_data"]["id"];
     <title>صفحه اصلی</title>
     <style>
       body {
-        font-family: "g", 'sans-serif' !important;
+        font-family: "tahoma" !important;
         /* font-family: "g" !important; */
       }
       /* Reset padding and margin for the body */

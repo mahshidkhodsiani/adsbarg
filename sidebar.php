@@ -17,10 +17,15 @@ $current_page = basename($_SERVER['PHP_SELF']); // Gets the current page's file 
 .left-sidebar {
   float: right;
 }
-
-
-
 </style>
+
+<?php
+
+if ($admin == 0){
+
+?>
+
+
 
 <aside class="left-sidebar" style="background-color: #000 !important;">
   <div>
@@ -76,25 +81,23 @@ $current_page = basename($_SERVER['PHP_SELF']); // Gets the current page's file 
           <span class="hide-menu">تیکت</span>
         </a>
       </li>
+
+
       <li class="sidebar-item">
-        <a class="sidebar-link <?php echo ($current_page == 'wallets.php') ? 'active' : ''; ?>" href="#" aria-expanded="false">
-          <span><i class="fa fa-wallet"></i></span>
-          <span class="hide-menu">کیف پول</span>
-        </a>
-      </li>
-      <li class="sidebar-item">
-        <a class="sidebar-link <?php echo ($current_page == 'companies.php') ? 'active' : ''; ?>" href="#" aria-expanded="false">
-          <span><i class="fa fa-building"></i></span>
-          <span class="hide-menu">شرکت‌ها</span>
-        </a>
-      </li>
-      <li class="sidebar-item">
-        <a class="sidebar-link <?php echo ($current_page == 'profile.php') ? 'active' : ''; ?>" href="#" aria-expanded="false">
+        <a class="sidebar-link <?php echo ($current_page == 'user.php') ? 'active' : ''; ?>" href="user" aria-expanded="false">
           <span><i class="fa fa-user"></i></span>
-          <span class="hide-menu">پروفایل</span>
+          <span class="hide-menu" >پروفایل</span>
         </a>
       </li>
     </ul>
   </nav>
 </aside>
 
+<?php
+}elseif($admin == 1){
+
+  ?>
+
+  <?php
+
+}
