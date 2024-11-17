@@ -173,7 +173,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                         <button class="btn btn-sm btn-success icoAccordian text-white" data-bs-toggle="collapse" data-bs-target="#acc_<?= $account['id'] ?>" aria-expanded="false" aria-controls="acc_<?= $account['id'] ?>">
                                             <i class="fa fa-circle-arrow-down"></i> شارژ کنید
                                         </button>
-                                        <a class="btn btn-sm btn-outline-info" href="https://my.g-ads.org/Client/ClientAccount/AccountGoogle/<?= $account['id'] ?>">جزئیات اکانت</a>
+                                        <a class="btn btn-sm btn-outline-info" href="">جزئیات اکانت</a>
                                     </p>
                                     <div class="row">
                                         <div class="col-4 text-center">
@@ -233,18 +233,11 @@ $admin = $_SESSION["user_data"]["admin"];
 
 
     <script src="js/bootstrap.bundle.min.js"></script>
-    <!-- <script src="https://my.g-ads.org/assets/js/bootstrap-switch.js"></script> -->
-
-    <!-- <script src="https://my.g-ads.org/assets/js/app-style-switcher.js"></script> -->
 
     <script src="js/app.min.js"></script>
     <script src="js/app.init.js"></script>
     <script src="js/jalali.js"></script>
     <script src="js/sidebarmenu.js"></script>
-    <!-- <script src="https://my.g-ads.org/assets/js/custom.js"></script>
-    <script src="https://my.g-ads.org/assets/js/apex.js"></script>
-    <script src="https://my.g-ads.org/assets/js/select2.js"></script>
-    <script src="https://my.g-ads.org/assets/js/datatable/jqueryDatatable.js"></script> -->
 
 
     <script src="js/javascripts.js"></script>

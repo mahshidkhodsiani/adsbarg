@@ -147,6 +147,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                           <?php
                                           if ($row['status'] == 2) echo "در حالت پرداخت";
                                           if ($row['status'] == 1) echo "پرداخت شده";
+                                          if ($row['status'] == 0) echo "رد شده";
                                           ?>
                                       </td>
                                       <td><?= $row['amount'] ?></td>

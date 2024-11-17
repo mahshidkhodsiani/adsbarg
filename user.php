@@ -393,6 +393,11 @@ if(isset($_POST['edit_user'])){
 
   $sql = "UPDATE users SET name ='$name', family ='$family', username ='$email', 
     phone ='$phone',meli_code ='$meli_code', password ='$password' WHERE id = '$id'";
+
+    // echo $sql;
+    
+    $result = mysqli_query($conn, $sql);
+    
     
     if ($result) {
       echo "<script>alert('اطلاعات کاربری با موفقیت ویرایش شد');</script>";

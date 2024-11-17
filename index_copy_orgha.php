@@ -775,23 +775,180 @@ $admin = $_SESSION["user_data"]["admin"];
                 </div>
               </div>
             </div>
-    
+            <template id="tickets_template">
+              <li class="timeline-item d-flex position-relative overflow-hidden">
+                <div class="timeline-time text-dark flex-shrink-0 text-end fs-2">
+                  <i class="ti ti-calendar ms-1"></i>#modifiedDateH# <br>
+                  <i class="ti ti-clock ms-1"></i>#modifiedDateM#
+                </div>
+                <div class="timeline-badge-wrap d-flex flex-column align-items-center">
+                  <span class="timeline-badge border-2 border border-primary flex-shrink-0 my-8"></span>
+                  <span class="timeline-badge-border d-block flex-shrink-0"></span>
+                </div>
+                <div class="timeline-desc fs-3 text-dark mt-n1">
+                  <span class="badge bg-#stateClass# d-block px-1 fs-1 mb-1">#stateDescription#</span>
+                  <span class="fw-bolder">#title#</span>
+                </div>
+              </li>
+            </template>
+            <template id="currencys_template">
+              <div class="col-md-4 d-flex align-items-stretch">
+                <div class="card w-100 bg-light-primary shadow-sm overflow-hidden">
+                  <div class="card-body">
+                    <div class="d-flex align-items-center">
+                      <div>
+                        <h5 class="card-title fw-semibold">
+                          <img src="/assets/img/icon/#code#.svg" alt="قیمت #title# امروز"> قیمت #title# <span>#iranAmount#</span> تومان
+                        </h5>
+                        <div class="d-flex gap-2">
+                          <span>
+                            <span class="round-8 bg-success rounded-circle d-inline-block"></span>
+                          </span>
+                          <span style="font-size: 0.9em;"> آخرین به روزرسانی: <span>#modifiedDate#</span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="currencyChart#currencyType#"></div>
+                </div>
+              </div>
+            </template>
+            <template id="accountGoogle_template">
+              <div class="accountGoogle_item col-12 col-md-4 mb-2" data-id="#id#" data-currencycode="#currencyCode#">
+                <div class="card mb-0">
+                  <div class="card-header text-end pb-2 cursor-pointer position-relative bg-white">
+                    <div class="px-0 rounded-pill collapsed accBoxHed">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                          <span class="campTypeBadge">GoogleAds</span>
+                        </div>
+                        <div class="d-flex flex-row justify-content-end mb-1">
+                          <span class="badge bg-primary border rounded-5 border-primary text-white flex-row fs-2 text-uppercase">#currencyCode#</span>
+                        </div>
+                      </div>
+                      <p class="accountGoogle_name fw-bolder fs-5 mb-0" style="direction: ltr">#name#</p>
+                      <p class="mb-1" style="direction:ltr">CID: <span>#customerId#</span>
+                      </p>
+                      <button class=" btn btn-sm btn-success icoAccordian position-absolute text-white" data-bs-toggle="collapse" data-bs-target="#acc_#id#" aria-expanded="false" aria-controls="acc_#id#">
+                        <i class="ti ti-circle-arrow-right-filled fs-9"></i>
+                        <i class="ti ti-circle-arrow-down-filled fs-9"></i>شارژ کنید </button>
+                    </div>
+                  </div>
+                  <div class="card-body p-0 shadow-none">
+                    <div class="collapse p-3" id="acc_#id#">
+                      <form action="#">
+                        <div class="form-floating mb-2">
+                          <input type="text" class="accountGoogle_amount form-control mb-2 text-end" placeholder="عدد وارد کنید">
+                          <p class="form-control-feedback text text-center">قیمت ارز با کارمزد: <span class="accountGoogle_currencyIranAmount">0</span>
+                          </p>
+                          <label>
+                            <i class="ti ti-#currencyCode# me-2 fs-5 text-primary fw-bolder"></i>عدد وارد کنید </label>
+                        </div>
+                        <p class="accountGoogle_serviceCost_parent text-center"> قابل پرداخت: <span class="accountGoogle_serviceCost fw-bolder text-success fs-6">0</span>
+                        </p>
+                        <div class="text-center">
+                          <button type="button" class="accountGoogle_submit btn btn-primary" disabled="">شارژ کن <i class="ti ti-rocket"></i>
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
           </div>
         </div>
       </div>
     </div>
     
- 
+    <div class="toast-container p-3 top-0 start-0" id="toastPlacement" data-original-class="toast-container p-3"></div>
+    <div class="modal fade" id="model" tabindex="-1" aria-labelledby="model_Label" aria-hidden="true">
+      <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5">...</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <iframe width="100%" height="200vh" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+            </div>
+            <div class="modal-footer"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="modalConfirm" class="modal fade mx-auto" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header modal-colored-header bg-warning text-white rounded-top rounded-right">
+            <h4 class="modal-title fs-4 fw-bolder">توجه</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body pb-0">
+            <p class="text-center modal-message">آیا مطمئن هستید؟</p>
+          </div>
+          <div class="modal-footer text-center justify-content-center">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">خیر</button>
+            <button type="button" id="btn_modalConfirm_yes" data-bs-dismiss="modal" class="btn btn-warning text-warning font-medium text-dark"> بله </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="modalPrompt" class="modal fade mx-auto" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-bg">
+        <div class="modal-content">
+          <div class="modal-header modal-colored-header bg-warning text-white rounded-top rounded-right">
+            <h4 class="modal-title fs-4 fw-bolder">ورود اطلاعات</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body pb-0">
+            <p class="text-center modal-message">مقدار مورد نظر را وارد کنید</p>
+            <br>
+            <div class="form-group">
+              <input type="text" class="form-control" id="txt_modalPrompt">
+            </div>
+          </div>
+          <div class="modal-footer text-center justify-content-center">
+            <button type="button" id="btn_modalPrompt_yes" data-bs-dismiss="modal" class="btn btn-warning text-warning font-medium text-dark"> ثبت </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="offcanvas offcanvas-start bg bg-white" tabindex="1" id="sidebar_message" aria-labelledby="sidebar_message_label" style="z-index: 100000;">
+      <div class="offcanvas-header">
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body text-center accordion" id="message-content">
+        <div class="emptyMessageBox text-center" style="margin-top: 200px;opacity: 0.3;">
+          <i class="ti ti-message-x fs-10 mb-3"></i>
+          <h2 class="fw-bolder text-center mt-3 fs-5">اعلان جدیدی وجود ندارد</h2>
+        </div>
+      </div>
+      <hr>
+      <p class="text-center text-primary">
+        <a href="" class="fw-bolder text-primary"> تاریخچه اعلان‌‌ها <i class="ti ti-arrow-left ms-2 fs-7"></i>
+        </a>
+      </p>
+    </div>
     <div id="modalContainer"></div>
    
     <?php include "footer.php"; ?>
 
     <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://my.g-ads.org/assets/js/bootstrap-switch.js"></script> -->
+
+    <!-- <script src="https://my.g-ads.org/assets/js/app-style-switcher.js"></script> -->
 
     <script src="js/app.min.js"></script>
     <script src="js/app.init.js"></script>
     <script src="js/jalali.js"></script>
     <script src="js/sidebarmenu.js"></script>
+    <!-- <script src="https://my.g-ads.org/assets/js/custom.js"></script>
+    <script src="https://my.g-ads.org/assets/js/apex.js"></script>
+    <script src="https://my.g-ads.org/assets/js/select2.js"></script>
+    <script src="https://my.g-ads.org/assets/js/datatable/jqueryDatatable.js"></script> -->
 
 
     <script src="js/javascripts.js"></script>
