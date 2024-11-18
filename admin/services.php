@@ -8,6 +8,7 @@ if (!isset($_SESSION["user_data"])) {
     header("Location: login.php");
     exit(); // Stop further execution of the script
 }
+
 $id = $_SESSION["user_data"]["id"];
 $admin = $_SESSION["user_data"]["admin"];
 
@@ -92,7 +93,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                 <i class="fa fa-file"></i>
                             </div>
                             <div>
-                                <h6 class="mb-0 fs-4 fw-semibold">مدیریت سفارشات</h6>
+                                <h6 class="mb-0 fs-4 fw-semibold">سرویس ها</h6>
                             </div>
                             </div>
                         </div>
@@ -107,97 +108,105 @@ $admin = $_SESSION["user_data"]["admin"];
                             </form>
                             </div>
 
-                            <table class="table">
-                              <thead>
-                                  <tr>
-                                      <th scope="col">ردیف</th>
-                                      <th scope="col">نوع سفارش</th>
-                                      <th scope="col">وضعیت</th>
-                                      <th scope="col">مبلغ</th>
-                                      <th scope="col">عملیات</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <?php
-                                  include "config.php";
 
-                                  // Define pagination parameters
-                                  $rows_per_page = 10; // Number of rows per page
-                                  $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1; // Current page
-                                  $offset = ($page - 1) * $rows_per_page; // Offset for SQL query
+                            <div class="row mt-3 producList" id="products_g">
+                              <div class="col-12 col-md-6 product_item" data-groupname="SRE" data-id="306e6a86-6567-47cf-9f9e-5c2afbbde319" data-producttype="G" data-paymentcost="1,500">
+                                  <div class="card overflow-hidden rounded-2">
+                                  <div class="card-body pt-3 p-4">
+                                      <h6 class="fw-bolder fs-5 product_title text-primary">طراحی سایت</h6>
+                                  
+                                      <p class="text-justify text-black lh-lg fs-5" style="text-align:justify"></p>
+                                      <div class="productMaximize">
+                                      <p class="shortDescP text-justify text-black lh-lg fs-5">ادزبرگ وب‌سایت‌های مدرن و کاربرپسند با سرعت بالا و سئوی بهینه طراحی می‌کند تا به رشد کسب‌وکار شما کمک کند.</p>
+                                      
+                                      <div class="offcanvas offcanvas-start" tabindex="-1" id="moreData-306e6a86-6567-47cf-9f9e-5c2afbbde319" aria-labelledby="offcanvasExampleLabel">
+                                          <div class="offcanvas-header w-100 d-flex flex-column" style="align-items:normal !important">
+                                            <div class="d-flex align-items-center justify-content-between mx-3 mt-3">
+                                                <h5 class="offcanvas-title" id="offcanvasExampleLabel">بررسی دیزاین سایت</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-between bg-light mt-4 position sticky p-3">
+                                              
+                                            
 
-                                  // Total rows in the orders table for the given user_id
-                                  $total_rows_query = "SELECT COUNT(*) AS total FROM orders WHERE user_id = $id ORDER BY id";
-                                  $total_rows_result = $conn->query($total_rows_query);
-                                  $total_rows = $total_rows_result->fetch_assoc()['total'];
-                                  $total_pages = ceil($total_rows / $rows_per_page); // Total pages
-
-                                  // Fetch rows for the current page
-                                  $sql = "SELECT * FROM orders WHERE user_id = $id ORDER BY id DESC LIMIT $rows_per_page OFFSET $offset";
-                                  $result = $conn->query($sql);
-
-                                  if ($result->num_rows > 0) {
-                                      $i = $offset + 1; // Adjust row number for pagination
-                                      while ($row = $result->fetch_assoc()) {
-                                  ?>
-                                  <tr>
-                                      <th scope="row"><?= $i ?></th>
-                                      <td><?= $row['type'] ?></td>
-                                      <td>
-                                          <?php
-                                          if ($row['status'] == 2) echo "در حالت پرداخت";
-                                          if ($row['status'] == 1) echo "پرداخت شده";
-                                          if ($row['status'] == 0) echo "رد شده";
-                                          ?>
-                                      </td>
-                                      <td><?= $row['amount'] ?></td>
-                                      <td>
-                                          <div class="d-flex align-items-center flex-row">
-                                              <form action="invoice.php" method="POST">
-                                                  <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
-                                                  <button class="btn btn-outline-info btn-circle btn-sm" name="charge">
-                                                      <i class="fs-5 fa fa-credit-card"></i>
-                                                  </button>
-                                              </form>
+                                            </div>
                                           </div>
-                                      </td>
-                                  </tr>
-                                  <?php
-                                          $i++;
-                                      }
-                                  } else {
-                                      echo "<tr><td colspan='5'>No records found.</td></tr>";
-                                  }
-                                  ?>
-                              </tbody>
-                          </table>
+                                        
+                                      </div>
+                                      <div class="d-flex align-items-center justify-content-between">
+                                        
+                                          <a class="btn btn-success text-white" href="https://adsbarg.com/web-design/">ثبت سفارش و اطلاعات بیشتر</a>
+                                       
+                                      </div>
+                                      </div>
+                                  </div>
+                                  </div>
+                              </div>
 
-                          <!-- Pagination Links -->
-                          <nav>
-                              <ul class="pagination justify-content-center">
-                                  <!-- Previous Link -->
-                                  <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
-                                      <a class="page-link" href="?page=<?= $page - 1 ?>">قبلی</a>
-                                  </li>
-                                  
-                                  <!-- Page Numbers -->
-                                  <?php for ($p = 1; $p <= $total_pages; $p++) : ?>
-                                      <li class="page-item <?= ($p == $page) ? 'active' : '' ?>">
-                                          <a class="page-link" href="?page=<?= $p ?>"><?= $p ?></a>
-                                      </li>
-                                  <?php endfor; ?>
-                                  
-                                  <!-- Next Link -->
-                                  <li class="page-item <?= ($page >= $total_pages) ? 'disabled' : '' ?>">
-                                      <a class="page-link" href="?page=<?= $page + 1 ?>">بعدی</a>
-                                  </li>
-                              </ul>
-                          </nav>
-
-
-
-
-
+                              <div class="col-12 col-md-6 product_item" data-groupname="SRE" data-id="306e6a86-6567-47cf-9f9e-5c2afbbde319" data-producttype="G" data-paymentcost="1,500">
+                                  <div class="card overflow-hidden rounded-2">
+                                  <div class="card-body pt-3 p-4">
+                                      <h6 class="fw-bolder fs-5 product_title text-primary">سئوی سایت</h6>
+                                     
+                                      <p class="text-justify text-black lh-lg fs-5" style="text-align:justify"></p>
+                                      <div class="productMaximize">
+                                      <p class="shortDescP text-justify text-black lh-lg fs-5">سئوی سایت ادزبرگ با تمرکز بر بهینه‌سازی کلمات کلیدی، بهبود سرعت و تجربه کاربری، رتبه وب‌سایت شما را در نتایج جستجو ارتقا می‌دهد تا به جذب بیشتر مخاطبان کمک کند.</p>
+                                     
+                                      <div class="offcanvas offcanvas-start" tabindex="-1" id="moreData-306e6a86-6567-47cf-9f9e-5c2afbbde319" aria-labelledby="offcanvasExampleLabel">
+                                          <div class="offcanvas-header w-100 d-flex flex-column" style="align-items:normal !important">
+                                          <div class="d-flex align-items-center justify-content-between mx-3 mt-3">
+                                              <h5 class="offcanvas-title" id="offcanvasExampleLabel">بررسی دیزاین سایت</h5>
+                                              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                          </div>
+                                    
+                                          </div>
+                                        
+                                      </div>
+                                      <div class="d-flex align-items-center justify-content-between">
+                                         
+                                          <a class="btn btn-success text-white" href="https://adsbarg.com/seo/">ثبت سفارش و اطلاعات بیشتر</a>
+                                      </div>
+                                      </div>
+                                  </div>
+                                  </div>
+                              </div>
+                              <div class="col-12 col-md-6 product_item" data-groupname="SRE" data-id="306e6a86-6567-47cf-9f9e-5c2afbbde319" data-producttype="G" data-paymentcost="1,500">
+                                  <div class="card overflow-hidden rounded-2">
+                                  <div class="card-body pt-3 p-4">
+                                      <h6 class="fw-bolder fs-5 product_title text-primary">ابزار کلیک فیک</h6>
+                                   
+                                      <p class="text-justify text-black lh-lg fs-5" style="text-align:justify"></p>
+                                      <div class="productMaximize">
+                                      <p class="shortDescP text-justify text-black lh-lg fs-5">برای افزایش کلیک وبسایت شما</p>
+                                      <div class="offcanvas offcanvas-start" tabindex="-1" id="moreData-306e6a86-6567-47cf-9f9e-5c2afbbde319" aria-labelledby="offcanvasExampleLabel">
+                                          <div class="offcanvas-header w-100 d-flex flex-column" style="align-items:normal !important">
+                                          <div class="d-flex align-items-center justify-content-between mx-3 mt-3">
+                                              <h5 class="offcanvas-title" id="offcanvasExampleLabel">بررسی دیزاین سایت</h5>
+                                              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                          </div>
+                                          <div class="d-flex align-items-center justify-content-between bg-light mt-4 position sticky p-3">
+                                              
+                                          </div>
+                                          </div>
+                                        
+                                      </div>
+                                      <div class="d-flex align-items-center justify-content-between">
+                                          <h6 class="fw-semibold fs-4 mb-0 text-primary product_paymentCost">
+                                          <b>ماهیانه</b>
+                                          <b>6,500</b>
+                                          <span>تومان</span>
+                                          </h6>
+                                          <form method="POST" action="invoice.php">
+                                            <input type="hidden" name="amount_service" value="0">
+                                          <button class="btn btn-success text-white" name="charge">ثبت سفارش </button>
+                                          </form>
+                                      </div>
+                                      </div>
+                                  </div>
+                                  </div>
+                              </div>
+                          
+                            </div>
                         </div>
                         </div>
                     </div>

@@ -29,7 +29,7 @@ $current_page = basename($_SERVER['PHP_SELF']); // Gets the current page's file 
 
 <aside class="left-sidebar" style="background-color: #000 !important;">
   <div>
-    <div class="brand-logo pt-4 position relative" style="height: 120px; background-size: 128px; background: url('images/logo.png') no-repeat -30px -35px;">
+    <div class="brand-logo pt-4 position relative" style="height: 120px; background-size: 128px; background: url('../images/logo.png') no-repeat -30px -35px;">
      
       <h1 class="d-block pt-1 slug fs-8 fw-bolder text-white">ادز برگ</h1>
       <p class="fs-2 text-white">تبلیغات در گوگل، فقط با ادز برگ</p>
@@ -38,7 +38,7 @@ $current_page = basename($_SERVER['PHP_SELF']); // Gets the current page's file 
       </div>
     </div>
     <div class="brand-logoMini text-center">
-      <img src="images/logo.png" class="img-fluid mt-4" style="max-width: 45px;">
+      <img src="../images/logo.png" class="img-fluid mt-4" style="max-width: 45px;">
     </div>
   </div>
   
@@ -53,7 +53,7 @@ $current_page = basename($_SERVER['PHP_SELF']); // Gets the current page's file 
       <li class="sidebar-item">
         <a class="sidebar-link <?php echo ($current_page == 'google_accounts.php') ? 'active' : ''; ?>" href="google_accounts" aria-expanded="false">
           <!-- <span><i class="fa fa-google"></i></span> -->
-          <span><img src="images/google.png" height="17px" width="17px"></span>
+          <span><img src="../images/google.png" height="17px" width="17px"></span>
           <span class="hide-menu">گوگل اکانت‌ها</span>
         </a>
       </li>
@@ -84,9 +84,9 @@ $current_page = basename($_SERVER['PHP_SELF']); // Gets the current page's file 
 
 
       <li class="sidebar-item">
-        <a class="sidebar-link <?php echo ($current_page == 'user.php') ? 'active' : ''; ?>" href="user" aria-expanded="false">
+        <a class="sidebar-link <?php echo ($current_page == 'users.php') ? 'active' : ''; ?>" href="users" aria-expanded="false">
           <span><i class="fa fa-user"></i></span>
-          <span class="hide-menu" >پروفایل</span>
+          <span class="hide-menu" >مدیریت کاربران</span>
         </a>
       </li>
     </ul>

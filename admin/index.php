@@ -11,6 +11,11 @@ if (!isset($_SESSION["user_data"])) {
 
 $id = $_SESSION["user_data"]["id"];
 $admin = $_SESSION["user_data"]["admin"];
+if($admin == 0){
+   
+    header("Location: restricted.php");
+    exit(); // Stop further execution of the script
+}
 
 ?>
 <!DOCTYPE html>
@@ -35,7 +40,7 @@ $admin = $_SESSION["user_data"]["admin"];
     
 
 
-    <title>صفحه اصلی</title>
+    <title>ادمین | صفحه اصلی</title>
     <style>
       body {
         font-family: "tahoma" !important;
@@ -62,7 +67,7 @@ $admin = $_SESSION["user_data"]["admin"];
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" >
       <!-- سایدبار --> 
        <?php
-            include "config.php";
+            include "../config.php";
             include 'sidebar.php';  
         ?> 
       <div class="sidebarHolder"></div>
@@ -626,8 +631,8 @@ $admin = $_SESSION["user_data"]["admin"];
 
 
                         // Query to get the counts
-                        $recentAccountsQuery = "SELECT COUNT(*) AS count FROM accounts WHERE user_id = $id";
-                        $activeAccountsQuery = "SELECT COUNT(*) AS count FROM accounts WHERE charge = 1 AND user_id = $id";
+                        $recentAccountsQuery = "SELECT COUNT(*) AS count FROM accounts";
+                        $activeAccountsQuery = "SELECT COUNT(*) AS count FROM accounts WHERE charge = 1 ";
 
                         $recentAccountsResult = $conn->query($recentAccountsQuery);
                         $activeAccountsResult = $conn->query($activeAccountsQuery);
@@ -654,7 +659,7 @@ $admin = $_SESSION["user_data"]["admin"];
                             new Chart(ctx, {
                                 type: 'pie',
                                 data: {
-                                    labels: ['کل اکانت های شما', 'اکانت های فعال'],
+                                    labels: ['کل اکانت ها ', 'اکانت های فعال'],
                                     datasets: [{
                                         data: [recentAccounts, activeAccounts],
                                         backgroundColor: ['#36a2eb', '#ff6384'],
@@ -688,7 +693,7 @@ $admin = $_SESSION["user_data"]["admin"];
                   <div class="col-md-7 col-12 d-flex align-items-stretch">
                     <div class="card w-100 bg-white overflow-hidden">
                       <div id="activity-status">
-                        <img src="images/banner.jpg" alt="" class="img-fluid">
+                        <img src="../images/banner.jpg" alt="" class="img-fluid">
                       </div>
                     </div>
                   </div>
@@ -729,7 +734,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                 </tr>
                               </thead>
                               <?php
-                              $sql_order = "SELECT * FROM orders WHERE user_id = $id
+                              $sql_order = "SELECT * FROM orders 
                               ORDER BY id DESC LIMIT 5";
                               $result_order = $conn->query($sql_order);
                               if ($result_order->num_rows > 0) {

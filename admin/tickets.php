@@ -61,6 +61,9 @@ $admin = $_SESSION["user_data"]["admin"];
       <!-- سایدبار --> 
        <?php
             include 'sidebar.php';  
+            include "../config.php";
+            include "../functions.php";
+
         ?> 
       <div class="sidebarHolder"></div>
       <!-- کانتینر اصلی دیتا -->
@@ -105,14 +108,12 @@ $admin = $_SESSION["user_data"]["admin"];
                                   <input type="text" class="form-control search-chat py-2 ps-5 text-right" id="txtSearch" placeholder="جست و جو">
                                   <i class="ti ti-search position-absolute top-50  translate-middle-y fs-6 text-dark me-3" style="right:10px"></i>
                               </form>
-                              <button class="btn btn-light-info mb-2 font-medium text-info px-4 rounded-pill cursor-pointer" onclick="ticket_show()">
-                                  <span class="d-md-inline d-none">تیکت جدید</span><i class="fa fa-plus"></i>
-                              </button>
+                            
 
                               </div>
 
                               <?php
-                              include "config.php";
+                            
 
                               // Pagination parameters
                               $rows_per_page = 10; // Number of rows per page
@@ -120,13 +121,13 @@ $admin = $_SESSION["user_data"]["admin"];
                               $offset = ($page - 1) * $rows_per_page; // Offset for SQL query
 
                               // Total rows in the table
-                              $total_rows_query = "SELECT COUNT(*) AS total FROM tickets WHERE user_id = $id";
+                              $total_rows_query = "SELECT COUNT(*) AS total FROM tickets";
                               $total_rows_result = $conn->query($total_rows_query);
                               $total_rows = $total_rows_result->fetch_assoc()['total'];
                               $total_pages = ceil($total_rows / $rows_per_page); // Total pages
 
                               // Fetch rows for the current page
-                              $sql = "SELECT * FROM tickets WHERE user_id = $id ORDER BY id DESC";
+                              $sql = "SELECT * FROM tickets ORDER BY id DESC";
                               // echo $sql;
                               $result = $conn->query($sql);
                               ?>
@@ -137,6 +138,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                           <th scope="col">ردیف</th>
                                           <th scope="col">موضوع</th>
                                           <th scope="col">متن</th>
+                                          <th scope="col">یوزر</th>
                                       </tr>
                                   </thead>
                                   <tbody>
@@ -153,6 +155,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                                     $row['text'];
                                                   ?>
                                               </td>
+                                              <td><?=get_name($row['user_id'])?></td>
                                             
                                           </tr>
                                       <?php
@@ -278,7 +281,6 @@ $admin = $_SESSION["user_data"]["admin"];
 
 <?php
 
-include "config.php";
 
 if(isset($_POST['submit'])){
 

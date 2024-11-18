@@ -62,7 +62,7 @@ $admin = $_SESSION["user_data"]["admin"];
       <!-- سایدبار --> 
        <?php
             include 'sidebar.php';  
-            include 'config.php';  
+            include '../config.php';  
         ?> 
       <div class="sidebarHolder"></div>
       <!-- کانتینر اصلی دیتا -->
@@ -76,7 +76,7 @@ $admin = $_SESSION["user_data"]["admin"];
         $offset = ($page - 1) * $limit; // Calculate offset for SQL query
 
         // Get total accounts count
-        $total_query = "SELECT COUNT(*) as total FROM accounts WHERE user_id = $id";
+        $total_query = "SELECT COUNT(*) as total FROM accounts";
         $total_result = $conn->query($total_query);
         $total_row = $total_result->fetch_assoc();
         $total_accounts = $total_row['total'];
@@ -85,7 +85,7 @@ $admin = $_SESSION["user_data"]["admin"];
         $total_pages = ceil($total_accounts / $limit);
 
         // Fetch accounts for the current page
-        $query = "SELECT * FROM accounts WHERE user_id = $id LIMIT $limit OFFSET $offset";
+        $query = "SELECT * FROM accounts LIMIT $limit OFFSET $offset";
         $result = $conn->query($query);
         $accounts = [];
 
@@ -113,10 +113,7 @@ $admin = $_SESSION["user_data"]["admin"];
                     </div>
                   </div>
                   <div class="d-flex align-items-start">
-                    <a href="new_acount" class="btn btn-success mb-2 font-medium me-2 px-2 rounded-pill cursor-pointer" >
-                      <span class="d-md-inline d-none">اکانت جدید</span>
-                      <i class="fa fa-plus"></i>
-                    </a>
+                  
                     <a class="btn btn-light-info font-medium text-info px-2 rounded-pill cursor-pointer" data-bs-toggle="collapse" href="#filteringBox" role="button" aria-expanded="true" aria-controls="filteringBox">
                       <span class="d-md-inline d-none">فیلتر</span>
                       <i class="fa fa-filter"></i>

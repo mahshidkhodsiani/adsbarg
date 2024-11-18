@@ -21,8 +21,11 @@ if (isset($_POST['submit'])) {
         $row = $result->fetch_assoc();
 
         $_SESSION['user_data'] = $row;
-        // Redirect to another file or perform other actions
-        header("Location: index.php");
+        if($row['admin'] == 0){
+            header("Location: index.php");
+        }else{
+            header("Location: admin");
+        }
         exit();
     } else {
         $_SESSION['login_error'] = 'نام کاربری یا رمز عبور اشتباه است. دوباره امتحان کنید.';

@@ -61,6 +61,7 @@ $admin = $_SESSION["user_data"]["admin"];
       <!-- سایدبار --> 
        <?php
             include 'sidebar.php';  
+            include '../functions.php';  
         ?> 
       <div class="sidebarHolder"></div>
       <!-- کانتینر اصلی دیتا -->
@@ -114,12 +115,13 @@ $admin = $_SESSION["user_data"]["admin"];
                                       <th scope="col">نوع سفارش</th>
                                       <th scope="col">وضعیت</th>
                                       <th scope="col">مبلغ</th>
+                                      <th scope="col">یوزر</th>
                                       <th scope="col">عملیات</th>
                                   </tr>
                               </thead>
                               <tbody>
                                   <?php
-                                  include "config.php";
+                                  include "../config.php";
 
                                   // Define pagination parameters
                                   $rows_per_page = 10; // Number of rows per page
@@ -127,13 +129,13 @@ $admin = $_SESSION["user_data"]["admin"];
                                   $offset = ($page - 1) * $rows_per_page; // Offset for SQL query
 
                                   // Total rows in the orders table for the given user_id
-                                  $total_rows_query = "SELECT COUNT(*) AS total FROM orders WHERE user_id = $id ORDER BY id";
+                                  $total_rows_query = "SELECT COUNT(*) AS total FROM orders";
                                   $total_rows_result = $conn->query($total_rows_query);
                                   $total_rows = $total_rows_result->fetch_assoc()['total'];
                                   $total_pages = ceil($total_rows / $rows_per_page); // Total pages
 
                                   // Fetch rows for the current page
-                                  $sql = "SELECT * FROM orders WHERE user_id = $id ORDER BY id DESC LIMIT $rows_per_page OFFSET $offset";
+                                  $sql = "SELECT * FROM orders ORDER BY id DESC LIMIT $rows_per_page OFFSET $offset";
                                   $result = $conn->query($sql);
 
                                   if ($result->num_rows > 0) {
@@ -151,6 +153,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                           ?>
                                       </td>
                                       <td><?= $row['amount'] ?></td>
+                                      <td><?= get_name($row['user_id']) ?></td>
                                       <td>
                                           <div class="d-flex align-items-center flex-row">
                                               <form action="invoice.php" method="POST">

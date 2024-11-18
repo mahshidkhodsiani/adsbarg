@@ -116,18 +116,21 @@ $admin = $_SESSION["user_data"]["admin"];
                             $offset = ($page - 1) * $rows_per_page; // Offset for SQL query
 
                             // Total rows in the table
-                            $total_rows_query = "SELECT COUNT(*) AS total FROM payments LEFT JOIN orders ON payments.order_id = orders.id";
+                            $total_rows_query = "SELECT COUNT(*) AS total FROM payments LEFT JOIN orders
+                            ON payments.order_id = orders.id
+                            WHERE orders.user_id = $id";
                             $total_rows_result = $conn->query($total_rows_query);
                             $total_rows = $total_rows_result->fetch_assoc()['total'];
                             $total_pages = ceil($total_rows / $rows_per_page); // Total pages
 
                             // Fetch rows for the current page
                             $sql = "SELECT payments.*, orders.* 
-                                    FROM payments 
-                                    LEFT JOIN orders 
+                                    FROM `payments` 
+                                    LEFT JOIN `orders` 
                                     ON payments.order_id = orders.id 
+                                    WHERE orders.user_id = $id
                                     ORDER BY payments.id DESC 
-                                    LIMIT $rows_per_page OFFSET $offset";
+                                    LIMIT $rows_per_page OFFSET $offset;";
                             $result = $conn->query($sql);
                             ?>
 
