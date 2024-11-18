@@ -1,0 +1,14 @@
+Currency: دلار آمریکا
+Price (Toman): 68,350
+Change: N/A
+Time: 12:22:35
+
+Currency: لیر ترکیه
+Price (Toman): 1,985
+Change: 0 (0.00%)
+Time: 12:22:35
+
+Currency: درهم امارات
+Price (Toman): 18,710
+Change: N/A
+Time: 12:22:23
