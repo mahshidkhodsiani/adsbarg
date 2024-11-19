@@ -96,7 +96,7 @@ $admin = $_SESSION["user_data"]["admin"];
                         <div class="d-flex align-items-center">
                           <div>
                             <h5 class="card-title fw-semibold">
-                              <img src="" alt="قیمت دلار امروز"> قیمت دلار <span>70,801</span> تومان
+                              <img src="images/usd.jpg" alt="قیمت دلار امروز" width="20px"> قیمت دلار <span>70,801</span> تومان
                             </h5>
                             <div class="d-flex gap-2">
                               <span>
@@ -222,7 +222,7 @@ $admin = $_SESSION["user_data"]["admin"];
                         <div class="d-flex align-items-center">
                           <div>
                             <h5 class="card-title fw-semibold">
-                              <img src="/assets/img/icon/AED.svg" alt="قیمت درهم امروز"> قیمت درهم <span>19,659</span> تومان
+                              <img src="images/aed.png" alt="قیمت درهم امروز" width="15px"> قیمت درهم <span>19,659</span> تومان
                             </h5>
                             <div class="d-flex gap-2">
                               <span>
@@ -349,7 +349,7 @@ $admin = $_SESSION["user_data"]["admin"];
                         <div class="d-flex align-items-center">
                           <div>
                             <h5 class="card-title fw-semibold">
-                              <img src="/assets/img/icon/TL.svg" alt="قیمت لیر امروز"> قیمت لیر <span>2,060</span> تومان
+                              <img src="images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت لیر <span>2,060</span> تومان
                             </h5>
                             <div class="d-flex gap-2">
                               <span>
@@ -476,7 +476,7 @@ $admin = $_SESSION["user_data"]["admin"];
                         <div class="d-flex align-items-center">
                           <div>
                             <h5 class="card-title fw-semibold">
-                              <img src="/assets/img/icon/TL.svg" alt="قیمت لیر امروز"> قیمت لیر <span>2,060</span> تومان
+                              <img src="images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت لیر <span>2,060</span> تومان
                             </h5>
                             <div class="d-flex gap-2">
                               <span>

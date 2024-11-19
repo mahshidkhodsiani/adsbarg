@@ -92,8 +92,9 @@ $admin = $_SESSION["user_data"]["admin"];
         while ($row = $result->fetch_assoc()) {
             $accounts[] = $row;
         }
+      
+        include "header.php";
         ?>
-
         <div class="container-fluid">
           <div class="row" id="notify-content"></div>
           <div class="col-md-12">

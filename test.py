@@ -1,81 +1,71 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
+from concurrent.futures import ThreadPoolExecutor
 import time
 
-# Set up the WebDriver
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+def setup_driver():
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  
+    chrome_options.add_argument("--disable-gpu") 
+    chrome_options.add_argument("--window-size=1920,1080") 
+    chrome_options.add_argument("--ignore-certificate-errors")  
+    chrome_options.add_argument("--disable-web-security")  
+    
+    # Initialize the Chrome WebDriver with the options
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+    return driver
 
-# Open the webpage
-driver.get("https://fa.navasan.net/")
+def scrape_loop_details(url, driver):
 
-# Wait for the page to load fully and the rows for USD, Turkish Lira, and UAE Dirham
-usd_row = WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.XPATH, '//tr[@data-code="usd"]'))
-)
+    while True:
 
-lira_row = WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.XPATH, '//tr[@data-code="try"]'))
-)
+        span_element = WebDriverWait(driver, 5).until(
+            EC.presence_of_element_located((By.XPATH, "//span[@data-col='info.last_trade.PDrCotVal']"))
+        )
+        
+        value = span_element.text.strip()
+        
+        if not value:
+            value = driver.execute_script(
+                "return document.querySelector('span[data-col=\"info.last_trade.PDrCotVal\"]').textContent;"
+            )
+        
+        print(url, " ", value.strip())
+        print("*************************************************************************")
+        
+        driver.refresh()
+        
+        time.sleep(2)
 
-aed_row = WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.XPATH, '//tr[@data-code="aed"]'))
-)
+def analyze_website(url):
 
-# Extract data from the USD row
-usd_currency = usd_row.find_element(By.XPATH, './/a').text
-usd_price = usd_row.find_element(By.XPATH, './/td[@class="price"]').text
-try:
-    usd_change = usd_row.find_element(By.XPATH, './/td[@class="change"]').text
-except:
-    usd_change = "N/A"
+    driver = setup_driver()
+    driver.get(f"https://www.tgju.org/profile{url}") 
 
-usd_time = usd_row.find_element(By.XPATH, './/td[@class="time"]').text
+    try:
+        scrape_loop_details(url, driver)
 
-# Extract data from the Turkish Lira row
-lira_currency = lira_row.find_element(By.XPATH, './/a').text
-lira_price = lira_row.find_element(By.XPATH, './/td[@class="price"]').text
-try:
-    lira_change = lira_row.find_element(By.XPATH, './/td[@class="change"]').text
-except:
-    lira_change = "N/A"
+    except Exception as e:
+        print(f"Error processing {url}: {e}")
 
-lira_time = lira_row.find_element(By.XPATH, './/td[@class="time"]').text
+    finally:
+        driver.quit()
 
-# Extract data from the UAE Dirham row
-aed_currency = aed_row.find_element(By.XPATH, './/a').text
-aed_price = aed_row.find_element(By.XPATH, './/td[@class="price"]').text
-try:
-    aed_change = aed_row.find_element(By.XPATH, './/td[@class="change"]').text
-except:
-    aed_change = "N/A"
+def main():
 
-aed_time = aed_row.find_element(By.XPATH, './/td[@class="time"]').text
+    urls = ["/price_dollar_rl", "/price_aed", "/price_try", "/price_thb"]
 
-# Prepare the data to save in a file
-result = (
-    f"Currency: {usd_currency}\n"
-    f"Price (Toman): {usd_price}\n"
-    f"Change: {usd_change}\n"
-    f"Time: {usd_time}\n\n"
-    f"Currency: {lira_currency}\n"
-    f"Price (Toman): {lira_price}\n"
-    f"Change: {lira_change}\n"
-    f"Time: {lira_time}\n\n"
-    f"Currency: {aed_currency}\n"
-    f"Price (Toman): {aed_price}\n"
-    f"Change: {aed_change}\n"
-    f"Time: {aed_time}\n"
-)
+    batch_size = 4
 
-# Save the result to prices.txt
-with open('prices.txt', 'w', encoding='utf-8') as file:
-    file.write(result)
+    with ThreadPoolExecutor(max_workers=batch_size) as executor:
+        executor.map(analyze_website, urls)
 
-print("Data saved to prices.txt")
+if __name__ == "__main__":
 
-# Close the browser window
-driver.quit()
+    main()

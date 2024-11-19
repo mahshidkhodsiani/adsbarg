@@ -34,7 +34,8 @@ $current_page = basename($_SERVER['PHP_SELF']); // Gets the current page's file 
       <h1 class="d-block pt-1 slug fs-8 fw-bolder text-white">ادز برگ</h1>
       <p class="fs-2 text-white">تبلیغات در گوگل، فقط با ادز برگ</p>
       <div class="close-btn d-lg-none d-block sidebartoggler cursor-pointer position-absolute bg-white rounded-5" id="sidebarCollapse" style="left: 20px; top: 20px;">
-        <i class="fa fa-xmark"></i>
+        <!-- <i class="fa fa-xmark"></i> -->
+        ✖
       </div>
     </div>
     <div class="brand-logoMini text-center">
