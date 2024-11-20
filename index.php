@@ -349,7 +349,7 @@ $admin = $_SESSION["user_data"]["admin"];
                         <div class="d-flex align-items-center">
                           <div>
                             <h5 class="card-title fw-semibold">
-                              <img src="images/tur.jpg" alt="قیمت لیر امروز" width="20px"> alt="قیمت لیر امروز"> قیمت لیر <span>2,060</span> تومان
+                              <img src="images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت لیر <span>2,060</span> تومان
                             </h5>
                             <div class="d-flex gap-2">
                               <span>

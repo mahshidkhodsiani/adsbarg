@@ -202,6 +202,9 @@ $admin = $_SESSION["user_data"]["admin"];
                 ?>
             </div>
 
+
+
+
             <!-- Pagination -->
             <nav>
                 <ul class="pagination justify-content-center">
@@ -239,6 +242,17 @@ $admin = $_SESSION["user_data"]["admin"];
 
   
     <?php include "footer.php"; ?>
+
+    <script>
+        function show_charge() {
+            var cardCharge = document.getElementById('card_charge');
+            if (cardCharge.style.display === 'block') {
+                cardCharge.style.display = 'none';
+            } else {
+                cardCharge.style.display = 'block';
+            }
+        }
+    </script>
 
 
     <script src="js/bootstrap.bundle.min.js"></script>

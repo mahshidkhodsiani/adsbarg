@@ -114,13 +114,17 @@ $admin = $_SESSION["user_data"]["admin"];
                       </div>
                     </div>
                   </div>
-                  <div class="d-flex align-items-start">
+                  <!-- <div class="d-flex align-items-start">
                   
                     <a class="btn btn-light-info font-medium text-info px-2 rounded-pill cursor-pointer" data-bs-toggle="collapse" href="#filteringBox" role="button" aria-expanded="true" aria-controls="filteringBox">
                       <span class="d-md-inline d-none">فیلتر</span>
                       <i class="fa fa-filter"></i>
                     </a>
-                  </div>
+                  </div> -->
+                  <form class="position-relative">
+                    <input type="text" class="form-control search-chat py-2 ps-5 text-right" id="txtSearch" placeholder="جست و جو">
+                    <i class="fa fa-search position-absolute top-50  translate-middle-y fs-6 text-dark me-3" style="right:10px"></i>
+                  </form>
                 </div>
                 <div class="collapse" id="filteringBox">
                   <div class=" border border-1 rounded p-3">

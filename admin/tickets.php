@@ -106,7 +106,7 @@ $admin = $_SESSION["user_data"]["admin"];
                               <div class="d-flex justify-content-end align-items-center mb-4">
                               <form class="position-relative">
                                   <input type="text" class="form-control search-chat py-2 ps-5 text-right" id="txtSearch" placeholder="جست و جو">
-                                  <i class="ti ti-search position-absolute top-50  translate-middle-y fs-6 text-dark me-3" style="right:10px"></i>
+                                  <i class="fa fa-search position-absolute top-50  translate-middle-y fs-6 text-dark me-3" style="right:10px"></i>
                               </form>
                             
 
