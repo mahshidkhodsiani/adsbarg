@@ -34,9 +34,27 @@
               <div class="ms-3">
                 <h5 id="dashBoard_fullName" class="mb-1 fs-3 fw-bolder">مهشید خودسیانی</h5>
                 <span class="mb-1 d-block text-primary">دسترسی کاربر</span>
+                <?php
+                // Function to get the real IP address
+                function getUserIP() {
+                    if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                        // If behind a proxy, use the first IP in the X-Forwarded-For header
+                        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+                    } else {
+                        // Otherwise, use the REMOTE_ADDR
+                        $ip = $_SERVER['REMOTE_ADDR'];
+                    }
+                    return $ip;
+                }
+
+                $user_ip = getUserIP();
+                ?>
+
+                <!-- Display IP address in HTML -->
                 <p class="mb-0 d-flex text-dark align-items-center gap-2">
-                    <i class="fa fa-wifi"></i> آی پی: <b id="ip">158.58.63.110</b>
+                    <i class="fa fa-wifi"></i> آی پی: <b id="ip"><?php echo $user_ip; ?></b>
                 </p>
+
               </div>
             </div>
             <div class="d-grid py-4 px-7 pt-8">
@@ -44,7 +62,7 @@
                 <div class="row">
                   <div class="col-7">
                     <h5 class="fs-4 mb-3 w-100 fw-semibold text-dark"> کیورد پلنر ادز برگ </h5>
-                    <a class="btn btn-primary text-white" href="#" target="_blank">ورود</a>
+                    <a class="btn btn-primary text-white" href="https://adsbarg.com/" target="_blank">ورود</a>
                   </div>
                   <div class="col-5">
                     <div class="m-n4">
@@ -53,9 +71,9 @@
                   </div>
                 </div>
               </div>
-              <button class="btn btn-outline-danger" onclick="signOut()">
+              <a href="logout_proccess" class="btn btn-outline-danger" onclick="signOut()">
                 <i class="fa fa-arrow-right-from-bracket"></i>
-                خروج </button>
+                خروج </a>
             </div>
           </div>
         </div>

@@ -33,9 +33,12 @@ $admin = $_SESSION["user_data"]["admin"];
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     
+    <script type="text/javascript">
+      !function(){var i="CPbbUM",a=window,d=document;function g(){var g=d.createElement("script"),s="https://www.goftino.com/widget/"+i,l=localStorage.getItem("goftino_"+i);g.async=!0,g.src=l?s+"?o="+l:s;d.getElementsByTagName("head")[0].appendChild(g);}"complete"===d.readyState?g():a.attachEvent?a.attachEvent("onload",g):a.addEventListener("load",g,!1);}();
+    </script>
 
 
-    <title>صفحه اصلی</title>
+    <title>اکانت های من</title>
     <style>
       body {
         font-family: "tahoma" !important;
@@ -62,38 +65,22 @@ $admin = $_SESSION["user_data"]["admin"];
       <!-- سایدبار --> 
        <?php
             include 'sidebar.php';  
-            include 'config.php';  
         ?> 
       <div class="sidebarHolder"></div>
       <!-- کانتینر اصلی دیتا -->
       <div class="body-wrapper bg-light" >
         <!-- هدر بالای صفحه -->
         <?php
-        // Define how many accounts per page
-        $limit = 9; // Adjust the number of accounts per page
-        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Get the current page
-        $page = max($page, 1); // Ensure page number is at least 1
-        $offset = ($page - 1) * $limit; // Calculate offset for SQL query
+        include "header.php";
+        include "config.php";
 
-        // Get total accounts count
-        $total_query = "SELECT COUNT(*) as total FROM accounts WHERE user_id = $id";
-        $total_result = $conn->query($total_query);
-        $total_row = $total_result->fetch_assoc();
-        $total_accounts = $total_row['total'];
-
-        // Calculate total pages
-        $total_pages = ceil($total_accounts / $limit);
-
-        // Fetch accounts for the current page
-        $query = "SELECT * FROM accounts WHERE user_id = $id LIMIT $limit OFFSET $offset";
+        $query = "SELECT * FROM accounts WHERE user_id = $id ORDER BY id DESC";
         $result = $conn->query($query);
         $accounts = [];
 
         while ($row = $result->fetch_assoc()) {
             $accounts[] = $row;
         }
-      
-        include "header.php";
         ?>
         <div class="container-fluid">
           <div class="row" id="notify-content"></div>
@@ -170,7 +157,6 @@ $admin = $_SESSION["user_data"]["admin"];
                     <div class="accountGoogle_item col-12 col-md-4 mb-2" data-accounttype="0" data-id="<?= $account['id'] ?>" data-currencycode="<?= $account['currency'] ?>" data-customerid="">
                         <div class="card mb-0">
                             <div class="card-header text-end pb-2 cursor-pointer position-relative bg-white">
-                                <!-- Card content -->
                                 <div class="px-0 rounded-pill collapsed accBoxHed">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
@@ -192,6 +178,37 @@ $admin = $_SESSION["user_data"]["admin"];
                                         </button>
                                         <a class="btn btn-sm btn-outline-info" href="">جزئیات اکانت</a>
                                     </p>
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            <strong>0</strong><br>
+                                            <span>کلیک امروز</span>
+                                        </div>
+                                        <div class="col-4 text-center">
+                                            <strong>0</strong><br>
+                                            <span>هزینه امروز</span>
+                                        </div>
+                                        <div class="col-4 text-center">
+                                            <strong>0</strong><br>
+                                            <span>ایمپرشن امروز</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body p-0 shadow-none">
+                                <div class="collapse p-3" id="acc_<?= $account['id'] ?>">
+                                    <form action="invoice.php" method="POST">
+                                        <div class="form-floating mb-2">
+                                          <input type="hidden" name="id_account" value="<?= $account['id'] ?>">
+                                            <input type="text" name="amount_charge" class="accountGoogle_amount form-control mb-2 text-end" placeholder="عدد وارد کنید" required>
+                                            <label><i class="ti ti-USD me-2 fs-5 text-primary fw-bolder"></i>مقدار دلار را وارد کنید </label>
+                                        </div>
+                                        <p class="form-control-feedback text text-center">قیمت ارز با کارمزد: <span class="accountGoogle_currencyIranAmount">0</span></p>
+                                        <p class="accountGoogle_serviceCost_parent text-center">قابل پرداخت: <span class="accountGoogle_serviceCost fw-bolder text-success fs-6">0</span></p>
+                                        <div class="text-center">
+                                            <button  class="accountGoogle_submit btn btn-primary" name="charge">شارژ کن <i class="fa fa-rocket"></i></button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -201,32 +218,6 @@ $admin = $_SESSION["user_data"]["admin"];
                 }
                 ?>
             </div>
-
-
-
-
-            <!-- Pagination -->
-            <nav>
-                <ul class="pagination justify-content-center">
-                    <!-- Previous Link -->
-                    <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
-                        <a class="page-link" href="?page=<?= $page - 1 ?>">قبلی</a>
-                    </li>
-                    
-                    <!-- Page Numbers -->
-                    <?php for ($p = 1; $p <= $total_pages; $p++) : ?>
-                        <li class="page-item <?= ($p == $page) ? 'active' : '' ?>">
-                            <a class="page-link" href="?page=<?= $p ?>"><?= $p ?></a>
-                        </li>
-                    <?php endfor; ?>
-                    
-                    <!-- Next Link -->
-                    <li class="page-item <?= ($page >= $total_pages) ? 'disabled' : '' ?>">
-                        <a class="page-link" href="?page=<?= $page + 1 ?>">بعدی</a>
-                    </li>
-                </ul>
-            </nav>
-
            
           </div>
         </div>
@@ -242,17 +233,6 @@ $admin = $_SESSION["user_data"]["admin"];
 
   
     <?php include "footer.php"; ?>
-
-    <script>
-        function show_charge() {
-            var cardCharge = document.getElementById('card_charge');
-            if (cardCharge.style.display === 'block') {
-                cardCharge.style.display = 'none';
-            } else {
-                cardCharge.style.display = 'block';
-            }
-        }
-    </script>
 
 
     <script src="js/bootstrap.bundle.min.js"></script>

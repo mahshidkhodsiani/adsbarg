@@ -31,10 +31,13 @@ $admin = $_SESSION["user_data"]["admin"];
     <link rel="stylesheet" href="css/mainstyles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+    <script type="text/javascript">
+      !function(){var i="CPbbUM",a=window,d=document;function g(){var g=d.createElement("script"),s="https://www.goftino.com/widget/"+i,l=localStorage.getItem("goftino_"+i);g.async=!0,g.src=l?s+"?o="+l:s;d.getElementsByTagName("head")[0].appendChild(g);}"complete"===d.readyState?g():a.attachEvent?a.attachEvent("onload",g):a.addEventListener("load",g,!1);}();
+    </script>
     
 
 
-    <title>صفحه اصلی</title>
+    <title>تیکت های من</title>
     <style>
       body {
         font-family: "tahoma" !important;
