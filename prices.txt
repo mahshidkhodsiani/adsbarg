@@ -1,14 +1,4 @@
-Currency: دلار آمریکا
-Price (Toman): 68,350
-Change: N/A
-Time: 12:22:35
-
-Currency: لیر ترکیه
-Price (Toman): 1,985
-Change: 0 (0.00%)
-Time: 12:22:35
-
-Currency: درهم امارات
-Price (Toman): 18,710
-Change: N/A
-Time: 12:22:23
+دلار آمریکا: Buy - 69,250, Sell - 69,650
+لیر ترکیه: Buy - 2,015, Sell - 2,055
+درهم امارات: Buy - 18,970, Sell - 19,160
+بات تایلند: Buy - 1,980, Sell - 2,020

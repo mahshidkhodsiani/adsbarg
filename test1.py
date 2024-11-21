@@ -1,81 +1,65 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager  # Import this
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from bs4 import BeautifulSoup
 import time
 
-# Set up the WebDriver
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+# Set up the Chrome WebDriver
+chrome_service = Service(ChromeDriverManager().install())
+chrome_options = Options()
 
-# Open the webpage
-driver.get("https://fa.navasan.net/")
+driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
 
-# Wait for the page to load fully and the rows for USD, Turkish Lira, and UAE Dirham
-usd_row = WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.XPATH, '//tr[@data-code="usd"]'))
+# Open the website
+url = "https://alanchand.com/"
+driver.get(url)
+
+# Wait for the page to load completely
+WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.CLASS_NAME, "tableRow"))
 )
 
-lira_row = WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.XPATH, '//tr[@data-code="try"]'))
-)
+# Parse the page content using BeautifulSoup
+html = driver.page_source
+soup = BeautifulSoup(html, 'html.parser')
 
-aed_row = WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.XPATH, '//tr[@data-code="aed"]'))
-)
+# Find the exchange rates container
+rows = soup.select('.arz-body .table .body .tableRow')
 
-# Extract data from the USD row
-usd_currency = usd_row.find_element(By.XPATH, './/a').text
-usd_price = usd_row.find_element(By.XPATH, './/td[@class="price"]').text
-try:
-    usd_change = usd_row.find_element(By.XPATH, './/td[@class="change"]').text
-except:
-    usd_change = "N/A"
+# Initialize a dictionary to store exchange rates
+exchange_rates = {}
 
-usd_time = usd_row.find_element(By.XPATH, './/td[@class="time"]').text
+# Define the currencies you are interested in
+currencies = ["دلار آمریکا", "درهم امارات", "لیر ترکیه", "بات تایلند"]
 
-# Extract data from the Turkish Lira row
-lira_currency = lira_row.find_element(By.XPATH, './/a').text
-lira_price = lira_row.find_element(By.XPATH, './/td[@class="price"]').text
-try:
-    lira_change = lira_row.find_element(By.XPATH, './/td[@class="change"]').text
-except:
-    lira_change = "N/A"
+# Extract data
+for row in rows:
+    try:
+        # Extract columns
+        columns = row.find_all('div', class_='cell')
+        if len(columns) >= 4:
+            currency_name = columns[1].text.strip()
+            if currency_name in currencies:
+                buy_price = columns[2].text.strip()
+                sell_price = columns[3].text.strip()
+                exchange_rates[currency_name] = {
+                    "buy_price": buy_price,
+                    "sell_price": sell_price
+                }
+    except Exception as e:
+        print(f"Error processing row: {e}, Row HTML: {row}")
 
-lira_time = lira_row.find_element(By.XPATH, './/td[@class="time"]').text
+# Write extracted exchange rates to a file
+with open("prices.txt", "w", encoding="utf-8") as file:
+    for currency, rates in exchange_rates.items():
+        line = f"{currency}: Buy - {rates['buy_price']}, Sell - {rates['sell_price']}\n"
+        file.write(line)
+        print(line.strip())  # Optional: Print while writing
 
-# Extract data from the UAE Dirham row
-aed_currency = aed_row.find_element(By.XPATH, './/a').text
-aed_price = aed_row.find_element(By.XPATH, './/td[@class="price"]').text
-try:
-    aed_change = aed_row.find_element(By.XPATH, './/td[@class="change"]').text
-except:
-    aed_change = "N/A"
-
-aed_time = aed_row.find_element(By.XPATH, './/td[@class="time"]').text
-
-# Prepare the data to save in a file
-result = (
-    f"Currency: {usd_currency}\n"
-    f"Price (Toman): {usd_price}\n"
-    f"Change: {usd_change}\n"
-    f"Time: {usd_time}\n\n"
-    f"Currency: {lira_currency}\n"
-    f"Price (Toman): {lira_price}\n"
-    f"Change: {lira_change}\n"
-    f"Time: {lira_time}\n\n"
-    f"Currency: {aed_currency}\n"
-    f"Price (Toman): {aed_price}\n"
-    f"Change: {aed_change}\n"
-    f"Time: {aed_time}\n"
-)
-
-# Save the result to prices.txt
-with open('prices.txt', 'w', encoding='utf-8') as file:
-    file.write(result)
-
-print("Data saved to prices.txt")
-
-# Close the browser window
+# Close the browser
 driver.quit()
+time.sleep(5)

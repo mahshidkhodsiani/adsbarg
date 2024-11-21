@@ -87,10 +87,10 @@ $id = $_SESSION["user_data"]["id"];
                 // 2
                 if (isset($_POST['amount_charge']) && $_POST['amount_charge'] != '') {
                     $amount = $_POST['amount_charge'];
-                    $stmt = $conn->prepare("INSERT INTO orders (user_id, amount, status, shenaseh, type) VALUES (?, ?, ?, ?, 'charge')");
+                    $stmt = $conn->prepare("INSERT INTO orders (user_id, amount, status, shenaseh, account_id, type) VALUES (?, ?, ?, ?, ?, 'charge')");
                     $random = generateRandomID(); 
                     $status = 2; 
-                    $stmt->bind_param("isis", $id, $amount, $status, $random);
+                    $stmt->bind_param("isisi", $id, $amount, $status, $random, $id_account);
                     // Execute the statement
                     if ($stmt->execute()) {
                         $last_id = $conn->insert_id;
@@ -104,6 +104,7 @@ $id = $_SESSION["user_data"]["id"];
                         if ($result->num_rows > 0) {
                             $last_row = $result->fetch_assoc();
                             $shenaseh = $last_row['shenaseh'];
+                            $id_order =$last_row['id'];
 
                         } else {
                             echo "No records found.";
@@ -144,6 +145,7 @@ $id = $_SESSION["user_data"]["id"];
                         $row = $result->fetch_assoc();
                         $shenaseh = $row['shenaseh'];
                         $amount = $row['amount'];
+                        $id_invoice = $row['id'];
 
                     }
                 }
@@ -245,7 +247,17 @@ $id = $_SESSION["user_data"]["id"];
                 <div class="col-md-6" style="text-align: left;">
                     <div id="pardakhtmethod" style="display: none;">
                         <p>جمع کل : <?= $amount ?></p>
-                        <button class="btn btn-success btn" onclick="show_methods()">انتخاب روش پرداخت</button>
+                        <?php
+                        if(isset($id_invoice)){
+                        ?>
+                            <span>پرداخت شده</span>
+                        <?php
+                        }else{
+                        ?>
+                            <button class="btn btn-success btn" onclick="show_methods()">انتخاب روش پرداخت</button>
+                        <?php
+                        }
+                        ?>
                     </div>
                 </div>
 
@@ -268,7 +280,7 @@ $id = $_SESSION["user_data"]["id"];
             </div>
             <hr>
 
-            <form>
+            <form action="" method="POST" enctype="multipart/form-data">
                 <div class="row" id="cardtocard" style="display: none;">
                 
                     <div class="col-md-6">
@@ -276,24 +288,26 @@ $id = $_SESSION["user_data"]["id"];
                             شماره کارت واریز
                             کننده:
                         </label>
-                        <input type="text" dir="ltr" class="form-control text-center" name="title" data-inputmask="'mask': '9999 9999 9999 9999'" placeholder="0000-0000-0000-0000" minlength="19" maxlength="19" autocomplete="off" id="payCard_i_cardNumber" dv="required" aria-label="payCard_i_cardNumber" aria-describedby="payCard_i_cardNumber">
+                        <input type="text" dir="ltr" class="form-control text-center" name="card_number" data-inputmask="'mask': '9999 9999 9999 9999'" placeholder="0000-0000-0000-0000" minlength="19" maxlength="19" autocomplete="off" id="payCard_i_cardNumber" 
+                            dv="required" aria-label="payCard_i_cardNumber" aria-describedby="payCard_i_cardNumber">
                     </div>  
                     <div class="col-md-6">
                         <label for="payCard_i_description">توضیحات تراکنش:</label>
-                            <textarea name="title" id="payCard_i_description" autocomplete="off" class="form-control">توضیحات پرداخت شامل کد پیگیری و....</textarea> 
+                            <textarea name="explain" id="payCard_i_description" autocomplete="off" class="form-control">توضیحات پرداخت شامل کد پیگیری و....</textarea> 
                     </div>  
                     <div class="col-md-6">
                         اپلود فیش واریزی
-                        <input type="file" class="form-control">
+                        <input type="file" class="form-control" name="fish">
                     </div> 
                     <div class="col-md-6" >
                     </div>  
                     <div class="col-md-6" style="text-align: left;">
+                        <input type="hidden" name="id_order" value="<?=$id_order?>">
                     </div> 
                     <div class="col-md-6" style="text-align: left;">
-                        <a class="btn btn-success btn" data-bs-toggle="tab" href="#navpill-2" role="tab" aria-selected="false" tabindex="-1">
+                        <button name="submit" class="btn btn-success btn" data-bs-toggle="tab" href="" role="tab" aria-selected="false" tabindex="-1">
                             <span>پرداخت</span>
-                        </a>
+                        </button>
                     </div>         
                 </div>
             </form>
@@ -319,18 +333,11 @@ $id = $_SESSION["user_data"]["id"];
 
 
     <script src="js/bootstrap.bundle.min.js"></script>
-    <!-- <script src="https://my.g-ads.org/assets/js/bootstrap-switch.js"></script> -->
-
-    <!-- <script src="https://my.g-ads.org/assets/js/app-style-switcher.js"></script> -->
 
     <script src="js/app.min.js"></script>
     <script src="js/app.init.js"></script>
     <script src="js/jalali.js"></script>
     <script src="js/sidebarmenu.js"></script>
-    <!-- <script src="https://my.g-ads.org/assets/js/custom.js"></script>
-    <script src="https://my.g-ads.org/assets/js/apex.js"></script>
-    <script src="https://my.g-ads.org/assets/js/select2.js"></script>
-    <script src="https://my.g-ads.org/assets/js/datatable/jqueryDatatable.js"></script> -->
 
 
     <script src="js/javascripts.js"></script>
@@ -359,3 +366,39 @@ $id = $_SESSION["user_data"]["id"];
 
 <?php
 
+if (isset($_POST['submit'])) {
+    include 'config.php';
+    $idOrder = $_POST['id_order'];
+    $cardNumber = $_POST['card_number'];
+    $explain = $_POST['explain'];
+    $fish = $_FILES['fish'];
+
+    // Check if the file is uploaded
+    if ($fish['error'] === UPLOAD_ERR_OK) {
+        // Define the target directory and file name
+        $targetDir = "uploads/infos/";
+        $targetFile = $targetDir . basename($fish['name']);
+        
+        // Move the uploaded file to the target directory
+        if (move_uploaded_file($fish['tmp_name'], $targetFile)) {
+            // Insert the data into the database, saving the file path
+            $sql_insert = "INSERT INTO payments (order_id, card_number, explains, fish, pardakht) 
+                           VALUES ('$idOrder', '$cardNumber', '$explain', '$targetFile', 1)";
+            
+            $result = $conn->query($sql_insert);
+
+            if ($result) {
+                $update = "UPDATE orders SET status = 1 WHERE id = '$idOrder'";
+                
+                if ($conn->query($update)) 
+                    echo "پرداخت شما با موفقیت انجام شد";
+            } else {
+                echo "خطا در پرداخ��ت";
+            }
+        } else {
+            echo "خطا در آپلود فایل";
+        }
+    } else {
+        echo "مشکلی در آپلود فایل پیش آمده است.";
+    }
+}
