@@ -67,45 +67,66 @@
                   <ul class="nav nav-tabs pt-9" role="tablist">
                     <li class="nav-item" role="presentation">
                       <a class="nav-link active py-2 px-3 rounded-1" data-bs-toggle="tab" href="#tab_mobile" role="tab" aria-selected="true" id="withMobile">
-                        <span>ورود با کد</span>
+                        <span>ثبت نام با کد پیامکی</span>
                       </a>
                     </li>
                  
                   </ul>
                   <div class="tab-content">
                     <div class="tab-pane active show p-3" id="tab_mobile" role="tabpanel" aria-labelledby="#withMobile">
-                      <p class=" mb-9">لطفا شماره موبایل یا آدرس ایمیل خود را وارد کنید</p>
+                      <p class=" mb-9">لطفا شماره موبایل خود را وارد کنید</p>
               
                 
                     </div>
                   
-                      <p class=" mb-9 alert  alert-warning py-1">
-                        <i class="fa fa-alert-triangle me-1"></i>فقط کاربران ثبت نام شده
-                      </p>
-                      <form action="login_process" method="POST">
+                  
+                    <form action="" method="POST">
                         <div class="mb-3">
-                          <div class="form-floating mb-3">
-                            <input name="username" type="email" class="form-control" id="txtQuery2" placeholder="Enter Name here">
-                            <label for="gEmail">
-                              <i class="fa fa-at me-1"></i>آدرس ایمیل </label>
-                          </div>
-                          <div class="form-floating mb-3">
-                            <input name="password" type="password" class="form-control" id="txtPass2" placeholder="Enter Name here">
-                            <label for="gPass">
-                              <i class="fa fa-password me-1"></i>رمز عبور </label>
-                          </div>
+                            <div class="form-floating mb-3">
+                            <input name="phone" type="text" class="form-control" id="txtQuery2" placeholder="enter number">
+                            <label for="gEmail">شماره تلفن </label>
+                            </div>
+                        
                         </div>
-                        <button class="btn btn-primary w-100 py-8 mb-4 rounded-2" name="submit"> ورود به پنل 
+                        <div class="mb-3">
+                            <div class="form-floating mb-3">
+                            <input name="name" type="text" class="form-control" id="txtQuery2" placeholder="enter number">
+                            <label for="gEmail">نام</label>
+                            </div>
+                        
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-floating mb-3">
+                            <input name="family" type="text" class="form-control" id="txtQuery2" placeholder="enter number">
+                            <label for="gEmail">نام خانوادگی</label>
+                            </div>
+                        
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-floating mb-3">
+                            <input name="username" type="text" class="form-control" id="txtQuery2" placeholder="enter number">
+                            <label for="gEmail">یوزرنیم</label>
+                            </div>
+                        
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-floating mb-3">
+                            <input name="password" type="text" class="form-control" id="txtQuery2" placeholder="enter number">
+                            <label for="gEmail">پسورد</label>
+                            </div>
+                        
+                        </div>
+                        <button class="btn btn-primary w-100 py-8 mb-4 rounded-2" name="submit"> ثبت شماره و ایجاد اکانت 
                             <i class="fa fa-login ms-2 align-items-center"></i>
                         </button>
 
                         <div class="mt-2">
-                          <p class="mb-0">
-                            <a href="register" class="text-dark">صفحه ثبت نام</a>
-                          </p>
+                            <p class="mb-0">
+                            <a href="login" class="text-dark">صفحه ورود</a>
+                            </p>
                         </div>
 
-                      </form>
+                    </form>
               
                   </div>
                 </div>
@@ -136,3 +157,25 @@
   </body>
 </html>
 
+<?php
+
+if(isset($_POST['submit'])){
+    $phone = $_POST['phone'];
+
+    //  // Set a random verification code
+     $verificationCode = rand(1000, 9999);
+
+     $_SESSION['verification'] = $verificationCode;
+
+     $url = "http://ippanel.com:8080/?apikey=aVshzgWwgz4BCmQ7ZJKtNll65Sdb0ruEzSmqonMjt1o=&pid=s4iwew6hydru98s&fnum=3000505&tnum=" . $phone . "&p1=verification-code&v1=" . $verificationCode;
+
+    //  // Use file_get_contents to make the HTTP request
+     $response = file_get_contents($url);
+
+    // if ($response === FALSE) {
+    //     echo "Failed to send SMS";
+    // } else {
+    //     // header("Location: two_step_login.php");
+    //     // exit();
+    // }
+}

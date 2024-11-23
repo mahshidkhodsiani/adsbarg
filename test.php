@@ -1,68 +1,32 @@
 <?php
 
-include "config.php";
 
-// Query to get the counts
-$recentAccountsQuery = "SELECT COUNT(*) AS count FROM accounts";
-$activeAccountsQuery = "SELECT COUNT(*) AS count FROM accounts WHERE charge = 1";
+$curl = curl_init();
 
-$recentAccountsResult = $conn->query($recentAccountsQuery);
-$activeAccountsResult = $conn->query($activeAccountsQuery);
+curl_setopt_array($curl, array(
+    CURLOPT_URL => 'https://api2.ippanel.com/api/v1/sms/pattern/normal/send',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+    "code": "0k068nitw294w5p",
+    "sender": "+983000505",
+    "recipient": "09130109552",
+    "variable": {
+        "variable":"123"
+    }
+    }',
+    CURLOPT_HTTPHEADER => array(
+    'apikey: aVshzgWwgz4BCmQ7ZJKtNll65Sdb0ruEzSmqonMjt1o=',
+    'Content-Type: application/json',
+    ),
+));
 
-$recentAccounts = $recentAccountsResult->fetch_assoc()['count'];
-$activeAccounts = $activeAccountsResult->fetch_assoc()['count'];
+$response = curl_exec($curl);
 
-$conn->close();
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pie Chart - Recent and Active Accounts</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-    <div style="width: 50%; margin: auto;">
-        <canvas id="accountsPieChart"></canvas>
-    </div>
-
-    <script>
-        // Data from PHP
-        const recentAccounts = <?php echo $recentAccounts; ?>;
-        const activeAccounts = <?php echo $activeAccounts; ?>;
-
-        // Render Chart.js Pie Chart
-        const ctx = document.getElementById('accountsPieChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: ['Recent Accounts', 'Active Accounts'],
-                datasets: [{
-                    data: [recentAccounts, activeAccounts],
-                    backgroundColor: ['#36a2eb', '#ff6384'],
-                    hoverBackgroundColor: ['#36a2ebcc', '#ff6384cc']
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const total = context.dataset.data.reduce((acc, value) => acc + value, 0);
-                                const percentage = ((context.raw / total) * 100).toFixed(2);
-                                return `${context.label}: ${context.raw} (${percentage}%)`;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    </script>
-</body>
-</html>
+curl_close($curl);
+echo $response;

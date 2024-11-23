@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+
+
+?>
+
+
 
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
@@ -67,45 +75,38 @@
                   <ul class="nav nav-tabs pt-9" role="tablist">
                     <li class="nav-item" role="presentation">
                       <a class="nav-link active py-2 px-3 rounded-1" data-bs-toggle="tab" href="#tab_mobile" role="tab" aria-selected="true" id="withMobile">
-                        <span>ورود با کد</span>
+                        <span>ثبت نام با کد پیامکی</span>
                       </a>
                     </li>
                  
                   </ul>
                   <div class="tab-content">
                     <div class="tab-pane active show p-3" id="tab_mobile" role="tabpanel" aria-labelledby="#withMobile">
-                      <p class=" mb-9">لطفا شماره موبایل یا آدرس ایمیل خود را وارد کنید</p>
+                      <p class=" mb-9">لطفا شماره موبایل خود را وارد کنید</p>
               
                 
                     </div>
                   
-                      <p class=" mb-9 alert  alert-warning py-1">
-                        <i class="fa fa-alert-triangle me-1"></i>فقط کاربران ثبت نام شده
-                      </p>
-                      <form action="login_process" method="POST">
+                  
+                    <form action="" method="POST">
                         <div class="mb-3">
-                          <div class="form-floating mb-3">
-                            <input name="username" type="email" class="form-control" id="txtQuery2" placeholder="Enter Name here">
-                            <label for="gEmail">
-                              <i class="fa fa-at me-1"></i>آدرس ایمیل </label>
-                          </div>
-                          <div class="form-floating mb-3">
-                            <input name="password" type="password" class="form-control" id="txtPass2" placeholder="Enter Name here">
-                            <label for="gPass">
-                              <i class="fa fa-password me-1"></i>رمز عبور </label>
-                          </div>
+                            <div class="form-floating mb-3">
+                            <input name="enteredCode" type="text" class="form-control" id="txtQuery2" placeholder="enter number">
+                            <label for="">کد ارسالی را وارد کنید</label>
+                            </div>
+                        
                         </div>
-                        <button class="btn btn-primary w-100 py-8 mb-4 rounded-2" name="submit"> ورود به پنل 
+                        <button class="btn btn-primary w-100 py-8 mb-4 rounded-2" name="submit_code"> ثبت شماره 
                             <i class="fa fa-login ms-2 align-items-center"></i>
                         </button>
 
                         <div class="mt-2">
-                          <p class="mb-0">
-                            <a href="register" class="text-dark">صفحه ثبت نام</a>
-                          </p>
+                            <p class="mb-0">
+                            <a href="login" class="text-dark">صفحه ورود</a>
+                            </p>
                         </div>
 
-                      </form>
+                    </form>
               
                   </div>
                 </div>
@@ -136,3 +137,34 @@
   </body>
 </html>
 
+<?php
+
+if (isset($_POST['submit_code'])) {
+
+    // $_POST['verification_code'];
+
+    if(isset($_POST['enteredCode'])) {
+
+        $enteredCode = $_POST['enteredCode'];
+        $verificationCode = $_SESSION['verification'];
+
+        if ($enteredCode == $verificationCode) {
+      
+            unset($_SESSION['verification']);
+    
+            // $_SESSION['investor_data'] = $_SESSION['investor_data_temp'];
+
+            // unset($_SESSION['investor_data_temp']);
+            
+            // header("Location: index.php");
+            // exit();
+        } else {
+            $verificationError = 'کد وارد شده اشتباه است. دوباره امتحان کنید.';
+        }
+
+    }    
+    else {
+        $verificationError = 'کد تأیید را ابتدا وارد کنید';
+    }
+}
+?>
