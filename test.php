@@ -13,12 +13,13 @@ curl_setopt_array($curl, array(
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
     CURLOPT_CUSTOMREQUEST => 'POST',
     CURLOPT_POSTFIELDS =>'{
-    "code": "0k068nitw294w5p",
-    "sender": "+983000505",
+    "code": "pattern",
+    "sender": "3000505",
     "recipient": "09130109552",
-    "variable": {
-        "variable":"123"
+    "variable": 
     }
+        verification-code: 123
+    {
     }',
     CURLOPT_HTTPHEADER => array(
     'apikey: aVshzgWwgz4BCmQ7ZJKtNll65Sdb0ruEzSmqonMjt1o=',
