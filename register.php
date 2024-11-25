@@ -157,25 +157,52 @@
   </body>
 </html>
 
+
 <?php
 
-if(isset($_POST['submit'])){
-    $phone = $_POST['phone'];
 
-    //  // Set a random verification code
-     $verificationCode = rand(1000, 9999);
+if (isset($_POST['submit'])){
 
-     $_SESSION['verification'] = $verificationCode;
+  include 'config.php';
 
-     $url = "http://ippanel.com:8080/?apikey=aVshzgWwgz4BCmQ7ZJKtNll65Sdb0ruEzSmqonMjt1o=&pid=s4iwew6hydru98s&fnum=3000505&tnum=" . $phone . "&p1=verification-code&v1=" . $verificationCode;
+  $phone = $_POST['phone'];
+  $name = $_POST['name'];
+  $family = $_POST['family'];
+  $username = $_POST['username'];
+  $password = $_POST['password'];
 
-    //  // Use file_get_contents to make the HTTP request
-     $response = file_get_contents($url);
 
-    // if ($response === FALSE) {
-    //     echo "Failed to send SMS";
-    // } else {
-    //     // header("Location: two_step_login.php");
-    //     // exit();
-    // }
+  $code=rand('1000', '9999');
+  $_SESSION['code_verification'] = $code;
+  // $num= $phone;
+
+  $client = new SoapClient("http://ippanel.com/class/sms/wsdlservice/server.php?wsdl");
+  $user = "arta9120469460"; 
+  $pass = "43875910"; 
+  $fromNum = "+983000505"; 
+  $toNum = $phone; 
+  $pattern_code = "5d43det7mmbukgk"; 
+  $input_data = array( "verification-code" => $code); 
+
+  echo $client->sendPatternSms($fromNum,$toNum,$user,$pass,$pattern_code,$input_data);
+
+
+
+  $sql = "INSERT INTO users (name, family, username, password, phone) VALUES 
+                            ('$name', '$family', '$username', '$password', '$phone') ";
+  $result = $conn->query($sql);
+  if ($result) {
+    echo "<script>alert('ثبت نام با موفقیت انجام شد. کد تایید برای شماره تلفن شما ارسال شد.');</script>";
+    header("location: two_step_login.php");
+    exit();
+  } else {
+    echo "Error: ". $sql. "<br>". $conn->error;
+  }
+
+
+
+
+
+
+  
 }

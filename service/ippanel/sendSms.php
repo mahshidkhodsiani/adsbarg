@@ -7,9 +7,9 @@
 		$rcpt_nm = array('09130109552');
 		$param = array
 					(
-						'uname'=>'u09120469460',
-						'pass'=>'Faraz@1895350019530331',
-						'from'=>'',
+						'uname'=>'arta9120469460',
+						'pass'=>'43875910',
+						'from'=>'3000505',
 						'message'=>'تست',
 						'to'=>json_encode($rcpt_nm),
 						'op'=>'send'
