@@ -8,6 +8,15 @@ if (isset($_POST['submit'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
+
+     // Check if input fields are empty
+     if (empty($username) || empty($password)) {
+        $_SESSION['login_error'] = 'نام کاربری یا رمز عبور نمی‌تواند خالی باشد.';
+        header("Location: login.php");
+        exit();
+    }
+
+    
     // Use prepared statements to protect against SQL injection
     $stmt = $conn->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
     // echo $stmt;
@@ -39,22 +48,5 @@ if (isset($_POST['submit'])) {
 
 
 
-    //  // Set a random verification code
-    //  $verificationCode = rand(100000, 999999);
-
-    //  $_SESSION['verification'] = $verificationCode;
-
-    //  $url = "http://ippanel.com:8080/?apikey=HeQvUXvA1zmyTfLCod_G_URTuYoFL3wH4I4RFTMZsxc=&pid=s4iwew6hydru98s&fnum=3000505&tnum=" . $row['phone_number'] . "&p1=verification-code&v1=" . $verificationCode;
-
-    //  // Use file_get_contents to make the HTTP request
-    //  $response = file_get_contents($url);
-    // if ($response === FALSE) {
-
-    //     echo "Failed to send SMS";
-    // } else {
-
-    //     header("Location: two_step_login.php");
-    //     exit();
-    // }
 
 ?>

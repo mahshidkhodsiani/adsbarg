@@ -14,9 +14,9 @@ if ($conn->connect_error) {
 
 
 
-// $servername = "5.75.97.157";
+// $servername = "185.141.212.171";
 // $username = "adsbarg_admin";
-// $password = "ur%{dBr~x5kn";
+// $password = "b(zP6_M],^ro";
 // $dbname = "adsbarg_dashboard";
 
 // $cfg['Lang'] = 'fa';

@@ -2,64 +2,82 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager  # Import this
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
-import time
+import mysql.connector
 
-# Set up the Chrome WebDriver
+# Database configuration
+db_config = {
+    "host": "localhost",
+    "user": "root",
+    "password": "",
+    "database": "adsbarg"
+}
+
+# Setup ChromeDriver
 chrome_service = Service(ChromeDriverManager().install())
 chrome_options = Options()
-
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--disable-gpu")
+chrome_options.add_experimental_option("prefs", {"profile.managed_default_content_settings.images": 2})
 driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
 
 # Open the website
 url = "https://alanchand.com/"
 driver.get(url)
 
-# Wait for the page to load completely
-WebDriverWait(driver, 10).until(
+# Wait for the page content to load
+WebDriverWait(driver, 5).until(
     EC.presence_of_element_located((By.CLASS_NAME, "tableRow"))
 )
 
-# Parse the page content using BeautifulSoup
+# Parse the page content with BeautifulSoup
 html = driver.page_source
 soup = BeautifulSoup(html, 'html.parser')
+rows = soup.select('.arz-body .tableRow')
 
-# Find the exchange rates container
-rows = soup.select('.arz-body .table .body .tableRow')
-
-# Initialize a dictionary to store exchange rates
-exchange_rates = {}
-
-# Define the currencies you are interested in
+# Extract relevant data
+currencys = {}
 currencies = ["دلار آمریکا", "درهم امارات", "لیر ترکیه", "بات تایلند"]
 
-# Extract data
 for row in rows:
+    columns = row.find_all('div', class_='cell')
+    if len(columns) >= 4:
+        currency_name = columns[1].text.strip()
+        if currency_name in currencies:
+            buy_price = columns[2].text.strip().replace(",", "").replace(" ", "")
+            currencys[currency_name] = buy_price
+
+# Prepare data for insertion
+data = (
+    currencys.get("دلار آمریکا", ""),
+    currencys.get("درهم امارات", ""),
+    currencys.get("لیر ترکیه", ""),
+    currencys.get("بات تایلند", "")
+)
+
+# Insert data into the database
+if all(data):
     try:
-        # Extract columns
-        columns = row.find_all('div', class_='cell')
-        if len(columns) >= 4:
-            currency_name = columns[1].text.strip()
-            if currency_name in currencies:
-                buy_price = columns[2].text.strip()
-                sell_price = columns[3].text.strip()
-                exchange_rates[currency_name] = {
-                    "buy_price": buy_price,
-                    "sell_price": sell_price
-                }
-    except Exception as e:
-        print(f"Error processing row: {e}, Row HTML: {row}")
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor()
+        cursor.execute(
+            "INSERT INTO currencys (dollor, derham, lira, bat) VALUES (%s, %s, %s, %s)",
+            data
+        )
+        conn.commit()
+        print("Data inserted:", data)
+    except mysql.connector.Error as e:
+        print(f"Database error: {e}")
+    finally:
+        if conn.is_connected():
+            cursor.close()
+            conn.close()
+else:
+    print("Error: Missing data. No insertion made.")
 
-# Write extracted exchange rates to a file
-with open("prices.txt", "w", encoding="utf-8") as file:
-    for currency, rates in exchange_rates.items():
-        line = f"{currency}: Buy - {rates['buy_price']}, Sell - {rates['sell_price']}\n"
-        file.write(line)
-        print(line.strip())  # Optional: Print while writing
-
-# Close the browser
+# Close browser
 driver.quit()
-time.sleep(5)
+# time.sleep(5)

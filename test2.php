@@ -1,4 +1,5 @@
 <?php
+
 $curl = curl_init();
 curl_setopt_array($curl, array(
     CURLOPT_URL => 'https://api2.ippanel.com/api/v1/sms/pattern/normal/send',

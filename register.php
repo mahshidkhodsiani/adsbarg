@@ -161,48 +161,77 @@
 <?php
 
 
-if (isset($_POST['submit'])){
 
-  include 'config.php';
+if (isset($_POST['submit'])) {
 
+  include "config.php";
+  // Include the configuration file for database connection
+  // include 'config.php';
+
+  // Collect form inputs
   $phone = $_POST['phone'];
   $name = $_POST['name'];
   $family = $_POST['family'];
   $username = $_POST['username'];
   $password = $_POST['password'];
 
-
-  $code=rand('1000', '9999');
+  // Generate a random code for verification
+  $code = rand(1000, 9999);
   $_SESSION['code_verification'] = $code;
-  // $num= $phone;
-
-  $client = new SoapClient("http://ippanel.com/class/sms/wsdlservice/server.php?wsdl");
-  $user = "arta9120469460"; 
-  $pass = "43875910"; 
-  $fromNum = "+983000505"; 
-  $toNum = $phone; 
-  $pattern_code = "5d43det7mmbukgk"; 
-  $input_data = array( "verification-code" => $code); 
-
-  echo $client->sendPatternSms($fromNum,$toNum,$user,$pass,$pattern_code,$input_data);
 
 
 
-  $sql = "INSERT INTO users (name, family, username, password, phone) VALUES 
-                            ('$name', '$family', '$username', '$password', '$phone') ";
-  $result = $conn->query($sql);
-  if ($result) {
-    echo "<script>alert('ثبت نام با موفقیت انجام شد. کد تایید برای شماره تلفن شما ارسال شد.');</script>";
-    header("location: two_step_login.php");
-    exit();
+
+
+
+  $curl = curl_init();
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => 'https://api2.ippanel.com/api/v1/sms/pattern/normal/send',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'POST',
+      CURLOPT_POSTFIELDS =>'{
+          "code": "5d43det7mmbukgk" ,
+          "sender": "3000505" ,
+          "recipient": "'.$phone.'" ,
+          "variable": {"verification-code": "'.$code.'" } }',
+      CURLOPT_HTTPHEADER => array(
+      'apikey: tlx26aCDjiYqOdvtKOBvwEkbu9laYEE5DfTp9Y5a4ro=',
+      'Content-Type: application/json',
+      ),
+  ));
+
+  $response = curl_exec($curl);
+  curl_close($curl);
+
+  if($response){
+      
+    //   echo $phone;
+    //   echo $code;
+
+    // Insert user details into the database
+    $sql = "INSERT INTO users (name, family, username, password, phone) VALUES (?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssss", $name, $family, $username, $password, $phone);
+
+    if ($stmt->execute()) {
+        echo "<script>alert('ثبت نام با موفقیت انجام شد. کد تایید برای شماره تلفن شما ارسال شد.');</script>";
+        header("location: two_step_login.php");
+        exit();
+    } else {
+        echo "Error: " . $conn->error;
+    }
   } else {
-    echo "Error: ". $sql. "<br>". $conn->error;
+  echo "<script>alert('ارسال پیامک ناموفق بود. لطفاً مجدداً تلاش کنید.');</script>";
   }
 
 
+  // echo $response;
 
 
 
-
-  
 }
