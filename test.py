@@ -11,10 +11,10 @@ import time
 
 # Database connection configuration
 db_config = {
-    "host": "localhost",  # Replace with your MySQL host
-    "user": "root",  # Replace with your MySQL username
-    "password": "",  # Replace with your MySQL password
-    "database": "adsbarg"  # Replace with your database name
+    "host": "136.243.36.77",  # Replace with your MySQL host
+    "user": "wolffcod_admin",  # Replace with your MySQL username
+    "password": "6y2&uyR.+0&Y",  # Replace with your MySQL password
+    "database": "wolffcod_test"  # Replace with your database name
 }
 
 # Set up the Chrome WebDriver
