@@ -92,7 +92,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                 <i class="fa fa-file"></i>
                             </div>
                             <div>
-                                <h6 class="mb-0 fs-4 fw-semibold">مدیریت سفارشات</h6>
+                                <h6 class="mb-0 fs-4 fw-semibold">تمامی پرداخت ها</h6>
                             </div>
                             </div>
                         </div>

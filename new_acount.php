@@ -232,11 +232,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     if ($stmt->execute()) {
-        echo "Account created successfully!";
-        exit();
+      echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+      <div class='toast-header bg-success text-white'>
+          <strong class='mr-auto'>Success</strong>
+      </div>
+      <div class='toast-body'>
+        با موفقیت انجام شد!
+      </div>
+      </div>
+      <script>
+          $(document).ready(function(){
+              $('#successToast').toast({
+                  autohide: true,
+                  delay: 3000
+              }).toast('show');
+              setTimeout(function(){
+                  window.location.href = 'google_accounts';
+              }, 3000);
+          });
+      </script>";
     } else {
-        echo "Error: " . $stmt->error;
+      echo "<div id='errorToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+      <div class='toast-header bg-danger text-white'>
+          <strong class='mr-auto'>Error</strong>
+      </div>
+      <div class='toast-body'>
+          خطایی رخ داده، دوباره امتحان کنید!<br>Error: " . htmlspecialchars($stmt->error) . "
+      </div>
+      </div>
+      <script>
+          $(document).ready(function(){
+              $('#errorToast').toast({
+                  autohide: true,
+                  delay: 3000
+              }).toast('show');
+              setTimeout(function(){
+                  window.location.href = 'google_accounts';
+              }, 3000);
+          });
+      </script>";
     }
+
+
+
 
     $stmt->close();
     $conn->close();

@@ -9,7 +9,6 @@ from concurrent.futures import ThreadPoolExecutor
 import mysql.connector
 from mysql.connector import errorcode
 import time
-import datetime
 
 # ********************************************************************************************************
 
@@ -32,14 +31,13 @@ def mysql_create_tables(host='localhost', database='wordpress', user='root', pas
     TABLES = {
         'currencys': """
             CREATE TABLE IF NOT EXISTS currencys (
-                id INT AUTO_INCREMENT,
-                currency VARCHAR(255),
-                price_11 VARCHAR(255),
-                price_17 VARCHAR(255),
-                PRIMARY KEY (id,currency)
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                USD VARCHAR(255) DEFAULT '0',
+                AED VARCHAR(255) DEFAULT '0',
+                TRY VARCHAR(255) DEFAULT '0',
+                THB VARCHAR(255) DEFAULT '0'
             );
-        """
-    }
+        """}
 
     # Connect to MySQL and create tables
     try:
@@ -55,9 +53,19 @@ def mysql_create_tables(host='localhost', database='wordpress', user='root', pas
             except mysql.connector.Error as err:
                 # If the table already exists, skip it
                 if err.errno != errorcode.ER_TABLE_EXISTS_ERROR:
-                    print(f"Table {table_name} already exists.")
-                else:
                     print(f"Error creating table {table_name}: {err.msg}")
+                else:
+                    print(f"Table {table_name} already exists.")
+
+            # Insert a row with id=1 and other values set to '0'
+            insert_query = """
+                INSERT INTO currencys (id, USD, AED, TRY, THB) 
+                VALUES (1, '0', '0', '0', '0') 
+                ON DUPLICATE KEY UPDATE 
+                USD = '0', AED = '0', TRY = '0', THB = '0';
+            """
+            cursor.execute(insert_query)
+            print("Initial row inserted successfully.")
 
         # Commit and close the cursor and connection
         cnx.commit()
@@ -73,9 +81,11 @@ def mysql_create_tables(host='localhost', database='wordpress', user='root', pas
         else:
             print(f"MySQL Error: {err}")
 
+mysql_create_tables(host, database, user, password)
+
 # ********************************************************************************************************
 
-def update_currency_prices(new_prices,host='localhost', database='wordpress', user='root', password=''):
+def update_currency_prices(new_prices, host='localhost', database='wordpress', user='root', password=''):
     # Database connection configuration
     config = {
         'user': user,
@@ -84,16 +94,11 @@ def update_currency_prices(new_prices,host='localhost', database='wordpress', us
         'database': database
     }
 
-    # SQL statements to update prices
-    update_price_11_query = """
+    # SQL statement to update prices in the row with id = 1
+    update_price_query = """
         UPDATE currencys
-        SET price_11 = %s
-        WHERE currency = %s;
-    """
-    update_price_17_query = """
-        UPDATE currencys
-        SET price_17 = %s
-        WHERE currency = %s;
+        SET USD = %s, AED = %s, TRY = %s, THB = %s
+        WHERE id = 1
     """
 
     try:
@@ -101,26 +106,23 @@ def update_currency_prices(new_prices,host='localhost', database='wordpress', us
         cnx = mysql.connector.connect(**config)
         cursor = cnx.cursor()
 
-        # Update price_11 first for each currency
-        print("Updating price_11 values...")
-        for currency, prices in new_prices.items():
-            cursor.execute(update_price_11_query, (prices['new_price_11'], currency))
-            print(f"Updated price_11 for {currency}: {prices['new_price_11']}")
+        # Update the prices for the row with id = 1
+        print("Updating currency prices...")
 
-        # Commit the changes after updating price_11
+        cursor.execute(update_price_query, (
+            new_prices['USD']['new_price'],
+            new_prices['AED']['new_price'],
+            new_prices['TRY']['new_price'],
+            new_prices['THB']['new_price']
+        ))
+
+        # Commit the changes after updating prices
         cnx.commit()
 
-        # Update price_17 after price_11
-        print("Updating price_17 values...")
-        for currency, prices in new_prices.items():
-            cursor.execute(update_price_17_query, (prices['new_price_17'], currency))
-            print(f"Updated price_17 for {currency}: {prices['new_price_17']}")
-
-        # Commit the changes after updating price_17
-        cnx.commit()
-
+        # Close the cursor and connection
         cursor.close()
         cnx.close()
+        print("Currency prices updated successfully!")
 
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
@@ -130,18 +132,16 @@ def update_currency_prices(new_prices,host='localhost', database='wordpress', us
         else:
             print(f"MySQL Error: {err}")
 
-mysql_create_tables(host, database, user, password)
-
 # ********************************************************************************************************
 
 def setup_driver():
     chrome_options = Options()
     chrome_options.add_argument("--headless")  
-    chrome_options.add_argument("--disable-gpu") 
-    chrome_options.add_argument("--window-size=1920,1080") 
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--window-size=1920,1080")
     chrome_options.add_argument("--ignore-certificate-errors")  
     chrome_options.add_argument("--disable-web-security")  
-    
+   
     # Initialize the Chrome WebDriver with the options
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
@@ -153,86 +153,73 @@ def setup_driver():
 # TRY - لیر ترکیه
 # THB - بات تایلند
 
-# Please do not change the format below ... 
+# Please do not change the format below ...
 new_prices = {
-    'USD': {'new_price_11': '120', 'new_price_17': '0'},
-    'AED': {'new_price_11': '0', 'new_price_17': '0'},
-    'TRY': {'new_price_11': '0', 'new_price_17': '0'},
-    'THB': {'new_price_11': '0', 'new_price_17': '0'}
+    'USD': {'new_price': '0'},
+    'AED': {'new_price': '0'},
+    'TRY': {'new_price': '0'},
+    'THB': {'new_price': '0'}
 }
 
 # scrape_loop_details inputs
-first_time = 11
-second_time = 17
-minutes = 0
 page_load_timeout = 50
 
-# ********************************************************************************************************
-
 def scrape_loop_details(url, driver):
-    global counter
-
     while True:
-        current_time = datetime.datetime.now()
+        value = None
 
-        if current_time.hour in [first_time, second_time] and current_time.minute == minutes:
-            value = None
+        # Search to get a valid value
+        while not value:
+            try:
+                # Wait for the element and get the value
+                span_element = WebDriverWait(driver, page_load_timeout).until(
+                    EC.presence_of_element_located((By.XPATH, "//span[@data-col='info.last_trade.PDrCotVal']"))
+                )
+                value = span_element.text.strip()
 
-            # Search to get a valid value
-            while not value:
-                try:
-                    # Wait for the element and get the value
-                    span_element = WebDriverWait(driver, page_load_timeout).until(
-                        EC.presence_of_element_located((By.XPATH, "//span[@data-col='info.last_trade.PDrCotVal']"))
-                    )
-                    value = span_element.text.strip()
+                # If the value is empty, get it from JavaScript
+                if not value:
+                    value = driver.execute_script(
+                        "return document.querySelector('span[data-col=\"info.last_trade.PDrCotVal\"]').textContent;"
+                    ).strip()
 
-                    # If the value is empty, get it from JavaScript
-                    if not value:
-                        value = driver.execute_script(
-                            "return document.querySelector('span[data-col=\"info.last_trade.PDrCotVal\"]').textContent;"
-                        ).strip()
-
-                except Exception as e:
-                    print(f"Error retrieving value, retrying: {e}")
-                    time.sleep(1)
+            except Exception as e:
+                print(f"Error retrieving value, retrying: {e}")
+                time.sleep(1)
 
             # If a valid value is received, update the data
             if value:
-                if current_time.hour == first_time:
-                    if url == "/price_dollar_rl":
-                        new_prices['USD']['new_price_11'] = value
-                    elif url == "/price_aed":
-                        new_prices['AED']['new_price_11'] = value
-                    elif url == "/price_try":
-                        new_prices['TRY']['new_price_11'] = value
-                    elif url == "/price_thb":
-                        new_prices['THB']['new_price_11'] = value
+                # Convert value from Rial to Toman (divide by 10)
+                value_in_toman = float(value.replace(',', '')) / 10
 
-                elif current_time.hour == second_time:
-                    if url == "/price_dollar_rl":
-                        new_prices['USD']['new_price_17'] = value
-                    elif url == "/price_aed":
-                        new_prices['AED']['new_price_17'] = value
-                    elif url == "/price_try":
-                        new_prices['TRY']['new_price_17'] = value
-                    elif url == "/price_thb":
-                        new_prices['THB']['new_price_17'] = value
+                # Format the value with a comma every three digits and one decimal place
+                formatted_value = f"{value_in_toman:,.0f}"
+
+                # Now store the formatted value
+                if url == "/price_dollar_rl":
+                    new_prices['USD']['new_price'] = formatted_value
+                elif url == "/price_aed":
+                    new_prices['AED']['new_price'] = formatted_value
+                elif url == "/price_try":
+                    new_prices['TRY']['new_price'] = formatted_value
+                elif url == "/price_thb":
+                    new_prices['THB']['new_price'] = formatted_value
+
+                print(new_prices)
 
                 update_currency_prices(new_prices, host, database, user, password)
-                counter += 1
-                print(f"Updated prices at {current_time}. Counter: {counter}")
+                time.sleep(30)
 
                 # Refresh the browser
                 driver.refresh()
-
 # ********************************************************************************************************
 
 def analyze_website(url):
-    
+   
     driver = setup_driver()
+
     driver.get(f"https://www.tgju.org/profile{url}")
-    
+   
     try:
         scrape_loop_details(url, driver)
 

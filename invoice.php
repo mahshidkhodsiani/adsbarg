@@ -139,13 +139,20 @@ $id = $_SESSION["user_data"]["id"];
                     $stmt->close();
                 }elseif(isset($_POST['show_invoice']) && $_POST['show_invoice'] != '') {
                     $idinvoice = $_POST['show_invoice'];
-                    $sql = "SELECT * FROM orders WHERE id = $idinvoice";
-                    $result= $conn->query($sql);
-                    if ($result->num_rows > 0) {
-                        $row = $result->fetch_assoc();
-                        $shenaseh = $row['shenaseh'];
-                        $amount = $row['amount'];
-                        $id_invoice = $row['id'];
+                    $sql1 = "SELECT * FROM payments WHERE order_id = $idinvoice";
+                    $sql2 = "SELECT * FROM orders WHERE id = $idinvoice";
+                    $result1= $conn->query($sql1);
+                    if ($result1->num_rows > 0) {
+                        $row1 = $result1->fetch_assoc();
+                        $id_invoice = $row1['id'];
+                        $id_order = $row1['order_id'];
+                    }
+                    $result2= $conn->query($sql2);
+                    if ($result2->num_rows > 0) {
+                        $row2 = $result2->fetch_assoc();
+                        $shenaseh = $row2['shenaseh'];
+                        $amount = $row2['amount'];
+                        $id_order =$row2['id'];
 
                     }
                 }
@@ -288,16 +295,16 @@ $id = $_SESSION["user_data"]["id"];
                             شماره کارت واریز
                             کننده:
                         </label>
-                        <input type="text" dir="ltr" class="form-control text-center" name="card_number" data-inputmask="'mask': '9999 9999 9999 9999'" placeholder="0000-0000-0000-0000" minlength="19" maxlength="19" autocomplete="off" id="payCard_i_cardNumber" 
-                            dv="required" aria-label="payCard_i_cardNumber" aria-describedby="payCard_i_cardNumber">
+                        <input type="text" dir="ltr" class="form-control text-center" name="card_number" data-inputmask="'mask': '9999 9999 9999 9999'" placeholder="0000-0000-0000-0000" minlength="16" maxlength="16" autocomplete="off" id="payCard_i_cardNumber" 
+                            dv="required"  required>
                     </div>  
                     <div class="col-md-6">
                         <label for="payCard_i_description">توضیحات تراکنش:</label>
-                            <textarea name="explain" id="payCard_i_description" autocomplete="off" class="form-control">توضیحات پرداخت شامل کد پیگیری و....</textarea> 
+                            <textarea name="explain" id="payCard_i_description" autocomplete="off" class="form-control" required>توضیحات پرداخت شامل کد پیگیری و....</textarea> 
                     </div>  
                     <div class="col-md-6">
                         اپلود فیش واریزی
-                        <input type="file" class="form-control" name="fish">
+                        <input type="file" class="form-control" name="fish" required>
                     </div> 
                     <div class="col-md-6" >
                     </div>  
@@ -368,6 +375,7 @@ $id = $_SESSION["user_data"]["id"];
 
 if (isset($_POST['submit'])) {
     include 'config.php';
+
     $idOrder = $_POST['id_order'];
     $cardNumber = $_POST['card_number'];
     $explain = $_POST['explain'];

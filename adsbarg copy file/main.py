@@ -12,14 +12,10 @@ import time
 
 
 # DB Information
-DB_info = read_words(get_resource_path("DB_info.txt"))
-host = DB_info[1]       
-database = DB_info[3]
-user = DB_info[5]
-try:   
-    password = DB_info[7]
-except:
-    password = ""
+host = 'localhost'     
+database = 'adsbarg'  
+user = 'root'
+password = ''
 
 # DB_question = input('''Do you want me to create database tables for you? enter (Y or y)''')
 

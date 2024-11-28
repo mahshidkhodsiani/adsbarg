@@ -130,7 +130,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                     FROM `payments` 
                                     LEFT JOIN `orders` 
                                     ON payments.order_id = orders.id 
-                                    WHERE orders.user_id = $id
+                                    WHERE orders.user_id = $id AND payments.confirm = 1
                                     ORDER BY payments.id DESC 
                                     LIMIT $rows_per_page OFFSET $offset;";
                             $result = $conn->query($sql);

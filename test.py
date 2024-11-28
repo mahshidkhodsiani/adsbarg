@@ -17,6 +17,8 @@ db_config = {
     "database": "wolffcod_test"  # Replace with your database name
 }
 
+
+
 # Set up the Chrome WebDriver
 chrome_service = Service(ChromeDriverManager().install())
 chrome_options = Options()

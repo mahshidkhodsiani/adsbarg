@@ -297,7 +297,7 @@ include "config.php";
 
 if(isset($_POST['submit'])){
 
-  var_dump($_POST);
+  // var_dump($_POST);
   
   $title = $_POST['title'];
   $text = $_POST['matn'];
@@ -317,9 +317,11 @@ if(isset($_POST['submit'])){
   // Move the uploaded file to the user-specific folder
   move_uploaded_file($file["tmp_name"], $target_file);
 
+  $random = "tk-". rand(100,999)."-". rand(1000,9999);
+
   // Insert the ticket data into the database
-  $sql = "INSERT INTO tickets (title, text1, file, user_id) 
-          VALUES ('$title', '$text', '$target_file', '$id')";
+  $sql = "INSERT INTO tickets (title, text1, file, user_id, shenaseh_ticket) 
+          VALUES ('$title', '$text', '$target_file', '$id', '$random')";
   $result = $conn->query($sql);
 
   // Display the result of the insert query

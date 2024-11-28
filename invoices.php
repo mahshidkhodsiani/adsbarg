@@ -156,7 +156,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                         <td><?= $row['amount'] ?></td>
                                         <td>
                                             <div class="d-flex align-items-center flex-row">
-                                                <form action="invoice.php" method="POST">
+                                                <form action="invoice.php" method="POST" target="_blank">
                                                     <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
                                                     <button class="btn btn-outline-info btn-circle btn-sm" name="charge">
                                                         <i class="fs-5 fa fa-credit-card"></i>
