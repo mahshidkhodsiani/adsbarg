@@ -139,6 +139,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                           <th scope="col">موضوع</th>
                                           <th scope="col">متن</th>
                                           <th scope="col">یوزر</th>
+                                          <th scope="col">پاسخ</th>
                                       </tr>
                                   </thead>
                                   <tbody>
@@ -152,10 +153,21 @@ $admin = $_SESSION["user_data"]["admin"];
                                               <td><?= $row['title'] ?></td>
                                               <td>
                                                   <?=
-                                                    $row['text'];
+                                                    $row['text1'];
                                                   ?>
                                               </td>
                                               <td><?=get_name($row['user_id'])?></td>
+                                              <td>
+                                                <?php
+                                                if($row['status'] == 1){
+                                                  echo 'پاسخ داده شده';
+                                                }else{
+                                                ?>
+                                                <a href="ticket.php?id_ticket=<?=$row['id']?>">پاسخ</a>
+                                                <?php
+                                                }
+                                                ?>
+                                              </td>
                                             
                                           </tr>
                                       <?php

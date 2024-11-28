@@ -140,6 +140,8 @@ $admin = $_SESSION["user_data"]["admin"];
                                           <th scope="col">ردیف</th>
                                           <th scope="col">موضوع</th>
                                           <th scope="col">متن</th>
+                                          <th scope="col">وضعیت</th>
+                                          <th scope="col">عملیات</th>
                                       </tr>
                                   </thead>
                                   <tbody>
@@ -153,9 +155,19 @@ $admin = $_SESSION["user_data"]["admin"];
                                               <td><?= $row['title'] ?></td>
                                               <td>
                                                   <?=
-                                                    $row['text'];
+                                                    $row['text1'];
                                                   ?>
                                               </td>
+                                              <td>
+                                                  <?php
+                                                  if ($row['status'] == 1) {
+                                                    echo "<p style='color:green'>پاسخ داده شده</p>";
+                                                  }else{
+                                                    echo "<p style='color:#b7b703'>در انتظار پاسخ</p>";
+                                                  }
+                                                  ?>
+                                              </td>
+                                              <td><a href="ticket.php?id_ticket=<?=$row['id']?>">مشاهده</a></td>
                                             
                                           </tr>
                                       <?php
@@ -306,14 +318,50 @@ if(isset($_POST['submit'])){
   move_uploaded_file($file["tmp_name"], $target_file);
 
   // Insert the ticket data into the database
-  $sql = "INSERT INTO tickets (title, text, file, user_id) 
+  $sql = "INSERT INTO tickets (title, text1, file, user_id) 
           VALUES ('$title', '$text', '$target_file', '$id')";
   $result = $conn->query($sql);
 
   // Display the result of the insert query
   if($result){
-      echo "<script>alert('تیکت با موفقیت ارسال شد.')</script>";
+    echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+    <div class='toast-header bg-success text-white'>
+        <strong class='mr-auto'>Success</strong>
+    </div>
+    <div class='toast-body'>
+      با موفقیت انجام شد!
+    </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('#successToast').toast({
+                autohide: true,
+                delay: 3000
+            }).toast('show');
+            setTimeout(function(){
+                window.location.href = 'tickets';
+            }, 3000);
+        });
+    </script>";
   }else{
-      echo "<script>alert('خطا در ارسال تیکت.')</script>";
+    echo "<div id='errorToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+    <div class='toast-header bg-danger text-white'>
+        <strong class='mr-auto'>Error</strong>
+    </div>
+    <div class='toast-body'>
+        خطایی رخ داده، دوباره امتحان کنید!<br>Error: " . htmlspecialchars($stmt->error) . "
+    </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('#errorToast').toast({
+                autohide: true,
+                delay: 3000
+            }).toast('show');
+            setTimeout(function(){
+                window.location.href = 'tickets';
+            }, 3000);
+        });
+    </script>";
   }
 }
