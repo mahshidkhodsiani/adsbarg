@@ -119,25 +119,18 @@ $admin = $_SESSION["user_data"]["admin"];
                         <div class="form-floating mb-2">
                           <input id="query" type="text" class="form-control" placeholder="جستجو‌" autocomplete="off">
                           <label>
-                            <i class="ti ti-123 me-2 fs-4"></i>جستجو‌ </label>
+                            <i class="fa fa-123 me-2 fs-4"></i>جستجو‌ </label>
                         </div>
                       </div>
                       <div class="col-md-3">
-                        <div class="mb-2">
-                          <select id="currencyCode" class="form-control form-select lgSelect" data-placeholder="نوع ارز" tabindex="1">
-                            <option value="">همه ارزها</option>
-                            <option value="USD">دلار</option>
-                            <option value="AED">درهم</option>
-                            <option value="TL">لیر</option>
-                          </select>
-                        </div>
+                      
                       </div>
                       <div class="col-12 mt-4 text-end">
                         <button id="btnExecFilter" type="button" class="d-inline-flex align-items-center justify-content-center btn btn-success btn-circle">
-                          <i class="fs-5 ti ti-check"></i>
+                          <i class="fs-5 fa fa-check"></i>
                         </button>
                         <button id="brnResetFilter" type="button" class="d-inline-flex align-items-center justify-content-center btn btn-danger btn-circle collapsed" data-bs-toggle="collapse" href="#filteringBox" role="button" aria-expanded="false" aria-controls="filteringBox">
-                          <i class="fs-5 ti ti-x"></i>
+                          <i class="fs-5 fa fa-x"></i>
                         </button>
                       </div>
                     </div>
@@ -166,7 +159,15 @@ $admin = $_SESSION["user_data"]["admin"];
                                         <div class="d-flex flex-row justify-content-end mb-1">
                                             <span class="accountGoogle_accountType badge bg-light-warning border rounded-5 border-primary text-primary flex-row fs-2 me-1">
                                                 <i class="fa fa-shield-off"></i>
-                                                <b>اختصاصی</b>
+                                                <b>
+                                                  <?php
+                                                  if ($account['managed'] == 1) {
+                                                      echo 'مدیریت شده';
+                                                  } else {
+                                                      echo 'اختصاصی';
+                                                  }
+                                                  ?>
+                                                </b>
                                             </span>
                                             <span class="badge bg-primary border rounded-5 border-primary text-white flex-row fs-2 text-uppercase"><?= $account['currency'] ?></span>
                                         </div>

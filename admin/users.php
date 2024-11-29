@@ -62,7 +62,6 @@ $admin = $_SESSION["user_data"]["admin"];
        <?php
             include 'sidebar.php';  
             include "../config.php";
-            include "../functions.php";
 
         ?> 
       <div class="sidebarHolder"></div>

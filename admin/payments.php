@@ -68,7 +68,6 @@ $admin = $_SESSION["user_data"]["admin"];
         <!-- هدر بالای صفحه -->
         <?php
         include "header.php";
-        include "../functions.php";
         ?>
         <div class="container-fluid">
           <div class="row" id="notify-content"></div>

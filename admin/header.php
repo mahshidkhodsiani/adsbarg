@@ -1,4 +1,6 @@
-
+<?php
+include "../functions.php";
+?>
 <header class="app-header" style="background-color: white;">
   <nav class="navbar navbar-expand-lg navbar-light">
     <ul class="navbar-nav">

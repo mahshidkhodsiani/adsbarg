@@ -192,7 +192,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                         <button class="btn btn-sm btn-success icoAccordian text-white" data-bs-toggle="collapse" data-bs-target="#acc_<?= $account['id'] ?>" aria-expanded="false" aria-controls="acc_<?= $account['id'] ?>">
                                             <i class="fa fa-circle-arrow-down"></i> شارژ کنید
                                         </button>
-                                        <a class="btn btn-sm btn-outline-info" href="">جزئیات اکانت</a>
+                                      
                                     </p>
                                 </div>
                             </div>
