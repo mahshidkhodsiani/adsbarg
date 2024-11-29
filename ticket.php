@@ -138,6 +138,40 @@ $admin = $_SESSION["user_data"]["admin"];
                                             <textarea class="form-control" readonly rows="6"><?=$row['answer1']?></textarea>
                                         </div>
                                     </div>
+                                    <?php
+                                      if ($row['answer1'] != '' || $row['answer1'] != NULL) {
+                                          ?>
+                                          <div class="row">
+                                              <?php
+                                              if (isset($row['text2']) || $row['text2'] != NULL) { ?>
+                                                  <div class="col-md-6">
+                                                      <textarea class="form-control" readonly rows="6"><?=$row['text2']?></textarea>
+                                                  </div>
+                                              <?php } elseif (!isset($row['text2']) || $row['text2'] == NULL) { ?>
+                                                  <div class="col-md-6">
+                                                      <form action="" method="POST">
+                                                          <textarea class="form-control" rows="6" name="text2"></textarea>
+                                                          <button name="submit_text2" class="btn btn-primary">ارسال تیکت</button>
+                                                      </form>
+                                                  </div>
+                                              <?php } ?>
+                                          </div>
+                                          <?php
+                                      }
+
+                                      if (isset($row['answer2']) || $row['answer2']!= NULL) {
+                                         ?>
+                                          <div class="row">
+                                              <div class="col-md-6">
+                                              </div>
+                                              <div class="col-md-6">
+                                                  <textarea class="form-control" readonly rows="6"><?=$row['answer2']?></textarea>
+                                              </div>
+                                          </div>
+                                          <?php
+                                      }
+                                    ?>
+
 
                                 <?php
                                 }else{
@@ -145,13 +179,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                 }
                                 ?>
 
-                             
-                         
 
-                            
-
-                          
-                                  
                           </div>
                           
                         </div>
@@ -207,3 +235,51 @@ $admin = $_SESSION["user_data"]["admin"];
   </body>
 </html>
 
+<?php
+
+if(isset($_POST['submit_text2'])){
+  $text2 = $_POST['text2'];
+  $query = "UPDATE tickets SET text2 = '$text2', status = 0 WHERE id = $id_ticket";
+  $result = $conn->query($query);
+  if($result){
+    echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+    <div class='toast-header bg-success text-white'>
+        <strong class='mr-auto'>Success</strong>
+    </div>
+    <div class='toast-body'>
+      با موفقیت انجام شد!
+    </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('#successToast').toast({
+                autohide: true,
+                delay: 3000
+            }).toast('show');
+            setTimeout(function(){
+                window.location.href = 'tickets';
+            }, 3000);
+        });
+    </script>";
+  }else{
+    echo "<div id='errorToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+    <div class='toast-header bg-danger text-white'>
+        <strong class='mr-auto'>Error</strong>
+    </div>
+    <div class='toast-body'>
+        خطایی رخ داده، دوباره امتحان کنید!<br>Error: " . htmlspecialchars($stmt->error) . "
+    </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('#errorToast').toast({
+                autohide: true,
+                delay: 3000
+            }).toast('show');
+            setTimeout(function(){
+                window.location.href = 'tickets';
+            }, 3000);
+        });
+    </script>";
+  }
+}

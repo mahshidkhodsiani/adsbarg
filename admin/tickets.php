@@ -150,7 +150,11 @@ $admin = $_SESSION["user_data"]["admin"];
                                       ?>
                                           <tr>
                                               <th scope="row"><?= $i ?></th>
-                                              <td><?= $row['title'] ?></td>
+                                              <td>
+                                                <a href="ticket.php?id_ticket=<?=$row['id']?>">
+                                                <?= $row['title'] ?>
+                                                </a>
+                                              </td>
                                               <td>
                                                   <?=
                                                     $row['text1'];

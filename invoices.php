@@ -70,6 +70,7 @@ $admin = $_SESSION["user_data"]["admin"];
         <!-- هدر بالای صفحه -->
         <?php
         include "header.php";
+        include "functions.php";
         ?>
         <div class="container-fluid">
           <div class="row" id="notify-content"></div>
@@ -114,7 +115,8 @@ $admin = $_SESSION["user_data"]["admin"];
                                 <thead>
                                     <tr>
                                         <th scope="col">ردیف</th>
-                                        <th scope="col">نوع سفارش</th>
+                                        <th scope="col"> سفارش</th>
+                                        <th scope="col">نوع</th>
                                         <th scope="col">وضعیت</th>
                                         <th scope="col">مبلغ</th>
                                         <th scope="col">عملیات</th>
@@ -145,7 +147,14 @@ $admin = $_SESSION["user_data"]["admin"];
                                     ?>
                                     <tr>
                                         <th scope="row"><?= $i ?></th>
-                                        <td><?= $row['type'] ?></td>
+                                        <td>
+                                            <?php
+                                            if ($row['type'] == 'charge') echo "شارج اکانت". " " . cidAccount($row['account_id']);
+                                            if ($row['type'] == 2) echo "وا��د فعالیتی";
+                                            ?>
+                                        </td>
+                                        <td><?= (isset($row['managed']) && $row['managed'] == 1 ? "مدیریت شده" : "اختصاصی") ?></td>
+                                        
                                         <td>
                                             <?php
                                             if ($row['status'] == 2) echo "در حالت پرداخت";

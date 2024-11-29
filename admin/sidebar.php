@@ -79,7 +79,7 @@ $current_page = basename($_SERVER['PHP_SELF']); // Gets the current page's file 
       <li class="sidebar-item">
         <a class="sidebar-link <?php echo ($current_page == 'tickets.php') ? 'active' : ''; ?>" href="tickets" aria-expanded="false">
           <span><i class="fa fa-ticket"></i></span>
-          <span class="hide-menu">تیکت</span>
+          <span class="hide-menu">تیکت ها</span>
         </a>
       </li>
 

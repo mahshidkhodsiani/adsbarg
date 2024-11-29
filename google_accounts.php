@@ -171,27 +171,14 @@ $admin = $_SESSION["user_data"]["admin"];
                                         </div>
                                     </div>
                                     <p class="accountGoogle_name fw-bolder fs-7 mb-0" style="direction: ltr;"><?= $account['username'] ?></p>
-                                    <p class="mb-1" style="direction:ltr">CID: <span>Temporary</span></p>
+                                    <p class="mb-1" style="direction:ltr">CID: <span><?=$row['cid'] ?? "هنوز آیدی ایجاد نشده" ?> </span></p>
                                     <p class="text-start mt-2">
                                         <button class="btn btn-sm btn-success icoAccordian text-white" data-bs-toggle="collapse" data-bs-target="#acc_<?= $account['id'] ?>" aria-expanded="false" aria-controls="acc_<?= $account['id'] ?>">
                                             <i class="fa fa-circle-arrow-down"></i> شارژ کنید
                                         </button>
-                                        <a class="btn btn-sm btn-outline-info" href="">جزئیات اکانت</a>
+                                   
                                     </p>
-                                    <div class="row">
-                                        <div class="col-4 text-center">
-                                            <strong>0</strong><br>
-                                            <span>کلیک امروز</span>
-                                        </div>
-                                        <div class="col-4 text-center">
-                                            <strong>0</strong><br>
-                                            <span>هزینه امروز</span>
-                                        </div>
-                                        <div class="col-4 text-center">
-                                            <strong>0</strong><br>
-                                            <span>ایمپرشن امروز</span>
-                                        </div>
-                                    </div>
+                                
                                 </div>
                             </div>
 

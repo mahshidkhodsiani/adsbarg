@@ -32,3 +32,15 @@ function generateRandomID() {
     
     return $randomID;
 }
+
+function cidAccount($id){
+    include "config.php";
+    $query = "SELECT * FROM accounts WHERE id = $id";
+    $result = $conn->query($query);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['cid'];
+    }else{
+        return "Account not found";
+    }
+}

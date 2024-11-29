@@ -68,6 +68,7 @@ if($admin == 0){
       <!-- سایدبار --> 
        <?php
             include "../config.php";
+            include "../functions.php";
             include 'sidebar.php';  
         ?> 
       <div class="sidebarHolder"></div>
@@ -775,6 +776,40 @@ if($admin == 0){
                         <ul class="timeline-widget mb-1 position-relative" id="tickets"></ul>
                         <a href="tickets" class="btn btn-outline-primary w-100 mt-4"> مشاهده تیکت ها <i class="fa fa-circle-arrow-left fs-6"></i>
                         </a>
+
+
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="">
+                                    <tr>
+                                      
+                                        <th>موضوع</th>
+                                        <th>کاربر</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  <?php
+                                  
+                                  $sql_ticket = "SELECT * FROM tickets 
+                                  ORDER BY id DESC LIMIT 5";
+                                  $result_ticket = $conn->query($sql_ticket);
+                                  
+                                  if ($result_ticket->num_rows > 0) {
+                                
+                                    while ($row_ticket = $result_ticket->fetch_assoc()) {
+                                      ?>
+                                    <tr>
+                                        <td><?= $row_ticket['title']?></td>
+                                        <td><?= get_name($row_ticket['user_id'])?></td>
+                                    </tr>
+                                    <?php
+                                    }
+                                  }
+                                  ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        
                       </div>
                     </div>
                   </div>

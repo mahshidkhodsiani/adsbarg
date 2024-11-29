@@ -136,15 +136,80 @@ if($admin == 0){
                                     <div class="row">
                                         <div class="col-md-6">
                                         </div>
+                                        <?php
+                                        if(!isset($row['answer1']) || $row['answer1'] == NULL){
+                                        ?>
                                         <div class="col-md-6">
                                             <form action="" method="POST">
                                               <textarea class="form-control" name="answer1" rows="6">
                                               </textarea>
-                                              <button name="send_answer" class="btn btn-primary">ارسال پاسخ</button>
+                                              <button name="send_answer1" class="btn btn-primary">ارسال پاسخ</button>
                                             </form>
                                             
                                         </div>
+                                        <?php
+                                        }elseif(isset($row['answer1']) || $row['answer1'] != NULL){?>
+                                          <div class="col-md-6">
+                                              <textarea class="form-control" name="answer1" rows="6" readonly>
+                                                 <?=$row['answer1']?>
+                                              </textarea>
+                                            </form>
+                                            
+                                        </div>
+                                        <?php
+                                        }
+                                        ?>
                                     </div>
+
+
+
+                                    <?php
+                                    if(isset($row['answer1']) || $row['answer1'] != NULL){
+                                      if(isset($row['text2']) || $row['text2'] != NULL){
+                                      ?>
+                                        <div class="row">
+                                        
+                                            <div class="col-md-6">
+                                              <textarea class="form-control" readonly rows="6"><?=$row['text2']?></textarea>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-6">
+                                          </div>
+                                          <?php
+                                        if(!isset($row['answer2']) || $row['answer2'] == NULL){
+                                        ?>
+                                          <div class="col-md-6">
+                                            <form action="" method="POST">
+                                                <textarea class="form-control" name="answer2" rows="6">
+                                                </textarea>
+                                                <button name="send_answer2" class="btn btn-primary">ارسال پاسخ</button>
+                                            </form>
+                                          </div>
+                                        <?php
+                                        }elseif(isset($row['answer2']) || $row['answer2'] != NULL){
+                                          ?>
+                                          <div class="col-md-6">
+                                                <textarea class="form-control" name="answer2" rows="6" readonly>
+                                                  <?=$row['answer2']?>
+                                                </textarea>
+                                            </form>
+                                          </div>
+                                          <?php
+                                          }
+                                      
+                                          ?>
+                                      
+
+
+                                        </div>
+                                      <?php
+                                      }
+                                    }
+                                    ?>
+
+                                   
 
                                 <?php
                                 }else{
@@ -214,14 +279,14 @@ if($admin == 0){
 
 <?php
 
-if(isset($_POST['send_answer'])){
+if(isset($_POST['send_answer1'])){
 
   $select = "SELECT * FROM users WHERE id= $user";
  
   $resultm = $conn->query($select);
   $rowm = $resultm->fetch_assoc();
   $phone = $rowm['phone'];
-  echo $phone;
+  // echo $phone;
 
 
   $answer1 = $_POST['answer1'];
@@ -230,44 +295,64 @@ if(isset($_POST['send_answer'])){
 
 
   
-// turn off the WSDL cache
-ini_set("soap.wsdl_cache_enabled", "0");
-try {
-	$client = new SoapClient("http://ippanel.com/class/sms/wsdlservice/server.php?wsdl");
-	  $user = "arta9120469460";
-    $pass = "43875910";
-    $fromNum = "+983000505";
-    $toNum = $phone;
-    $messageContent = 'تیکت شما پاسخ داده شد';
-	  $op  = "send";
-	//If you want to send in the future  ==> $time = '2016-07-30' //$time = '2016-07-30 12:50:50'
-	
-	$time = '';
-	
-	echo $client->SendSMS($fromNum,$toNum,$messageContent,$user,$pass,$time,$op);
-	echo $status;
-} catch (SoapFault $ex) {
-    echo $ex->faultstring;
-}
+  // turn off the WSDL cache
+  ini_set("soap.wsdl_cache_enabled", "0");
+  try {
+    $client = new SoapClient("http://ippanel.com/class/sms/wsdlservice/server.php?wsdl");
+      $user = "arta9120469460";
+      $pass = "43875910";
+      $fromNum = "+983000505";
+      $toNum = $phone;
+      $messageContent = 'تیکت شما پاسخ داده شد';
+      $op  = "send";
+    //If you want to send in the future  ==> $time = '2016-07-30' //$time = '2016-07-30 12:50:50'
+    
+    $time = '';
+    
+    echo $client->SendSMS($fromNum,$toNum,$messageContent,$user,$pass,$time,$op);
+    echo $status;
+  } catch (SoapFault $ex) {
+      echo $ex->faultstring;
+  }
 
 
 
 
 
-    $query = "UPDATE tickets SET answer1 = '$answer1', status = 1 WHERE id = $id_ticket";
-    $result = $conn->query($query);
-    if ($result) {
-      echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
-      <div class='toast-header bg-success text-white'>
-          <strong class='mr-auto'>Success</strong>
+  $query = "UPDATE tickets SET answer1 = '$answer1', status = 1 WHERE id = $id_ticket";
+  $result = $conn->query($query);
+  if ($result) {
+    echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+    <div class='toast-header bg-success text-white'>
+        <strong class='mr-auto'>Success</strong>
+    </div>
+    <div class='toast-body'>
+      با موفقیت انجام شد!
+    </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('#successToast').toast({
+                autohide: true,
+                delay: 3000
+            }).toast('show');
+            setTimeout(function(){
+                window.location.href = 'tickets';
+            }, 3000);
+        });
+    </script>";
+  }else{
+    echo "<div id='errorToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+      <div class='toast-header bg-danger text-white'>
+          <strong class='mr-auto'>Error</strong>
       </div>
       <div class='toast-body'>
-        با موفقیت انجام شد!
+          خطایی رخ داده، دوباره امتحان کنید!<br>Error: " . htmlspecialchars($stmt->error) . "
       </div>
       </div>
       <script>
           $(document).ready(function(){
-              $('#successToast').toast({
+              $('#errorToast').toast({
                   autohide: true,
                   delay: 3000
               }).toast('show');
@@ -276,29 +361,93 @@ try {
               }, 3000);
           });
       </script>";
-    }else{
-      echo "<div id='errorToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
-        <div class='toast-header bg-danger text-white'>
-            <strong class='mr-auto'>Error</strong>
-        </div>
-        <div class='toast-body'>
-            خطایی رخ داده، دوباره امتحان کنید!<br>Error: " . htmlspecialchars($stmt->error) . "
-        </div>
-        </div>
-        <script>
-            $(document).ready(function(){
-                $('#errorToast').toast({
-                    autohide: true,
-                    delay: 3000
-                }).toast('show');
-                setTimeout(function(){
-                    window.location.href = 'tickets';
-                }, 3000);
-            });
-        </script>";
-    }
+  }
 
  
 }
 
 
+if(isset($_POST['send_answer2']) ){
+  
+  $select = "SELECT * FROM users WHERE id= $user";
+ 
+  $resultm = $conn->query($select);
+  $rowm = $resultm->fetch_assoc();
+  $phone = $rowm['phone'];
+
+
+  $answer1 = $_POST['answer2'];
+  $id_ticket = $_GET['id_ticket'];
+
+
+
+  
+  // turn off the WSDL cache
+  ini_set("soap.wsdl_cache_enabled", "0");
+  try {
+    $client = new SoapClient("http://ippanel.com/class/sms/wsdlservice/server.php?wsdl");
+      $user = "arta9120469460";
+      $pass = "43875910";
+      $fromNum = "+983000505";
+      $toNum = $phone;
+      $messageContent = 'تیکت شما پاسخ داده شد';
+      $op  = "send";
+    //If you want to send in the future  ==> $time = '2016-07-30' //$time = '2016-07-30 12:50:50'
+    
+    $time = '';
+    
+    echo $client->SendSMS($fromNum,$toNum,$messageContent,$user,$pass,$time,$op);
+    echo $status;
+  } catch (SoapFault $ex) {
+      echo $ex->faultstring;
+  }
+
+
+
+
+
+  $query = "UPDATE tickets SET answer2 = '$answer2', status = 1 WHERE id = $id_ticket";
+  $result = $conn->query($query);
+  if ($result) {
+    echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+    <div class='toast-header bg-success text-white'>
+        <strong class='mr-auto'>Success</strong>
+    </div>
+    <div class='toast-body'>
+      با موفقیت انجام شد!
+    </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('#successToast').toast({
+                autohide: true,
+                delay: 3000
+            }).toast('show');
+            setTimeout(function(){
+                window.location.href = 'tickets';
+            }, 3000);
+        });
+    </script>";
+  }else{
+    echo "<div id='errorToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+      <div class='toast-header bg-danger text-white'>
+          <strong class='mr-auto'>Error</strong>
+      </div>
+      <div class='toast-body'>
+          خطایی رخ داده، دوباره امتحان کنید!<br>Error: " . htmlspecialchars($stmt->error) . "
+      </div>
+      </div>
+      <script>
+          $(document).ready(function(){
+              $('#errorToast').toast({
+                  autohide: true,
+                  delay: 3000
+              }).toast('show');
+              setTimeout(function(){
+                  window.location.href = 'tickets';
+              }, 3000);
+          });
+      </script>";
+  }
+
+}

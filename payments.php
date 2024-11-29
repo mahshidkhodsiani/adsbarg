@@ -70,6 +70,7 @@ $admin = $_SESSION["user_data"]["admin"];
         <!-- هدر بالای صفحه -->
         <?php
         include "header.php";
+        include "functions.php";
         ?>
         <div class="container-fluid">
           <div class="row" id="notify-content"></div>
@@ -94,7 +95,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                 <i class="fa fa-file"></i>
                             </div>
                             <div>
-                                <h6 class="mb-0 fs-4 fw-semibold">مدیریت سفارشات</h6>
+                                <h6 class="mb-0 fs-4 fw-semibold">پرداخت های من</h6>
                             </div>
                             </div>
                         </div>
@@ -130,7 +131,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                     FROM `payments` 
                                     LEFT JOIN `orders` 
                                     ON payments.order_id = orders.id 
-                                    WHERE orders.user_id = $id AND payments.confirm = 1
+                                    WHERE orders.user_id = $id AND payments.pardakht = 1
                                     ORDER BY payments.id DESC 
                                     LIMIT $rows_per_page OFFSET $offset;";
                             $result = $conn->query($sql);
@@ -140,9 +141,11 @@ $admin = $_SESSION["user_data"]["admin"];
                                 <thead>
                                     <tr>
                                         <th scope="col">ردیف</th>
-                                        <th scope="col">نوع سفارش</th>
+                                        <th scope="col">پرداخت</th>
+                                        <th scope="col">نوع</th>
                                         <th scope="col">وضعیت</th>
                                         <th scope="col">مبلغ</th>
+                                        <th scope="col">تایید</th>
                                         <th scope="col">عملیات</th>
                                     </tr>
                                 </thead>
@@ -154,17 +157,34 @@ $admin = $_SESSION["user_data"]["admin"];
                                     ?>
                                         <tr>
                                             <th scope="row"><?= $i ?></th>
-                                            <td><?= $row['type'] ?></td>
+                                            <td>
+                                              <?php
+                                              if ($row['type'] == 'charge') echo "شارج اکانت". " " . cidAccount($row['account_id']);
+                                              if ($row['type'] == 2) echo "وا��د فعالیتی";
+                                              ?>
+                                            </td>
+                                            
+                                            <td><?= (isset($row['managed']) && $row['managed'] == 1 ? "مدیریت شده" : "اختصاصی") ?></td>
                                             <td>
                                                 <?php
                                                 if ($row['status'] == 2) echo "در حالت پرداخت";
                                                 if ($row['status'] == 1) echo "پرداخت شده";
+                                                if ($row['status'] == 0) echo "رد شده";
                                                 ?>
                                             </td>
                                             <td><?= $row['amount'] ?></td>
                                             <td>
+                                              <?php
+                                              if ($row['confirm'] == 1) {
+                                                 echo "تایید شده";
+                                              } else {
+                                                echo "در انتظار تایید ادمین";
+                                              }
+                                              ?>
+                                            </td>
+                                            <td>
                                                 <div class="d-flex align-items-center flex-row">
-                                                    <form action="invoice.php" method="POST">
+                                                    <form action="invoice_pardakht.php" method="POST">
                                                         <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
                                                         <button class="btn btn-outline-info btn-circle btn-sm" name="charge">
                                                             <i class="fs-5 fa fa-credit-card"></i>
@@ -177,7 +197,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                             $i++;
                                         }
                                     } else {
-                                        echo "<tr><td colspan='5'>No records found.</td></tr>";
+                                        echo "<tr><td colspan='5'>هیچ داده ای پیدا نشد.</td></tr>";
                                     }
                                     ?>
                                 </tbody>

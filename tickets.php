@@ -149,7 +149,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                       if ($result->num_rows > 0) {
                                           $i = $offset + 1; // Adjust row number for pagination
                                           while ($row = $result->fetch_assoc()) {
-                                      ?>
+                                          ?>
                                           <tr>
                                               <th scope="row"><?= $i ?></th>
                                               <td><?= $row['title'] ?></td>
