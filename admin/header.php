@@ -19,7 +19,7 @@
         <div class="nav-link pe-0" href="javascript:void(0)" id="user-profile" data-bs-toggle="dropdown" aria-expanded="false">
           <div class="d-flex align-items-center cursor-pointer">
             <div class="userTxt me-2 text-end">
-              <p id="dashBoard_fullNameTop" class="mb-1 fs-2 fw-bolder mb-2 lh-1">مهشید خودسیانی</p>
+              <p id="dashBoard_fullNameTop" class="mb-1 fs-2 fw-bolder mb-2 lh-1"><?=get_name($id)?></p>
               <span class="d-block text-primary mt-0 lh-1 fs-2">دسترسی کاربر</span>
             </div>
             <div class="user-profile-img">
@@ -32,7 +32,7 @@
             <div class="d-flex align-items-center py-9 mx-7 border-bottom">
               <img id="dashBoard_img2" src="../images/user.png" class="rounded-circle" width="80" height="80" alt="">
               <div class="ms-3">
-                <h5 id="dashBoard_fullName" class="mb-1 fs-3 fw-bolder">مهشید خودسیانی</h5>
+                <h5 id="dashBoard_fullName" class="mb-1 fs-3 fw-bolder"><?=get_name($id)?></h5>
                 <span class="mb-1 d-block text-primary">دسترسی کاربر</span>
                 <p class="mb-0 d-flex text-dark align-items-center gap-2">
                     <i class="fa fa-wifi"></i> آی پی: <b id="ip">158.58.63.110</b>
@@ -43,8 +43,7 @@
               <div class="upgrade-plan bg-light-primary position-relative overflow-hidden rounded-4 p-4 mb-9">
                 <div class="row">
                   <div class="col-7">
-                    <h5 class="fs-4 mb-3 w-100 fw-semibold text-dark"> کیورد پلنر ادز برگ </h5>
-                    <a class="btn btn-primary text-white" href="#" target="_blank">ورود</a>
+                    <a class="btn btn-primary text-white" href="https://adsbarg.com/" target="_blank">ورود به ادزبرگ</a>
                   </div>
                   <div class="col-5">
                     <div class="m-n4">

@@ -39,7 +39,10 @@ function cidAccount($id){
     $result = $conn->query($query);
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        return $row['cid'];
+        if(isset($row['cid']))
+            return $row['cid'];
+        else
+            return "cid not put";
     }else{
         return "Account not found";
     }

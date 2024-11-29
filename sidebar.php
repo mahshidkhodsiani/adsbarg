@@ -17,6 +17,11 @@ $current_page = basename($_SERVER['PHP_SELF']); // Gets the current page's file 
 .left-sidebar {
   float: right;
 }
+
+.bold-font {
+    /* font-weight: bold !important; */
+}
+
 </style>
 
 <?php
@@ -43,43 +48,43 @@ $current_page = basename($_SERVER['PHP_SELF']); // Gets the current page's file 
     </div>
   </div>
   
-  <nav class="sidebar-nav scroll-sidebar" data-simplebar="init">
+  <nav class="sidebar-nav scroll-sidebar bold-font" data-simplebar="init">
     <ul id="sidebarnav" class="in mt-5">
-      <li class="sidebar-item">
+      <li class="sidebar-item ">
         <a class="sidebar-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>" href="./" aria-expanded="false">
           <span><i class="fa fa-home"></i></span>
-          <span class="hide-menu">داشبورد</span>
+          <span class="hide-menu bold-font">داشبورد</span>
         </a>
       </li>
       <li class="sidebar-item">
         <a class="sidebar-link <?php echo ($current_page == 'google_accounts.php') ? 'active' : ''; ?>" href="google_accounts" aria-expanded="false">
           <!-- <span><i class="fa fa-google"></i></span> -->
           <span><img src="images/google.png" height="17px" width="17px"></span>
-          <span class="hide-menu">گوگل اکانت‌ها</span>
+          <span class="hide-menu bold-font">گوگل اکانت‌ها</span>
         </a>
       </li>
       <li class="sidebar-item">
         <a class="sidebar-link <?php echo ($current_page == 'services.php') ? 'active' : ''; ?>" href="services" aria-expanded="false">
           <span><i class="fa fa-clone"></i></span>
-          <span class="hide-menu">سرویس ها</span>
+          <span class="hide-menu bold-font">سرویس ها</span>
         </a>
       </li>
       <li class="sidebar-item">
         <a class="sidebar-link <?php echo ($current_page == 'invoices.php') ? 'active' : ''; ?>" href="invoices" aria-expanded="false">
           <span><i class="fa fa-file-invoice"></i></span>
-          <span class="hide-menu">سفارشات</span>
+          <span class="hide-menu bold-font">سفارشات</span>
         </a>
       </li>
       <li class="sidebar-item">
         <a class="sidebar-link <?php echo ($current_page == 'payments.php') ? 'active' : ''; ?>" href="payments" aria-expanded="false">
           <span><i class="fa fa-credit-card"></i></span>
-          <span class="hide-menu">پرداخت‌ها</span>
+          <span class="hide-menu bold-font">پرداخت‌ها</span>
         </a>
       </li>
       <li class="sidebar-item">
         <a class="sidebar-link <?php echo ($current_page == 'tickets.php') ? 'active' : ''; ?>" href="tickets" aria-expanded="false">
           <span><i class="fa fa-ticket"></i></span>
-          <span class="hide-menu">تیکت ها</span>
+          <span class="hide-menu bold-font">تیکت ها</span>
         </a>
       </li>
 
@@ -87,7 +92,7 @@ $current_page = basename($_SERVER['PHP_SELF']); // Gets the current page's file 
       <li class="sidebar-item">
         <a class="sidebar-link <?php echo ($current_page == 'user.php') ? 'active' : ''; ?>" href="user" aria-expanded="false">
           <span><i class="fa fa-user"></i></span>
-          <span class="hide-menu" >پروفایل</span>
+          <span class="hide-menu bold-font" >پروفایل</span>
         </a>
       </li>
     </ul>

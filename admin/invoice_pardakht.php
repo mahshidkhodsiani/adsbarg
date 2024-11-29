@@ -51,7 +51,7 @@ $id = $_SESSION["user_data"]["id"];
   <body id="mainArea" class="mainArea" >
     <!-- لــودر صفحات  -->
     <div class="preloader" style="display: none;">
-      <img src="images/logo.png" alt="loader" class="lds-ripple img-fluid">
+      <img src="../images/logo.png" alt="loader" class="lds-ripple img-fluid">
     </div>
 
     
@@ -59,7 +59,7 @@ $id = $_SESSION["user_data"]["id"];
         <div class="container border mt-3 rounded  mb-3">
             <div class="row">
                 <div class="col-md-6">
-                    <img src="images/logo.png" alt="ادز برگ" height="100px" width="100px">
+                    <img src="../images/logo.png" alt="ادز برگ" height="100px" width="100px">
 
                 </div>
                 <div class="col-md-6" style="text-align: left;">
@@ -72,9 +72,9 @@ $id = $_SESSION["user_data"]["id"];
                 // echo $_POST['id_account'];
                 $id_payments = $_POST['show_invoice'];
                 // echo "<script>alert('$show_invoice');</script>";
-                include "config.php";
-                include "functions.php";
-                include 'PersianCalendar.php';
+                include "../config.php";
+                include "../functions.php";
+                include '../PersianCalendar.php';
 
                 $sql = "SELECT payments.*, orders.* 
                 FROM payments 
@@ -113,7 +113,7 @@ $id = $_SESSION["user_data"]["id"];
 
             <div class="row mt-4 bg-light py-4">
                 <div class="col-md-4 d-flex flex-column">
-                    <p class="text-primary fs-4 mb-2">‌نام کاربر: <strong id="fullName"><?= isset($_POST['id_account']) ? get_name($row['user_id']) : get_name($id) ?></strong></p>
+                    <p class="text-primary fs-4 mb-2">‌نام کاربر: <strong id="fullName"><?= get_name($acc['user_id'])  ?></strong></p>
 
                     <p class="text-primary fs-4 mb-0">
                         نوع فاکتور: <strong id="isOfficialInvoice">فاکتور غیر رسمی</strong>
@@ -227,7 +227,7 @@ $id = $_SESSION["user_data"]["id"];
 <?php
 
 if (isset($_POST['submit'])) {
-    include 'config.php';
+    // include 'config.php';
 
     $idOrder = $_POST['id_order'];
     $cardNumber = $_POST['card_number'];

@@ -68,6 +68,7 @@ $admin = $_SESSION["user_data"]["admin"];
         <!-- هدر بالای صفحه -->
         <?php
         include "header.php";
+        include "../functions.php";
         ?>
         <div class="container-fluid">
           <div class="row" id="notify-content"></div>
@@ -122,7 +123,7 @@ $admin = $_SESSION["user_data"]["admin"];
                             $total_pages = ceil($total_rows / $rows_per_page); // Total pages
 
                             // Fetch rows for the current page
-                            $sql = "SELECT payments.*, orders.* 
+                            $sql = "SELECT payments.id as payments_id, orders.user_id as user_id, payments.*, orders.* 
                                     FROM payments 
                                     LEFT JOIN orders 
                                     ON payments.order_id = orders.id 
@@ -133,13 +134,16 @@ $admin = $_SESSION["user_data"]["admin"];
 
                             <table class="table">
                                 <thead>
-                                    <tr>
+                                      <tr>
                                         <th scope="col">ردیف</th>
-                                        <th scope="col">نوع سفارش</th>
+                                        <th scope="col">یوزر</th>
+                                        <th scope="col">پرداخت</th>
+                                        <th scope="col">نوع</th>
                                         <th scope="col">وضعیت</th>
                                         <th scope="col">مبلغ</th>
+                                        <th scope="col">تایید</th>
                                         <th scope="col">عملیات</th>
-                                    </tr>
+                                      </tr>
                                 </thead>
                                 <tbody>
                                     <?php
@@ -149,22 +153,50 @@ $admin = $_SESSION["user_data"]["admin"];
                                     ?>
                                         <tr>
                                             <th scope="row"><?= $i ?></th>
-                                            <td><?= $row['type'] ?></td>
+                                            <td scope="row"><?= get_name($row['user_id']) ?></td>
+                                            <td>
+                                              <?php
+                                              if ($row['type'] == 'charge') echo "شارج اکانت". " " . cidAccount($row['account_id']);
+                                              if ($row['type'] == 2) echo "وا��د فعالیتی";
+                                              ?>
+                                            </td>
+                                            <td><?= (isset($row['managed']) && $row['managed'] == 1 ? "مدیریت شده" : "اختصاصی") ?></td>
+
                                             <td>
                                                 <?php
                                                 if ($row['status'] == 2) echo "در حالت پرداخت";
                                                 if ($row['status'] == 1) echo "پرداخت شده";
+                                                if ($row['status'] == 0) echo "رد شده";
                                                 ?>
                                             </td>
+
                                             <td><?= $row['amount'] ?></td>
+
+                                            <td>
+                                              <?php
+                                              if ($row['confirm'] == 1) {
+                                                 echo "تایید شده";
+                                              } else {
+                                                echo "در انتظار تایید ادمین";
+                                              }
+                                              ?>
+                                            </td>
                                             <td>
                                                 <div class="d-flex align-items-center flex-row">
-                                                    <form action="invoice.php" method="POST">
-                                                        <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
-                                                        <button class="btn btn-outline-info btn-circle btn-sm" name="charge">
+                                                    <form action="invoice_pardakht.php" method="POST">
+                                                        <input type="hidden" name="show_invoice" value="<?= $row['payments_id'] ?>">
+                                                        <button class="btn btn-outline-info btn-circle btn-sm" name="charge" title="مشاهده">
                                                             <i class="fs-5 fa fa-credit-card"></i>
                                                         </button>
                                                     </form>
+                                                    <form action="" method="POST">
+                                                      <input type="hidden" name="id_invoice" value="<?= $row['payments_id'] ?>">
+                                                      <button class="btn btn-outline-info btn-circle btn-sm" name="confirm_payment" title="تایید">
+                                                      <i class="fa fa-check"></i>
+                                                      </button>
+                                                    </form>
+                                                    
+                                                    
                                                 </div>
                                             </td>
                                         </tr>
@@ -314,3 +346,53 @@ $admin = $_SESSION["user_data"]["admin"];
   </body>
   </body>
 </html>
+
+<?php
+
+if(isset($_POST['confirm_payment'])){
+  $id_invoice = $_POST['id_invoice'];
+  $sql = "UPDATE payments SET confirm = 1 WHERE id = $id_invoice";
+  $result = $conn->query($sql);
+  if($result){
+    echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+    <div class='toast-header bg-success text-white'>
+        <strong class='mr-auto'>Success</strong>
+    </div>
+    <div class='toast-body'>
+      با موفقیت انجام شد!
+    </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('#successToast').toast({
+                autohide: true,
+                delay: 3000
+            }).toast('show');
+            setTimeout(function(){
+                window.location.href = 'payments';
+            }, 3000);
+        });
+    </script>";
+  }else{
+    echo "<div id='errorToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+    <div class='toast-header bg-danger text-white'>
+        <strong class='mr-auto'>Error</strong>
+    </div>
+    <div class='toast-body'>
+        خطایی رخ داده، دوباره امتحان کنید!<br>Error: " . htmlspecialchars($stmt->error) . "
+    </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('#errorToast').toast({
+                autohide: true,
+                delay: 3000
+            }).toast('show');
+            setTimeout(function(){
+                window.location.href = 'payments';
+            }, 3000);
+        });
+    </script>";
+  }
+
+}

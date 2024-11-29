@@ -41,9 +41,10 @@ $admin = $_SESSION["user_data"]["admin"];
 
     <title>صفحه اصلی</title>
     <style>
+      
       body {
+
         font-family: "tahoma" !important;
-        /* font-family: "g", 'sans-serif' !important; */
         /* font-family: "g" !important; */
       }
       /* Reset padding and margin for the body */
@@ -67,7 +68,6 @@ $admin = $_SESSION["user_data"]["admin"];
       <!-- سایدبار --> 
        <?php
             include "config.php";
-            include "functions.php";
             include 'sidebar.php';  
         ?> 
       <div class="sidebarHolder"></div>

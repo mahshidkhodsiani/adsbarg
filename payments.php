@@ -127,7 +127,7 @@ $admin = $_SESSION["user_data"]["admin"];
                             $total_pages = ceil($total_rows / $rows_per_page); // Total pages
 
                             // Fetch rows for the current page
-                            $sql = "SELECT payments.*, orders.* 
+                            $sql = "SELECT payments.id as payments_id,  payments.*, orders.* 
                                     FROM `payments` 
                                     LEFT JOIN `orders` 
                                     ON payments.order_id = orders.id 
@@ -185,8 +185,8 @@ $admin = $_SESSION["user_data"]["admin"];
                                             <td>
                                                 <div class="d-flex align-items-center flex-row">
                                                     <form action="invoice_pardakht.php" method="POST">
-                                                        <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
-                                                        <button class="btn btn-outline-info btn-circle btn-sm" name="charge">
+                                                        <input type="hidden" name="show_invoice" value="<?= $row['payments_id'] ?>">
+                                                        <button class="btn btn-outline-info btn-circle btn-sm" name="charge" title="مشاهده فاکتور">
                                                             <i class="fs-5 fa fa-credit-card"></i>
                                                         </button>
                                                     </form>

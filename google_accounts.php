@@ -73,6 +73,7 @@ $admin = $_SESSION["user_data"]["admin"];
         <?php
         include "header.php";
         include "config.php";
+        
 
         $query = "SELECT * FROM accounts WHERE user_id = $id ORDER BY id DESC";
         $result = $conn->query($query);
