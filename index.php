@@ -93,7 +93,13 @@ $admin = $_SESSION["user_data"]["admin"];
               <div class="">
                 <!--   نمودار قیمت ارز ها دسکتاپ -->
                    
-
+                <?php 
+                $currencys = "SELECT * FROM currencys ORDER BY id DESC LIMIT 1";
+                $result_currency = $conn->query($currencys);
+                if ($result_currency->num_rows > 0) {
+                  $row_currency = $result_currency->fetch_assoc();
+                }
+                ?>
                 <div class="row d-md-flex" id="currencys">
                   <div class="col-md-3 d-flex align-items-stretch">
                     <div class="card w-100 bg-light-primary shadow-sm overflow-hidden">
@@ -101,7 +107,7 @@ $admin = $_SESSION["user_data"]["admin"];
                         <div class="d-flex align-items-center">
                           <div>
                             <h5 class="card-title fw-semibold">
-                              <img src="images/usd.jpg" alt="قیمت دلار امروز" width="20px"> قیمت دلار <span>70,801</span> تومان
+                              <img src="images/usd.jpg" alt="قیمت دلار امروز" width="20px"> قیمت دلار <span><?=$row_currency['dollar'] ?></span> تومان
                             </h5>
                             <div class="d-flex gap-2">
                               <span>
@@ -227,7 +233,7 @@ $admin = $_SESSION["user_data"]["admin"];
                         <div class="d-flex align-items-center">
                           <div>
                             <h5 class="card-title fw-semibold">
-                              <img src="images/aed.png" alt="قیمت درهم امروز" width="15px"> قیمت درهم <span>19,659</span> تومان
+                              <img src="images/aed.png" alt="قیمت درهم امروز" width="15px"> قیمت درهم <span><?=$row_currency['derham'] ?></span> تومان
                             </h5>
                             <div class="d-flex gap-2">
                               <span>
@@ -354,7 +360,7 @@ $admin = $_SESSION["user_data"]["admin"];
                         <div class="d-flex align-items-center">
                           <div>
                             <h5 class="card-title fw-semibold">
-                              <img src="images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت لیر <span>2,060</span> تومان
+                              <img src="images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت لیر <span><?=$row_currency['lira'] ?></span> تومان
                             </h5>
                             <div class="d-flex gap-2">
                               <span>
@@ -481,7 +487,7 @@ $admin = $_SESSION["user_data"]["admin"];
                         <div class="d-flex align-items-center">
                           <div>
                             <h5 class="card-title fw-semibold">
-                             <img src="images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت لیر <span>2,060</span> تومان
+                             <img src="images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت بات <span><?=$row_currency['bat'] ?></span> تومان
                             </h5>
                             <div class="d-flex gap-2">
                               <span>
@@ -603,6 +609,9 @@ $admin = $_SESSION["user_data"]["admin"];
                     </div>
                   </div>
                 </div>
+
+
+                
                 <!-- آخرین اکانت های شارژ شده -->
                 <div class="row mb-4">
                   <div class="col-12 d-flex flex-row justify-content-between mb-md-4 mb-0 align-items-center">

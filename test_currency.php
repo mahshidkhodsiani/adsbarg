@@ -1,4 +1,18 @@
 <?php
+// Database connection settings
+$host = 'localhost'; // Change as needed
+$username = 'root'; // Your database username
+$password = ''; // Your database password
+$dbname = 'adsbarg'; // Replace with your database name
+
+// Create a database connection
+$conn = new mysqli($host, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Database connection failed: " . $conn->connect_error);
+}
+
 // URL to scrape
 $url = "https://www.tgju.org/currency";
 
@@ -30,22 +44,55 @@ $dom = new DOMDocument();
 // XPath to query the DOM
 $xpath = new DOMXPath($dom);
 
-// Define currencies to search for
-$currencies = [
-    "دلار آمریکا" => "//tr[@data-market-nameslug='price_dollar_rl']//td[@class='nf']",
-    "درهم امارات" => "//tr[contains(@data-market-nameslug, 'price_aed')]//td[@class='nf']",
-    "لیر ترکیه" => "//tr[contains(@data-market-nameslug, 'price_try')]//td[@class='nf']",
-    "بات تایلند" => "//tr[contains(@data-market-nameslug, 'price_thb')]//td[@class='nf']"
+// Define XPath queries for all currencies
+$currencyQueries = [
+    "dollar" => "//tr[@data-market-nameslug='price_dollar_rl']//td[@class='nf']",
+    "derham" => "//tr[contains(@data-market-nameslug, 'price_aed')]//td[@class='nf']",
+    "lira" => "//tr[contains(@data-market-nameslug, 'price_try')]//td[@class='nf']",
+    "bat" => "//tr[contains(@data-market-nameslug, 'price_thb')]//td[@class='nf']"
 ];
 
-// Extract prices
-foreach ($currencies as $name => $query) {
+// Initialize an array to store the currency values
+$currencyValues = [
+    "dollar" => null,
+    "derham" => null,
+    "lira" => null,
+    "bat" => null
+];
+
+// Fetch the currency prices
+foreach ($currencyQueries as $key => $query) {
     $nodes = $xpath->query($query);
     if ($nodes->length > 0) {
-        $price = $nodes[0]->textContent;
-        echo "{$name}: {$price}<br>";
+        $currencyValues[$key] = trim($nodes[0]->textContent);
     } else {
-        echo "{$name}: اطلاعات موجود نیست.<br>";
+        $currencyValues[$key] = "اطلاعات موجود نیست"; // No data available
     }
 }
+
+// Prepare the SQL statement for inserting all currencies
+$stmt = $conn->prepare("INSERT INTO currencys (dollar, derham, lira, bat) VALUES (?, ?, ?, ?)");
+
+// Bind parameters to the query
+$stmt->bind_param(
+    "ssss",
+    $currencyValues['dollar'],
+    $currencyValues['derham'],
+    $currencyValues['lira'],
+    $currencyValues['bat']
+);
+
+// Execute the query
+if ($stmt->execute()) {
+    echo "Currency data inserted successfully:<br>";
+    foreach ($currencyValues as $currency => $value) {
+        echo ucfirst($currency) . ": $value<br>";
+    }
+} else {
+    echo "Error inserting data into the database: " . $stmt->error;
+}
+
+// Close the statement and the database connection
+$stmt->close();
+$conn->close();
 ?>
