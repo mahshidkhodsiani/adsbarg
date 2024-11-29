@@ -85,7 +85,7 @@ $admin = $_SESSION["user_data"]["admin"];
         $total_pages = ceil($total_accounts / $limit);
 
         // Fetch accounts for the current page
-        $query = "SELECT * FROM accounts LIMIT $limit OFFSET $offset";
+        $query = "SELECT * FROM accounts ORDER BY id DESC LIMIT $limit OFFSET $offset";
         $result = $conn->query($query);
         $accounts = [];
 
@@ -110,7 +110,7 @@ $admin = $_SESSION["user_data"]["admin"];
                         <i class="fa fa-ad text-primary fs-6 fs-md-6"></i>
                       </div>
                       <div>
-                        <h6 class="mb-0 fs-4 fw-semibold">لیست اکانت های تبلیغاتی </h6>
+                        <h6 class="mb-0 fs-4 fw-semibold">لیست کل اکانت های تبلیغاتی </h6>
                       </div>
                     </div>
                   </div>
@@ -169,10 +169,9 @@ $admin = $_SESSION["user_data"]["admin"];
                         echo '</div><div class="row" id="accountsgoogle_g">';
                     }
                     ?>
-                    <div class="accountGoogle_item col-12 col-md-4 mb-2" data-accounttype="0" data-id="<?= $account['id'] ?>" data-currencycode="<?= $account['currency'] ?>" data-customerid="">
+                    <div class="accountGoogle_item col-12 col-md-12 mb-2" data-accounttype="0" data-id="<?= $account['id'] ?>" data-currencycode="<?= $account['currency'] ?>" data-customerid="">
                         <div class="card mb-0">
                             <div class="card-header text-end pb-2 cursor-pointer position-relative bg-white">
-                                <!-- Card content -->
                                 <div class="px-0 rounded-pill collapsed accBoxHed">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
@@ -181,19 +180,63 @@ $admin = $_SESSION["user_data"]["admin"];
                                         <div class="d-flex flex-row justify-content-end mb-1">
                                             <span class="accountGoogle_accountType badge bg-light-warning border rounded-5 border-primary text-primary flex-row fs-2 me-1">
                                                 <i class="fa fa-shield-off"></i>
-                                                <b>اختصاصی</b>
+                                                <b>
+                                                  <?php
+                                                  if ($account['managed'] == 1) {
+                                                      echo 'مدیریت شده';
+                                                  } else {
+                                                      echo 'اختصاصی';
+                                                  }
+                                                  ?>
+                                                </b>
                                             </span>
                                             <span class="badge bg-primary border rounded-5 border-primary text-white flex-row fs-2 text-uppercase"><?= $account['currency'] ?></span>
                                         </div>
                                     </div>
                                     <p class="accountGoogle_name fw-bolder fs-7 mb-0" style="direction: ltr;"><?= $account['username'] ?></p>
-                                    <p class="mb-1" style="direction:ltr">CID: <span>Temporary</span></p>
+                                    <p class="mb-1" style="direction:ltr">CID: <span><?=$account['cid'] ?? "هنوز آیدی ایجاد نشده" ?> </span></p>
                                     <p class="text-start mt-2">
                                         <button class="btn btn-sm btn-success icoAccordian text-white" data-bs-toggle="collapse" data-bs-target="#acc_<?= $account['id'] ?>" aria-expanded="false" aria-controls="acc_<?= $account['id'] ?>">
                                             <i class="fa fa-circle-arrow-down"></i> شارژ کنید
                                         </button>
-                                      
+                                   
                                     </p>
+                                    <?php
+                                    // echo $row['cid'];
+                                    ?>
+                                    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: nowrap;">
+                                      <h6 style="margin: 0;">وارد کردن CID:</h6>
+                                      <?php if(isset($account['cid'])): ?>
+                                          <input class="form-control" style="width: 200px;" value="<?= $account['cid'] ?>" readonly>
+                                      <?php else: ?>
+                                          <form action="" method="POST" style="display: flex; align-items: center; gap: 10px; margin: 0;">
+                                              <input type="hidden" name="id_account" value="<?= $account['id'] ?>">
+                                              
+                                              <input class="form-control" style="width: 200px;" name="give_cid">
+                                              <button name="submit_cid" class="btn btn-primary">ثبت</button>
+                                          </form>
+                                      <?php endif; ?>
+                                    </div>
+
+
+                                
+                                </div>
+                            </div>
+
+                            <div class="card-body p-0 shadow-none">
+                                <div class="collapse p-3" id="acc_<?= $account['id'] ?>">
+                                    <form action="invoice.php" method="POST">
+                                        <div class="form-floating mb-2">
+                                          <input type="hidden" name="id_account" value="<?= $account['id'] ?>">
+                                            <input type="text" name="amount_charge" class="accountGoogle_amount form-control mb-2 text-end" placeholder="عدد وارد کنید" required>
+                                            <label><i class="fa fa-USD me-2 fs-5 text-primary fw-bolder"></i>مقدار دلار را وارد کنید </label>
+                                        </div>
+                                        <p class="form-control-feedback text text-center">قیمت ارز با کارمزد: <span class="accountGoogle_currencyIranAmount">0</span></p>
+                                        <p class="accountGoogle_serviceCost_parent text-center">قابل پرداخت: <span class="accountGoogle_serviceCost fw-bolder text-success fs-6">0</span></p>
+                                        <div class="text-center">
+                                            <button  class="accountGoogle_submit btn btn-primary" name="charge">شارژ کن <i class="fa fa-rocket"></i></button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -263,6 +306,52 @@ $admin = $_SESSION["user_data"]["admin"];
 
 <?php
 
-if(isset($_POST['charge'])){
-  echo "<h1>". $_POST['id_account'] ."</h1>";
+if(isset($_POST['submit_cid'])){
+  $id_account = $_POST['id_account'];
+  $give_cid = $_POST['give_cid'];
+  $sql = "UPDATE accounts SET cid = '$give_cid' WHERE id = $id_account";
+  $result = $conn->query($sql);
+
+  if ($result) {
+    echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+    <div class='toast-header bg-success text-white'>
+        <strong class='mr-auto'>Success</strong>
+    </div>
+    <div class='toast-body'>
+      با موفقیت انجام شد!
+    </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('#successToast').toast({
+                autohide: true,
+                delay: 3000
+            }).toast('show');
+            setTimeout(function(){
+                window.location.href = 'google_accounts';
+            }, 3000);
+        });
+    </script>";
+  }else{
+    echo "<div id='errorToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+      <div class='toast-header bg-danger text-white'>
+          <strong class='mr-auto'>Error</strong>
+      </div>
+      <div class='toast-body'>
+          خطایی رخ داده، دوباره امتحان کنید!<br>Error: " . htmlspecialchars($stmt->error) . "
+      </div>
+      </div>
+      <script>
+          $(document).ready(function(){
+              $('#errorToast').toast({
+                  autohide: true,
+                  delay: 3000
+              }).toast('show');
+              setTimeout(function(){
+                  window.location.href = 'google_accounts';
+              }, 3000);
+          });
+      </script>";
+  }
+
 }

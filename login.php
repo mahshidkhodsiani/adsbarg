@@ -10,7 +10,7 @@
     <meta name="author" content="G-ADS">
     <meta name="keywords" content="Mordenize">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="shortcut icon" type="image/png" href="https://my.g-ads.org/assets/img/icon/fav@32.png">
+    <link rel="shortcut icon" type="image/png" href="images/logo.png">
     <link rel="stylesheet" href="https://my.g-ads.org/assets/css/style.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     

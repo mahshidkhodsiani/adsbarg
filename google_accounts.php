@@ -148,7 +148,7 @@ $admin = $_SESSION["user_data"]["admin"];
                         echo '</div><div class="row" id="accountsgoogle_g">';
                     }
                     ?>
-                    <div class="accountGoogle_item col-12 col-md-4 mb-2" data-accounttype="0" data-id="<?= $account['id'] ?>" data-currencycode="<?= $account['currency'] ?>" data-customerid="">
+                    <div class="accountGoogle_item col-12 col-md-12 mb-2" data-accounttype="0" data-id="<?= $account['id'] ?>" data-currencycode="<?= $account['currency'] ?>" data-customerid="">
                         <div class="card mb-0">
                             <div class="card-header text-end pb-2 cursor-pointer position-relative bg-white">
                                 <div class="px-0 rounded-pill collapsed accBoxHed">
