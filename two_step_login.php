@@ -135,51 +135,54 @@ if (!isset($_SESSION['all_data'])){
     </footer>
 
 
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   </body>
 </html>
 
 <?php
 
-if (isset($_POST['submit_code'])) {
-  
-  if($_POST['enteredCode'] == $_SESSION['all_data']['verification_code']){
-    echo 'yess';
-     // Insert user details into the database
+include "config.php";
 
-       // Collect form inputs
+if (isset($_POST['submit_code'])) {
+
+  
+  if (strtolower(trim($_POST['enteredCode'])) === strtolower(trim($_SESSION['all_data']['verification_code']))) {
+    
     $phone = $_SESSION['all_data']['phone'];
     $name = $_SESSION['all_data']['name'];
     $family = $_SESSION['all_data']['family'];
     $username = $_SESSION['all_data']['username'];
     $password = $_SESSION['all_data']['password'];
 
-     $sql = "INSERT INTO users (name, family, username, password, phone) VALUES (?, ?, ?, ?, ?)";
-     $stmt = $conn->prepare($sql);
-     $stmt->bind_param("sssss", $name, $family, $username, $password, $phone);
- 
-     if ($stmt->execute()) {
-        echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
-        <div class='toast-header bg-success text-white'>
-            <strong class='mr-auto'>Success</strong>
-        </div>
-        <div class='toast-body'>
-          تبریک! ثبت نام با موفقیت انجام شد!
-        </div>
-        </div>
-        <script>
-          $(document).ready(function(){
-              $('#successToast').toast({
-                  autohide: true,
-                  delay: 3000
-              }).toast('show');
-              setTimeout(function(){
-                  window.location.href = 'login';
-              }, 3000);
-          });
-        </script>";
-        }else{
+    $sql = "INSERT INTO users (name, family, username, password, phone) VALUES (?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+
+    if ($stmt) {
+        $stmt->bind_param("sssss", $name, $family, $username, $password, $phone);
+
+        if ($stmt->execute()) {
+          echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+          <div class='toast-header bg-success text-white'>
+              <strong class='mr-auto'>Success</strong>
+          </div>
+          <div class='toast-body'>
+            اکانت شما با موفقیت ایجاد شد!
+          </div>
+          </div>
+          <script>
+              $(document).ready(function(){
+                  $('#successToast').toast({
+                      autohide: true,
+                      delay: 3000
+                  }).toast('show');
+                  setTimeout(function(){
+                      window.location.href = 'login';
+                  }, 3000);
+              });
+          </script>";
+        } else {
           echo "<div id='errorToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
           <div class='toast-header bg-danger text-white'>
               <strong class='mr-auto'>Error</strong>
@@ -189,27 +192,31 @@ if (isset($_POST['submit_code'])) {
           </div>
           </div>
           <script>
-            $(document).ready(function(){
-                $('#errorToast').toast({
-                    autohide: true,
-                    delay: 3000
-                }).toast('show');
-                setTimeout(function(){
-                    window.location.href = 'register';
-                }, 3000);
-            });
+              $(document).ready(function(){
+                  $('#errorToast').toast({
+                      autohide: true,
+                      delay: 3000
+                  }).toast('show');
+                  setTimeout(function(){
+                      window.location.href = 'two_step_login.php';
+                  }, 3000);
+              });
           </script>";
         }
-  }else{
-    echo "<div id='errorToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
-        <div class='toast-header bg-danger text-white'>
-            <strong class='mr-auto'>Error</strong>
-        </div>
-        <div class='toast-body'>
-            اشتباه است لطفا دوباره امتحان کنید!
-        </div>
-        </div>
-        <script>
+        $stmt->close();
+      } else {
+          echo "<div class='toast-error'>Statement preparation failed: " . htmlspecialchars($conn->error) . "</div>";
+      }
+    } else {
+      echo "<div id='errorToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+      <div class='toast-header bg-danger text-white'>
+          <strong class='mr-auto'>Error</strong>
+      </div>
+      <div class='toast-body'>
+          کد اشتباه است لطفا دوباره تلاش کنید!<br>Error: " . htmlspecialchars($stmt->error) . "
+      </div>
+      </div>
+      <script>
           $(document).ready(function(){
               $('#errorToast').toast({
                   autohide: true,
@@ -219,7 +226,8 @@ if (isset($_POST['submit_code'])) {
                   window.location.href = 'two_step_login.php';
               }, 3000);
           });
-        </script>";
+      </script>";
   }
+
 }
 ?>

@@ -214,7 +214,7 @@ if (isset($_POST['submit'])) {
   curl_close($curl);
 
   if($response){
-    header("location: two_step_login.php");
+    header("location:two_step_login.php");
     exit();
   } else {
     echo "<script>alert('ارسال پیامک ناموفق بود. لطفاً مجدداً تلاش کنید.');</script>";
