@@ -107,80 +107,94 @@ $admin = $_SESSION["user_data"]["admin"];
                             </form>
                             </div>
 
-                            <table class="table">
-                              <thead>
-                                  <tr>
-                                      <th scope="col">ردیف</th>
-                                      <th scope="col"> سفارش</th>
-                                      <th scope="col">نوع</th>
-                                      <th scope="col">وضعیت</th>
-                                      <th scope="col">مبلغ</th>
-                                      <th scope="col">یوزر</th>
-                                      <th scope="col">عملیات</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <?php
-                                  include "../config.php";
 
-                                  // Define pagination parameters
-                                  $rows_per_page = 10; // Number of rows per page
-                                  $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1; // Current page
-                                  $offset = ($page - 1) * $rows_per_page; // Offset for SQL query
-
-                                  // Total rows in the orders table for the given user_id
-                                  $total_rows_query = "SELECT COUNT(*) AS total FROM orders";
-                                  $total_rows_result = $conn->query($total_rows_query);
-                                  $total_rows = $total_rows_result->fetch_assoc()['total'];
-                                  $total_pages = ceil($total_rows / $rows_per_page); // Total pages
-
-                                  // Fetch rows for the current page
-                                  $sql = "SELECT * FROM orders ORDER BY id DESC LIMIT $rows_per_page OFFSET $offset";
-                                  $result = $conn->query($sql);
-
-                                  if ($result->num_rows > 0) {
-                                      $i = $offset + 1; // Adjust row number for pagination
-                                      while ($row = $result->fetch_assoc()) {
-                                  ?>
-                                  <tr>
-                                      <th scope="row"><?= $i ?></th>
-                                      <td>
-                                            <?php
-                                            if ($row['type'] == 'charge') echo "شارج اکانت". " " . cidAccount($row['account_id']);
-                                            if ($row['type'] == 2) echo "وا��د فعالیتی";
-                                            ?>
-                                      </td>
-                                      <td><?= (isset($row['managed']) && $row['managed'] == 1 ? "مدیریت شده" : "اختصاصی") ?></td>
-
-                                      <td>
+                         
+                            <div class="row">
+                              <div class="col-md-12">
+                                <div class="card">
+                                  <div class="card-body">
+                                    <div class="table-responsive" >
+                                      <table class="table">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">ردیف</th>
+                                            <th scope="col">سفارش</th>
+                                            <th scope="col">نوع</th>
+                                            <th scope="col">وضعیت</th>
+                                            <th scope="col">مبلغ</th>
+                                            <th scope="col">یوزر</th>
+                                            <th scope="col">عملیات</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
                                           <?php
-                                          if ($row['status'] == 2) echo "در حالت پرداخت";
-                                          if ($row['status'] == 1) echo "پرداخت شده";
-                                          if ($row['status'] == 0) echo "رد شده";
+                                          include "../config.php";
+
+                                          // Define pagination parameters
+                                          $rows_per_page = 10; // Number of rows per page
+                                          $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1; // Current page
+                                          $offset = ($page - 1) * $rows_per_page; // Offset for SQL query
+
+                                          // Total rows in the orders table for the given user_id
+                                          $total_rows_query = "SELECT COUNT(*) AS total FROM orders";
+                                          $total_rows_result = $conn->query($total_rows_query);
+                                          $total_rows = $total_rows_result->fetch_assoc()['total'];
+                                          $total_pages = ceil($total_rows / $rows_per_page); // Total pages
+
+                                          // Fetch rows for the current page
+                                          $sql = "SELECT * FROM orders ORDER BY id DESC LIMIT $rows_per_page OFFSET $offset";
+                                          $result = $conn->query($sql);
+
+                                          if ($result->num_rows > 0) {
+                                            $i = $offset + 1; // Adjust row number for pagination
+                                            while ($row = $result->fetch_assoc()) {
                                           ?>
-                                      </td>
-                                      <td><?= $row['amount'] ?></td>
-                                      <td><?= get_name($row['user_id']) ?></td>
-                                      <td>
-                                          <div class="d-flex align-items-center flex-row">
-                                              <form action="invoice.php" method="POST">
+                                          <tr>
+                                            <th scope="row"><?= $i ?></th>
+                                            <td>
+                                              <?php
+                                              if ($row['type'] == 'charge') echo "شارج اکانت". " " . cidAccount($row['account_id']);
+                                              if ($row['type'] == 2) echo "واحد فعالیتی";
+                                              ?>
+                                            </td>
+                                            <td><?= (isset($row['managed']) && $row['managed'] == 1 ? "مدیریت شده" : "اختصاصی") ?></td>
+                                            <td>
+                                              <?php
+                                              if ($row['status'] == 2) echo "در حالت پرداخت";
+                                              if ($row['status'] == 1) echo "پرداخت شده";
+                                              if ($row['status'] == 0) echo "رد شده";
+                                              ?>
+                                            </td>
+                                            <td><?= $row['amount'] ?></td>
+                                            <td><?= get_name($row['user_id']) ?></td>
+                                            <td>
+                                              <div class="d-flex align-items-center flex-row">
+                                                <form action="invoice.php" method="POST">
                                                   <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
                                                   <button class="btn btn-outline-info btn-circle btn-sm" name="charge" title="مشاهده">
-                                                      <i class="fs-5 fa fa-credit-card"></i>
+                                                    <i class="fs-5 fa fa-credit-card"></i>
                                                   </button>
-                                              </form>
-                                          </div>
-                                      </td>
-                                  </tr>
-                                  <?php
-                                          $i++;
-                                      }
-                                  } else {
-                                      echo "<tr><td colspan='5'>No records found.</td></tr>";
-                                  }
-                                  ?>
-                              </tbody>
-                          </table>
+                                                </form>
+                                              </div>
+                                            </td>
+                                          </tr>
+                                          <?php
+                                                $i++;
+                                            }
+                                          } else {
+                                            echo "<tr><td colspan='7'>No records found.</td></tr>";
+                                          }
+                                          ?>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            
+                     
+
 
                           <!-- Pagination Links -->
                           <nav>

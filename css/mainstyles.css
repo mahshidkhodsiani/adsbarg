@@ -727,3 +727,6 @@
 }
 
 
+.table-responsive {
+  overflow-x: auto !important;
+}

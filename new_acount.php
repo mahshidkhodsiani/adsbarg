@@ -256,25 +256,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     if ($stmt->execute()) {
-      echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
-      <div class='toast-header bg-success text-white'>
-          <strong class='mr-auto'>Success</strong>
-      </div>
-      <div class='toast-body'>
-        با موفقیت انجام شد!
-      </div>
-      </div>
-      <script>
-          $(document).ready(function(){
-              $('#successToast').toast({
-                  autohide: true,
-                  delay: 3000
-              }).toast('show');
-              setTimeout(function(){
-                  window.location.href = 'google_accounts';
-              }, 3000);
-          });
-      </script>";
+
+      $lastInsertedId = $conn->insert_id;
+
+      $insert_website = "INSERT INTO user_websites (user_id, user_website, account_id) VALUES ( $id, '$url', $lastInsertedId)";
+      if($conn->query($insert_website)){
+
+
+        echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+        <div class='toast-header bg-success text-white'>
+            <strong class='mr-auto'>Success</strong>
+        </div>
+        <div class='toast-body'>
+          با موفقیت انجام شد!
+        </div>
+        </div>
+        <script>
+            $(document).ready(function(){
+                $('#successToast').toast({
+                    autohide: true,
+                    delay: 3000
+                }).toast('show');
+                setTimeout(function(){
+                    window.location.href = 'google_accounts';
+                }, 3000);
+            });
+        </script>";
+      }else{
+        echo "مشکلی پیش آمده";
+      }
     } else {
       echo "<div id='errorToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
       <div class='toast-header bg-danger text-white'>

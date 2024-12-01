@@ -131,83 +131,85 @@ $admin = $_SESSION["user_data"]["admin"];
                             $result = $conn->query($sql);
                             ?>
 
-                            <table class="table">
-                                <thead>
-                                      <tr>
-                                        <th scope="col">ردیف</th>
-                                        <th scope="col">یوزر</th>
-                                        <th scope="col">پرداخت</th>
-                                        <th scope="col">نوع</th>
-                                        <th scope="col">وضعیت</th>
-                                        <th scope="col">مبلغ</th>
-                                        <th scope="col">تایید</th>
-                                        <th scope="col">عملیات</th>
-                                      </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    if ($result->num_rows > 0) {
-                                        $i = $offset + 1; // Adjust row number for pagination
-                                        while ($row = $result->fetch_assoc()) {
-                                    ?>
+                            <div class="table-responsive">
+                              <table class="table">
+                                  <thead>
                                         <tr>
-                                            <th scope="row"><?= $i ?></th>
-                                            <td scope="row"><?= get_name($row['user_id']) ?></td>
-                                            <td>
-                                              <?php
-                                              if ($row['type'] == 'charge') echo "شارج اکانت". " " . cidAccount($row['account_id']);
-                                              if ($row['type'] == 2) echo "وا��د فعالیتی";
-                                              ?>
-                                            </td>
-                                            <td><?= (isset($row['managed']) && $row['managed'] == 1 ? "مدیریت شده" : "اختصاصی") ?></td>
-
-                                            <td>
-                                                <?php
-                                                if ($row['status'] == 2) echo "در حالت پرداخت";
-                                                if ($row['status'] == 1) echo "پرداخت شده";
-                                                if ($row['status'] == 0) echo "رد شده";
-                                                ?>
-                                            </td>
-
-                                            <td><?= $row['amount'] ?></td>
-
-                                            <td>
-                                              <?php
-                                              if ($row['confirm'] == 1) {
-                                                 echo "تایید شده";
-                                              } else {
-                                                echo "در انتظار تایید ادمین";
-                                              }
-                                              ?>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex align-items-center flex-row">
-                                                    <form action="invoice_pardakht.php" method="POST">
-                                                        <input type="hidden" name="show_invoice" value="<?= $row['payments_id'] ?>">
-                                                        <button class="btn btn-outline-info btn-circle btn-sm" name="charge" title="مشاهده">
-                                                            <i class="fs-5 fa fa-credit-card"></i>
-                                                        </button>
-                                                    </form>
-                                                    <form action="" method="POST">
-                                                      <input type="hidden" name="id_invoice" value="<?= $row['payments_id'] ?>">
-                                                      <button class="btn btn-outline-info btn-circle btn-sm" name="confirm_payment" title="تایید">
-                                                      <i class="fa fa-check"></i>
-                                                      </button>
-                                                    </form>
-                                                    
-                                                    
-                                                </div>
-                                            </td>
+                                          <th scope="col">ردیف</th>
+                                          <th scope="col">یوزر</th>
+                                          <th scope="col">پرداخت</th>
+                                          <th scope="col">نوع</th>
+                                          <th scope="col">وضعیت</th>
+                                          <th scope="col">مبلغ</th>
+                                          <th scope="col">تایید</th>
+                                          <th scope="col">عملیات</th>
                                         </tr>
-                                    <?php
-                                            $i++;
-                                        }
-                                    } else {
-                                        echo "<tr><td colspan='5'>No records found.</td></tr>";
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
+                                  </thead>
+                                  <tbody>
+                                      <?php
+                                      if ($result->num_rows > 0) {
+                                          $i = $offset + 1; // Adjust row number for pagination
+                                          while ($row = $result->fetch_assoc()) {
+                                      ?>
+                                          <tr>
+                                              <th scope="row"><?= $i ?></th>
+                                              <td scope="row"><?= get_name($row['user_id']) ?></td>
+                                              <td>
+                                                <?php
+                                                if ($row['type'] == 'charge') echo "شارج اکانت". " " . cidAccount($row['account_id']);
+                                                if ($row['type'] == 2) echo "وا��د فعالیتی";
+                                                ?>
+                                              </td>
+                                              <td><?= (isset($row['managed']) && $row['managed'] == 1 ? "مدیریت شده" : "اختصاصی") ?></td>
+
+                                              <td>
+                                                  <?php
+                                                  if ($row['status'] == 2) echo "در حالت پرداخت";
+                                                  if ($row['status'] == 1) echo "پرداخت شده";
+                                                  if ($row['status'] == 0) echo "رد شده";
+                                                  ?>
+                                              </td>
+
+                                              <td><?= $row['amount'] ?></td>
+
+                                              <td>
+                                                <?php
+                                                if ($row['confirm'] == 1) {
+                                                  echo "تایید شده";
+                                                } else {
+                                                  echo "در انتظار تایید ادمین";
+                                                }
+                                                ?>
+                                              </td>
+                                              <td>
+                                                  <div class="d-flex align-items-center flex-row">
+                                                      <form action="invoice_pardakht.php" method="POST">
+                                                          <input type="hidden" name="show_invoice" value="<?= $row['payments_id'] ?>">
+                                                          <button class="btn btn-outline-info btn-circle btn-sm" name="charge" title="مشاهده">
+                                                              <i class="fs-5 fa fa-credit-card"></i>
+                                                          </button>
+                                                      </form>
+                                                      <form action="" method="POST">
+                                                        <input type="hidden" name="id_invoice" value="<?= $row['payments_id'] ?>">
+                                                        <button class="btn btn-outline-info btn-circle btn-sm" name="confirm_payment" title="تایید">
+                                                        <i class="fa fa-check"></i>
+                                                        </button>
+                                                      </form>
+                                                      
+                                                      
+                                                  </div>
+                                              </td>
+                                          </tr>
+                                      <?php
+                                              $i++;
+                                          }
+                                      } else {
+                                          echo "<tr><td colspan='5'>No records found.</td></tr>";
+                                      }
+                                      ?>
+                                  </tbody>
+                              </table>
+                            </div>
 
                             <!-- Pagination Links -->
                             <nav>

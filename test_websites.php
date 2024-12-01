@@ -1,5 +1,12 @@
 <?php
 // Database connection
+
+// $host = '185.141.212.171'; // Change as needed
+// $username = 'adsbarg_admin'; // Your database username
+// $password = 'HL(to{PCYL=b'; // Your database password
+// $dbname = 'adsbarg_dashboard'; // Replace with your database name
+
+
 $host = "localhost"; // Update with your DB host
 $user = "root";      // Update with your DB username
 $pass = "";          // Update with your DB password
@@ -12,40 +19,67 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch websites from the database
-$query = "SELECT user_id, user_website FROM user_websites";
+// Fetch websites where robot_checked is 0
+$query = "SELECT user_id, user_website FROM user_websites WHERE robot_checked = 0";
 $result = $conn->query($query);
 
 if ($result->num_rows > 0) {
-    $keyword = "طراحی"; // Word to search for
-    while ($row = $result->fetch_assoc()) {
-        $id = $row['user_id'];
-        $url = $row['user_website'];
 
-        // Fetch content from the URL
-        $content = fetchWebsiteContent($url);
+    // Fetch keywords from the find_words table
+    $words_query = "SELECT * FROM find_words";
+    $words_result = $conn->query($words_query);
 
-        if ($content) {
-            // Check if the keyword exists in the content
-            if (strpos($content, $keyword) !== false) {
-                echo "Keyword found in website ID: $id ($url)<br>";
+    if ($words_result->num_rows > 0) {
+        // Iterate through each website
+        while ($row = $result->fetch_assoc()) {
+            $id = $row['user_id'];
+            $url = $row['user_website'];
 
-                // Insert the found keyword into the robot_words table
-                $stmt = $conn->prepare("INSERT INTO robot_words (user_id, user_websites, user_words) VALUES (?, ?, ?)");
-                $stmt->bind_param("iss", $id, $url, $keyword);
+            // Fetch content from the URL
+            $content = fetchWebsiteContent($url);
 
-                if ($stmt->execute()) {
-                    echo "Data inserted into robot_words for website ID: $id ($url)<br>";
-                } else {
-                    echo "Error inserting data into robot_words for website ID: $id ($url): " . $stmt->error . "<br>";
+            if ($content) {
+                // Iterate through each keyword and check if it exists in the content
+                while ($row_word = $words_result->fetch_assoc()) {
+                    $keyword = $row_word['word'];
+
+                    if (strpos($content, $keyword) !== false) {
+                        echo "Keyword '$keyword' found in website ID: $id ($url)<br>";
+
+                        // Insert the found keyword into the robot_words table
+                        $stmt = $conn->prepare("INSERT INTO robot_words (user_id, user_websites, user_words) VALUES (?, ?, ?)");
+                        $stmt->bind_param("iss", $id, $url, $keyword);
+
+                        if ($stmt->execute()) {
+                            echo "Data inserted into robot_words for website ID: $id ($url) with keyword '$keyword'<br>";
+                        } else {
+                            echo "Error inserting data into robot_words for website ID: $id ($url): " . $stmt->error . "<br>";
+                        }
+                        $stmt->close();
+                    } else {
+                        echo "Keyword '$keyword' NOT found in website ID: $id ($url)<br>";
+                    }
                 }
-                $stmt->close();
+                
+                // Reset the pointer of the words result set for the next website
+                $words_result->data_seek(0);
             } else {
-                echo "Keyword NOT found in website ID: $id ($url)<br>";
+                echo "Failed to fetch content for website ID: $id ($url)<br>";
             }
-        } else {
-            echo "Failed to fetch content for website ID: $id ($url)<br>";
+
+            // Update the robot_checked column to 1 after processing
+            $update_stmt = $conn->prepare("UPDATE user_websites SET robot_checked = 1 WHERE user_id = ?");
+            $update_stmt->bind_param("i", $id);
+
+            if ($update_stmt->execute()) {
+                echo "robot_checked updated to 1 for website ID: $id ($url)<br>";
+            } else {
+                echo "Error updating robot_checked for website ID: $id ($url): " . $update_stmt->error . "<br>";
+            }
+            $update_stmt->close();
         }
+    } else {
+        echo "No keywords found in the database.";
     }
 } else {
     echo "No websites found in the database.";

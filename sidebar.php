@@ -34,10 +34,10 @@ $current_page = basename($_SERVER['PHP_SELF']); // Gets the current page's file 
 
 <aside class="left-sidebar" style="background-color: #000 !important;">
   <div>
-    <div class="brand-logo pt-4 position relative" style="height: 120px; background-size: 128px; background: url('images/logo.png') no-repeat -30px -35px;">
+    <div class="brand-logo pt-4 position relative" style="height: 130px; background-size: 128px; background: url('images/logo.png') no-repeat -30px -35px;">
      
-      <h1 class="d-block pt-1 slug fs-8 fw-bolder text-white">ادز برگ</h1>
-      <p class="fs-2 text-white">تبلیغات در گوگل، فقط با ادز برگ</p>
+      <h1 class="d-block pt-1 slug fs-8 fw-bolder text-white" style="float: left;">ادز برگ</h1>
+      <p class="fs-2 text-white" style="float: left;">تبلیغات در گوگل، فقط با ادز برگ</p>
       <div class="close-btn d-lg-none d-block sidebartoggler cursor-pointer position-absolute bg-white rounded-5" id="sidebarCollapse" style="left: 20px; top: 20px;">
         <!-- <i class="fa fa-xmark"></i> -->
         ✖

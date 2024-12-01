@@ -131,38 +131,40 @@ $admin = $_SESSION["user_data"]["admin"];
                               $result = $conn->query($sql);
                               ?>
 
-                              <table class="table">
-                                  <thead>
-                                      <tr>
-                                          <th scope="col">ردیف</th>
-                                          <th scope="col">اسم و فامیل</th>
-                                          <th scope="col">ایمیل</th>
-                                          <th scope="col">جزئیات</th>
-                                      </tr>
-                                  </thead>
-                                  <tbody>
-                                      <?php
-                                      if ($result->num_rows > 0) {
-                                          $i = $offset + 1; // Adjust row number for pagination
-                                          while ($row = $result->fetch_assoc()) {
-                                      ?>
-                                          <tr>
-                                              <th scope="row"><?= $i ?></th>
-                                              <td><?= get_name($row['id']) ?></td>
-                                              <td><?= $row['username'] ?></td>
-                                              <td><a href="user.php?userId=<?=$row['id']?>">مشاهده</a></td>
-                                            
-                                            
-                                          </tr>
-                                      <?php
-                                              $i++;
-                                          }
-                                      } else {
-                                          echo "<tr><td colspan='5'>No records found.</td></tr>";
-                                      }
-                                      ?>
-                                  </tbody>
-                              </table>
+                              <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ردیف</th>
+                                            <th scope="col">اسم و فامیل</th>
+                                            <th scope="col">ایمیل</th>
+                                            <th scope="col">جزئیات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if ($result->num_rows > 0) {
+                                            $i = $offset + 1; // Adjust row number for pagination
+                                            while ($row = $result->fetch_assoc()) {
+                                        ?>
+                                            <tr>
+                                                <th scope="row"><?= $i ?></th>
+                                                <td><?= get_name($row['id']) ?></td>
+                                                <td><?= $row['username'] ?></td>
+                                                <td><a href="user.php?userId=<?=$row['id']?>">مشاهده</a></td>
+                                              
+                                              
+                                            </tr>
+                                        <?php
+                                                $i++;
+                                            }
+                                        } else {
+                                            echo "<tr><td colspan='5'>No records found.</td></tr>";
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                              </div>
 
                               <!-- Pagination Links -->
                               <nav>

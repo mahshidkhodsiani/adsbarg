@@ -34,7 +34,7 @@ $admin = $_SESSION["user_data"]["admin"];
     
 
 
-    <title>تیکت ها</title>
+    <title>وب سایت ها</title>
     <style>
       body {
         font-family: "tahoma" !important;
@@ -94,7 +94,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                 <i class="fa fa-file"></i>
                             </div>
                             <div>
-                                <h6 class="mb-0 fs-4 fw-semibold">مدیریت تیکت ها</h6>
+                                <h6 class="mb-0 fs-4 fw-semibold">مدیریت وب سایت ها </h6>
                             </div>
                             </div>
                         </div>
@@ -120,70 +120,54 @@ $admin = $_SESSION["user_data"]["admin"];
                               $offset = ($page - 1) * $rows_per_page; // Offset for SQL query
 
                               // Total rows in the table
-                              $total_rows_query = "SELECT COUNT(*) AS total FROM tickets";
+                              $total_rows_query = "SELECT COUNT(*) AS total FROM user_websites";
                               $total_rows_result = $conn->query($total_rows_query);
                               $total_rows = $total_rows_result->fetch_assoc()['total'];
                               $total_pages = ceil($total_rows / $rows_per_page); // Total pages
 
                               // Fetch rows for the current page
-                              $sql = "SELECT * FROM tickets ORDER BY id DESC";
+                              $sql = "SELECT * FROM user_websites ORDER BY id DESC";
                               // echo $sql;
                               $result = $conn->query($sql);
                               ?>
-
-                              <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">ردیف</th>
-                                            <th scope="col">موضوع</th>
-                                            <th scope="col">متن</th>
-                                            <th scope="col">یوزر</th>
-                                            <th scope="col">پاسخ</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        if ($result->num_rows > 0) {
-                                            $i = $offset + 1; // Adjust row number for pagination
-                                            while ($row = $result->fetch_assoc()) {
-                                        ?>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
                                             <tr>
-                                                <th scope="row"><?= $i ?></th>
-                                                <td>
-                                                  <a href="ticket.php?id_ticket=<?=$row['id']?>">
-                                                  <?= $row['title'] ?>
-                                                  </a>
-                                                </td>
-                                                <td>
-                                                    <?=
-                                                      $row['text1'];
-                                                    ?>
-                                                </td>
-                                                <td><?=get_name($row['user_id'])?></td>
-                                                <td>
-                                                  <?php
-                                                  if($row['status'] == 1){
-                                                    echo 'پاسخ داده شده';
-                                                  }else{
-                                                  ?>
-                                                  <a href="ticket.php?id_ticket=<?=$row['id']?>">پاسخ</a>
-                                                  <?php
-                                                  }
-                                                  ?>
-                                                </td>
-                                              
+                                                <th scope="col">ردیف</th>
+                                                <th scope="col">یوزر</th>
+                                                <th scope="col">وب سایت</th>
+                                                <th scope="col">اکانت</th>
                                             </tr>
-                                        <?php
-                                                $i++;
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            if ($result->num_rows > 0) {
+                                                $i = $offset + 1; // Adjust row number for pagination
+                                                while ($row = $result->fetch_assoc()) {
+                                            ?>
+                                                <tr>
+                                                    <th scope="row"><?= $i ?></th>
+                                                    <td><?= get_name($row['user_id'])?></td>
+                                                    <td>
+                                                        <?=
+                                                        $row['user_website'];
+                                                        ?>
+                                                    </td>
+                                                    <td><?='اکانت ' . cidAccount($row['account_id'])?></td>
+                                                
+                                                
+                                                </tr>
+                                            <?php
+                                                    $i++;
+                                                }
+                                            } else {
+                                                echo "<tr><td colspan='5'>وبسایتی وجود ندارد.</td></tr>";
                                             }
-                                        } else {
-                                            echo "<tr><td colspan='5'>تیکتی وجود ندارد.</td></tr>";
-                                        }
-                                        ?>
-                                    </tbody>
-                                </table>
-                              </div>
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
 
                               <!-- Pagination Links -->
                               <nav>
@@ -299,37 +283,3 @@ $admin = $_SESSION["user_data"]["admin"];
 <?php
 
 
-if(isset($_POST['submit'])){
-
-  var_dump($_POST);
-  
-  $title = $_POST['title'];
-  $text = $_POST['matn'];
-  $file = $_FILES['zamimeh'];
-
-  // Ensure user folder exists
-  $user_folder = "uploads/" . $id;  // Use user ID for the folder name
-
-  // Check if the folder exists, if not, create it
-  if (!file_exists($user_folder)) {
-      mkdir($user_folder, 0777, true);  // Create the folder with proper permissions
-  }
-
-  // Define the target file path
-  $target_file = $user_folder . "/" . basename($file["name"]);
-
-  // Move the uploaded file to the user-specific folder
-  move_uploaded_file($file["tmp_name"], $target_file);
-
-  // Insert the ticket data into the database
-  $sql = "INSERT INTO tickets (title, text, file, user_id) 
-          VALUES ('$title', '$text', '$target_file', '$id')";
-  $result = $conn->query($sql);
-
-  // Display the result of the insert query
-  if($result){
-      echo "<script>alert('تیکت با موفقیت ارسال شد.')</script>";
-  }else{
-      echo "<script>alert('خطا در ارسال تیکت.')</script>";
-  }
-}

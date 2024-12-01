@@ -137,6 +137,7 @@ $admin = $_SESSION["user_data"]["admin"];
                             $result = $conn->query($sql);
                             ?>
 
+                            <div class="table-responsive">
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -202,6 +203,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                     ?>
                                 </tbody>
                             </table>
+                            </div>
 
                             <!-- Pagination Links -->
                             <nav>

@@ -134,51 +134,53 @@ $admin = $_SESSION["user_data"]["admin"];
                               $result = $conn->query($sql);
                               ?>
 
-                              <table class="table">
-                                  <thead>
-                                      <tr>
-                                          <th scope="col">ردیف</th>
-                                          <th scope="col">موضوع</th>
-                                          <th scope="col">متن</th>
-                                          <th scope="col">وضعیت</th>
-                                          <th scope="col">عملیات</th>
-                                      </tr>
-                                  </thead>
-                                  <tbody>
-                                      <?php
-                                      if ($result->num_rows > 0) {
-                                          $i = $offset + 1; // Adjust row number for pagination
-                                          while ($row = $result->fetch_assoc()) {
-                                          ?>
-                                          <tr>
-                                              <th scope="row"><?= $i ?></th>
-                                              <td><?= $row['title'] ?></td>
-                                              <td>
-                                                  <?=
-                                                    $row['text1'];
-                                                  ?>
-                                              </td>
-                                              <td>
-                                                  <?php
-                                                  if ($row['status'] == 1) {
-                                                    echo "<p style='color:green'>پاسخ داده شده</p>";
-                                                  }else{
-                                                    echo "<p style='color:#b7b703'>در انتظار پاسخ</p>";
-                                                  }
-                                                  ?>
-                                              </td>
-                                              <td><a href="ticket.php?id_ticket=<?=$row['id']?>">مشاهده</a></td>
-                                            
-                                          </tr>
-                                      <?php
-                                              $i++;
-                                          }
-                                      } else {
-                                          echo "<tr><td colspan='5'>تیکتی وجود ندارد</td></tr>";
-                                      }
-                                      ?>
-                                  </tbody>
-                              </table>
+                              <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ردیف</th>
+                                            <th scope="col">موضوع</th>
+                                            <th scope="col">متن</th>
+                                            <th scope="col">وضعیت</th>
+                                            <th scope="col">عملیات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if ($result->num_rows > 0) {
+                                            $i = $offset + 1; // Adjust row number for pagination
+                                            while ($row = $result->fetch_assoc()) {
+                                            ?>
+                                            <tr>
+                                                <th scope="row"><?= $i ?></th>
+                                                <td><?= $row['title'] ?></td>
+                                                <td>
+                                                    <?=
+                                                      $row['text1'];
+                                                    ?>
+                                                </td>
+                                                <td>
+                                                    <?php
+                                                    if ($row['status'] == 1) {
+                                                      echo "<p style='color:green'>پاسخ داده شده</p>";
+                                                    }else{
+                                                      echo "<p style='color:#b7b703'>در انتظار پاسخ</p>";
+                                                    }
+                                                    ?>
+                                                </td>
+                                                <td><a href="ticket.php?id_ticket=<?=$row['id']?>">مشاهده</a></td>
+                                              
+                                            </tr>
+                                        <?php
+                                                $i++;
+                                            }
+                                        } else {
+                                            echo "<tr><td colspan='5'>تیکتی وجود ندارد</td></tr>";
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                              </div>
 
                               <!-- Pagination Links -->
                               <nav>

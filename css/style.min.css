@@ -18770,45 +18770,6 @@ progress {
     border-color: var(--bs-table-border-color)
 }
 
-.table-responsive {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch
-}
-
-@media (max-width:575.98px) {
-    .table-responsive-sm {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch
-    }
-}
-
-@media (max-width:767.98px) {
-    .table-responsive-md {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch
-    }
-}
-
-@media (max-width:991.98px) {
-    .table-responsive-lg {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch
-    }
-}
-
-@media (max-width:1199.98px) {
-    .table-responsive-xl {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch
-    }
-}
-
-@media (max-width:1399.98px) {
-    .table-responsive-xxl {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch
-    }
-}
 
 .form-label {
     margin-bottom: .5rem;
@@ -38973,9 +38934,7 @@ html[dir=rtl] table.table-bordered.dataTable td {
     border-left-width: 1px
 }
 
-html[dir=rtl] div.table-responsive > div.dataTables_wrapper > div.row > div[class^=col-]:last-child {
-    padding-left: 1px
-}
+
 
 html[dir=rtl] .timeline-widget::before {
     right: 61px
@@ -39961,43 +39920,6 @@ a.jp-playlist-current:before {
     }
 }
 
-.table-responsive {
-    overflow-x: clip
-}
-
-    .table-responsive .dataTables_wrapper .dataTables_length select {
-        padding-top: .25rem;
-        padding-bottom: .25rem;
-        padding-left: .5rem;
-        padding-right: .625rem;
-        font-size: .765625rem;
-        border-radius: 5px;
-        border-color: #dfe5ef
-    }
-
-    .table-responsive .dataTables_wrapper .dataTables_filter input {
-        padding: .25rem .5rem;
-        font-size: .765625rem;
-        border-radius: 5px;
-        border: 1px solid #dfe5ef
-    }
-
-    .table-responsive .dataTables_wrapper .dataTables_paginate .paginate_button {
-        padding: 6px 12px;
-        border: 1px solid #dfe5ef;
-        cursor: pointer;
-    }
-
-        .table-responsive .dataTables_wrapper .dataTables_paginate .paginate_button .previous {
-            border-radius: 7px 0 0 7px;
-            background-color: #eaeff4
-        }
-
-        .table-responsive .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-            color: #fff;
-            background-color: #5d87ff;
-            border-color: #5d87ff;
-        }
 
 .wizard-content .wizard {
     width: 100%;

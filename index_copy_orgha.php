@@ -720,6 +720,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                 <div></div>
                               </div>
                             </div>
+                            <div class="table-responsive">
                             <table id="grid_invoices" class="table align-middle text-nowrap mb-0 dataTable no-footer" style="width: 702px;">
                               <thead>
                                 <tr>
@@ -754,6 +755,8 @@ $admin = $_SESSION["user_data"]["admin"];
                               }
                               ?>
                             </table>
+                            </div>
+
                           </div>
                         </div>
                       </div>
