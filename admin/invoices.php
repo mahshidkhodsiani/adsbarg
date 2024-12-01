@@ -34,7 +34,7 @@ $admin = $_SESSION["user_data"]["admin"];
     
 
 
-    <title>صفحه اصلی</title>
+    <title>تمامی سفارشات</title>
     <style>
       body {
         font-family: "tahoma" !important;
@@ -111,7 +111,8 @@ $admin = $_SESSION["user_data"]["admin"];
                               <thead>
                                   <tr>
                                       <th scope="col">ردیف</th>
-                                      <th scope="col">نوع سفارش</th>
+                                      <th scope="col"> سفارش</th>
+                                      <th scope="col">نوع</th>
                                       <th scope="col">وضعیت</th>
                                       <th scope="col">مبلغ</th>
                                       <th scope="col">یوزر</th>
@@ -143,7 +144,14 @@ $admin = $_SESSION["user_data"]["admin"];
                                   ?>
                                   <tr>
                                       <th scope="row"><?= $i ?></th>
-                                      <td><?= $row['type'] ?></td>
+                                      <td>
+                                            <?php
+                                            if ($row['type'] == 'charge') echo "شارج اکانت". " " . cidAccount($row['account_id']);
+                                            if ($row['type'] == 2) echo "وا��د فعالیتی";
+                                            ?>
+                                      </td>
+                                      <td><?= (isset($row['managed']) && $row['managed'] == 1 ? "مدیریت شده" : "اختصاصی") ?></td>
+
                                       <td>
                                           <?php
                                           if ($row['status'] == 2) echo "در حالت پرداخت";
@@ -157,7 +165,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                           <div class="d-flex align-items-center flex-row">
                                               <form action="invoice.php" method="POST">
                                                   <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
-                                                  <button class="btn btn-outline-info btn-circle btn-sm" name="charge">
+                                                  <button class="btn btn-outline-info btn-circle btn-sm" name="charge" title="مشاهده">
                                                       <i class="fs-5 fa fa-credit-card"></i>
                                                   </button>
                                               </form>

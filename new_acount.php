@@ -99,73 +99,92 @@ $id = $_SESSION["user_data"]["id"];
             </div>
 
 
-            <div class="row" >
-                <div class="col-md-6 offset-md-1 border" style="background-color: white;">
-                  <div class="offcanvas-body ">
-                    <form class="" method="POST">
-                      <h2>فرم ساخت اکانت جدید</h2>
+            <div class="row">
+              <div class="col-md-6 offset-md-1 border">
+                <p style="color: yellowgreen;">کاربر گرامی لطفا نام اکانت را همان وبسایت خود بگذارید</p>
+              </div>
 
-                      <div class="my-3">
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input success" type="radio" id="accountGoogle_i_currencyCode2" value="USD" name="currencyCode" checked="">
-                              <lable class="form-check-label" for="accUsd">دلار</lable>
-                          </div>
+              <div class="col-md-6 offset-md-1 border" style="background-color: white;">
+                <div class="offcanvas-body ">
+                  <form class="" method="POST">
+                    <h2>فرم ساخت اکانت جدید</h2>
+
+                    <div class="my-3">
                         <div class="form-check form-check-inline">
-                              <input class="form-check-input success" type="radio" id="accountGoogle_i_currencyCode3" value="AED" name="currencyCode">
-                              <lable class="form-check-label" for="accAed">درهم</lable>
-                          </div>
-                          <div class="form-check form-check-inline">
-                              <input class="form-check-input success" type="radio" id="accountGoogle_i_currencyCode4" value="TL" name="currencyCode">
-                              <lable class="form-check-label" for="accTry">لیر</lable>
-                          </div>
-                          
-                      </div>
+                            <input class="form-check-input success" type="radio" id="accountGoogle_i_currencyCode1" value="USD" name="currencyCode" checked="">
+                            <lable class="form-check-label" for="accUsd">دلار</lable>
+                        </div>
+                      <div class="form-check form-check-inline">
+                            <input class="form-check-input success" type="radio" id="accountGoogle_i_currencyCode2" value="AED" name="currencyCode">
+                            <lable class="form-check-label" for="accAed">درهم</lable>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input success" type="radio" id="accountGoogle_i_currencyCode3" value="TL" name="currencyCode">
+                            <lable class="form-check-label" for="accTry">لیر</lable>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input success" type="radio" id="accountGoogle_i_currencyCode4" value="bat" name="currencyCode">
+                            <lable class="form-check-label" for="accTry">بات</lable>
+                        </div>
+                        
+                    </div>
 
-                      <div class="input-group mb-3">
-                          <!-- ولید بشه فقط کاراکتر انگلیسی خط تیره و شارپ همون هشتگ بتونه وارد کنه -->
-                          <span class="input-group-text bg-light-primary fs-6" id="accountGoogle_i_name_lable"><i class="fa fa-ad me-1"></i></span>
-                          <input type="text" dv="required" dir="ltr" autocomplete="off" id="accountGoogle_i_name" name="name" class="form-control" placeholder="نام اکانت - فقط انگلیسی" aria-label="accountGoogle_i_name_lable" aria-describedby="gAccNameLabel">
-                      </div>
+                    <div class="input-group mb-3">
+                        <!-- ولید بشه فقط کاراکتر انگلیسی خط تیره و شارپ همون هشتگ بتونه وارد کنه -->
+                        <span class="input-group-text bg-light-primary fs-6" id="accountGoogle_i_name_lable"><i class="fa fa-ad me-1"></i></span>
+                        <input type="text" dv="required" dir="ltr" autocomplete="off" id="accountGoogle_i_name" name="name" class="form-control" placeholder="نام اکانت - فقط انگلیسی" aria-label="accountGoogle_i_name_lable" aria-describedby="gAccNameLabel">
+                    </div>
 
-                      <div class="input-group mb-3">
-                          <!-- ولید بشه برای آدرس ایمیل -->
-                          <span class="input-group-text bg-light-primary fs-6" id="accountGoogle_i_email_lable"><i class="fa fa-at me-1"></i></span>
-                          <input type="email" dv="required" autocomplete="off" id="accountGoogle_i_email" name="email" class="form-control" placeholder="ایمیل اکانت" aria-label="accountGoogle_i_email_lable" aria-describedby="accountGoogle_i_email_lable">
-                      </div>
+                    <div class="input-group mb-3">
+                        <!-- ولید بشه برای آدرس ایمیل -->
+                        <span class="input-group-text bg-light-primary fs-6" id="accountGoogle_i_email_lable"><i class="fa fa-at me-1"></i></span>
+                        <input type="email" dv="required" autocomplete="off" id="accountGoogle_i_email" name="email" class="form-control" placeholder="ایمیل اکانت" aria-label="accountGoogle_i_email_lable" aria-describedby="accountGoogle_i_email_lable">
+                    </div>
 
-                      <div class="input-group mb-3 d-none">
-                          <span class="input-group-text bg-light-primary fs-6" id="accountGoogle_i_customerId_lable"><i class="fa fa-123 me-1"></i></span>
-                          <!-- وقتی کاربر داره اکانت میسازه نمیتونه کاستومر آی دی بزنه، نشونش نده -->
-                          <input type="tel" autocomplete="off" name="customerId" id="accountGoogle_i_customerId" class="form-control" placeholder="کاستومر آی دی" aria-label="accountGoogle_i_customerId_lable" aria-describedby="accountGoogle_i_customerId_lable" disabled="">
-                      </div>
-                      <div class="input-group mb-3">
-                          <span class="input-group-text bg-light-primary fs-6"><i class="fa fa-star me-1"></i></span>
-                          <select class="form-control form-select" dv="required" data-placeholder="یک کزینه را انتخاب کنید" tabindex="1" id="accountGoogle_i_network" name="network">
-                              <option disabled="" selected="" value="">شبکه تبلیغاتی را انتخاب کنید</option>
-                              <!-- وقتی یوتیوب رو میزنه آدرس چنل رو باید بزنه،‌و ولیدیشن باید انجام بشه . راه های ولید کردنش زیاده -->
-                              <option description="آدرس کانال یوتیوب" value="Youtube">یوتیوب</option>
-                              <!-- وقتی اپلیکیشن رو میزنه باید آدرس اپ رو بزنه حتما که باید ولیدیشن انجام بشه روش -->
-                              <option description="آدرس گوگل پلی اپ" value="App">اپلیکیشن</option>
-                              <!-- وقتی سرج رو میزنه باید آدرس سایت رو بزنه فرمتش باید ولید باشه. حواست باشه که دامنه با کاراکتر فارسی هم وجود داره  -->
-                              <option description="لطفا آدرس سایت وارد شود" value="Search">سرچ</option>
-                              <option description="" value="display">دیسپلی</option>
-                          </select>
-                      </div>
+                    <div class="input-group mb-3 d-none">
+                        <span class="input-group-text bg-light-primary fs-6" id="accountGoogle_i_customerId_lable"><i class="fa fa-123 me-1"></i></span>
+                        <!-- وقتی کاربر داره اکانت میسازه نمیتونه کاستومر آی دی بزنه، نشونش نده -->
+                        <input type="tel" autocomplete="off" name="customerId" id="accountGoogle_i_customerId" class="form-control" placeholder="کاستومر آی دی" aria-label="accountGoogle_i_customerId_lable" aria-describedby="accountGoogle_i_customerId_lable" disabled="">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text bg-light-primary fs-6"><i class="fa fa-star me-1"></i></span>
+                        <select class="form-control form-select" dv="required" data-placeholder="یک کزینه را انتخاب کنید" tabindex="1" id="accountGoogle_i_network" name="network">
+                            <option disabled="" selected="" value="">شبکه تبلیغاتی را انتخاب کنید</option>
+                            <!-- وقتی یوتیوب رو میزنه آدرس چنل رو باید بزنه،‌و ولیدیشن باید انجام بشه . راه های ولید کردنش زیاده -->
+                            <option description="آدرس کانال یوتیوب" value="Youtube">یوتیوب</option>
+                            <!-- وقتی اپلیکیشن رو میزنه باید آدرس اپ رو بزنه حتما که باید ولیدیشن انجام بشه روش -->
+                            <option description="آدرس گوگل پلی اپ" value="App">اپلیکیشن</option>
+                            <!-- وقتی سرج رو میزنه باید آدرس سایت رو بزنه فرمتش باید ولید باشه. حواست باشه که دامنه با کاراکتر فارسی هم وجود داره  -->
+                            <option description="لطفا آدرس سایت وارد شود" value="Search">سرچ</option>
+                            <option description="" value="display">دیسپلی</option>
+                        </select>
+                    </div>
 
-                      <div class="input-group mb-3">
-                          <!-- اگر اپ بود آدرس اپ، اگر یوتیوب بود آدرس یوتیوب و ادرس سایت و... نیاز به ولیدیشن آدرس -->
-                          <span class="input-group-text bg-light-primary fs-6" id="accountGoogle_i_url_lable"><i class="fa fa-link me-1"></i></span>
-                          <!-- وقتی سرچ رو انتخاب کرده پلیس هولدر بشه آدرس سایت، اپ باشه بشه آدرس اپلیکیشن و یوتیوب بشه آدرس چنل یوتیوب -->
-                          <input type="url" dir="ltr" autocomplete="off" dv="required" name="url" id="accountGoogle_i_url" class="form-control border-end" placeholder="آدرس سایت" aria-label="accountGoogle_i_url_lable" aria-describedby="accountGoogle_i_url_lable">
-                      </div>
+                    <div class="input-group mb-3">
+                        <!-- اگر اپ بود آدرس اپ، اگر یوتیوب بود آدرس یوتیوب و ادرس سایت و... نیاز به ولیدیشن آدرس -->
+                        <span class="input-group-text bg-light-primary fs-6" id="accountGoogle_i_url_lable"><i class="fa fa-link me-1"></i></span>
+                        <!-- وقتی سرچ رو انتخاب کرده پلیس هولدر بشه آدرس سایت، اپ باشه بشه آدرس اپلیکیشن و یوتیوب بشه آدرس چنل یوتیوب -->
 
+                        <input type="text" dir="ltr" autocomplete="off" dv="required" name="url" id="accountGoogle_i_url" class="form-control border-end" 
+                        placeholder="آدرس سایت" aria-label="accountGoogle_i_url_lable" aria-describedby="accountGoogle_i_url_lable">
+                    </div>
 
-                  
-                      <button type="submit" class="btn btn-primary">ایجاد اکانت</button>
-                     
-                    </form>
-                  </div>
+                    <div class="input-group mb-3">
+                      <select class="form-select" aria-label="Default select example" name="managed_personal">
+                        <option selected>مدیریت شده یا اختصاصی</option>
+                        <option value="managed">مدیریت شده</option>
+                        <option value="personal">اختصاصی</option>
+                      </select>
+                    </div>
+
+                
+                    <button type="submit" class="btn btn-primary">ایجاد اکانت</button>
+                    
+                  </form>
                 </div>
+              </div>
+
+                
             </div>
           </div>
         </div>
@@ -217,6 +236,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $network = $_POST['network'];
     $url = $_POST['url'];
+    if($_POST['managed_personal'] == 'managed') {
+      $managed_personal = 1 ; 
+    }else{
+      $managed_personal = 0 ;
+    }
 
     // Check for validation errors
     if (!$email) {
@@ -227,8 +251,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Insert data into database
-    $stmt = $conn->prepare("INSERT INTO accounts (currency, username, email, user_id, method, website) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $currencyCode, $name, $email, $id, $network, $url);
+    $stmt = $conn->prepare("INSERT INTO accounts (currency, username, managed, email, user_id, method, website) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssissss", $currencyCode, $name, $managed_personal, $email, $id, $network, $url);
 
 
     if ($stmt->execute()) {

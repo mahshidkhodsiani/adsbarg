@@ -63,7 +63,13 @@ $id = $_SESSION["user_data"]["id"];
 
                 </div>
                 <div class="col-md-6" style="text-align: left;">
-                    <a id="back" class="btn btn-outline-primary btn-sm" href="google_accounts.php">بازگشت <i class="fa fa-arrow-left me-1"></i></a>
+                    <?php if (isset($_POST['show_invoice'])):  ?>
+                        <a id="back" class="btn btn-outline-primary btn-sm" href="invoices.php">بازگشت <i class="fa fa-arrow-left me-1"></i></a>
+                    <?php
+                        else: ?>
+                        <a id="back" class="btn btn-outline-primary btn-sm" href="google_accounts.php">بازگشت <i class="fa fa-arrow-left me-1"></i></a>
+                    <?php
+                        endif; ?>
                 </div>
             </div>
 
@@ -85,11 +91,15 @@ $id = $_SESSION["user_data"]["id"];
                 }
               
                 // 2
-                if (isset($_POST['amount_charge']) && $_POST['amount_charge'] != '') {
-                    $amount = $_POST['amount_charge'];
+                if (isset($_POST['amount_charge']) && is_numeric($_POST['amount_charge']) && isset($_POST['total_amount'])) {
+                    $amount_charge = floatval($_POST['amount_charge']);
+                    $amount = floatval($_POST['total_amount']);
+
                     $stmt = $conn->prepare("INSERT INTO orders (user_id, amount, status, shenaseh, account_id, type) VALUES (?, ?, ?, ?, ?, 'charge')");
                     $random = generateRandomID(); 
                     $status = 2; 
+
+
                     $stmt->bind_param("isisi", $id, $amount, $status, $random, $id_account);
                     // Execute the statement
                     if ($stmt->execute()) {
@@ -153,6 +163,13 @@ $id = $_SESSION["user_data"]["id"];
                         $shenaseh = $row2['shenaseh'];
                         $amount = $row2['amount'];
                         $id_order =$row2['id'];
+                        $account_id = $row2['account_id'];
+
+                        $this_acount = "SELECT * FROM accounts WHERE id = $account_id";
+                        $acc_result = $conn->query($this_acount);
+                        if ($acc_result->num_rows > 0) {
+                            $acc_row = $acc_result->fetch_assoc();
+                        }
 
                     }
                 }
@@ -190,7 +207,26 @@ $id = $_SESSION["user_data"]["id"];
                 <div class="col-md-4 d-flex flex-column">
                     <p class="text-primary fs-4 mb-2">تاریخ ثبت: <strong id="insertDate"><?php echo mds_date("l j F Y ", time(), 0); ?></strong></p>
                     <p class="text-primary fs-4 mb-0">
-                        وضعیت: <span class="badge text-white fw-bold bg-info" id="invoiceState">در انتظار پرداخت</span>
+                        وضعیت:
+                            <?php
+                            if(isset($row2['status'])){
+                            echo ' <span class="badge text-white fw-bold bg-warning" id="invoiceState">';
+                            if ($row2['status'] == 2) echo "در حالت پرداخت";
+                            echo '</span>';
+                            echo ' <span class="badge text-white fw-bold bg-success" id="invoiceState">';
+                            if ($row2['status'] == 1) echo "پرداخت شده";
+                            echo '</span>';
+                            echo ' <span class="badge text-white fw-bold bg-danger" id="invoiceState">';
+                            if ($row2['status'] == 0) echo "رد شده";
+                            echo '</span>';
+                            }else{
+                                echo ' <span class="badge text-white fw-bold bg-warning" id="invoiceState">';
+                                echo "در حالت پرداخت";
+                                echo '</span>';
+                            }
+
+                            ?>
+                       
                     </p>
                 </div>
                 <div class="col-md-4 d-flex flex-column">
@@ -198,6 +234,47 @@ $id = $_SESSION["user_data"]["id"];
                         شناسه سفارش: <br> <strong class="fs-6 fw-boler" id="trackNo"><?= $shenaseh?></strong>
                     </p>
                 </div>
+
+                  <!-- -------------------------------- -->
+                  <div class="col-md-4 d-flex flex-column mt-4">
+                    <p class="text-primary fs-4 mb-0">
+                        سفارش : <strong class="fs-6 fw-boler" id="trackNo">
+                            <?php
+                            if(isset($row2['type'])){
+                                if($row2['type']== 'charge') echo "شارژ اکانت";
+                            }
+                            if(isset($_POST['amount_charge'])){
+                                echo "شارژ اکانت";
+                            }
+                            ?>
+                        </strong>
+                    </p>
+                </div>
+                <div class="col-md-4 d-flex flex-column mt-4">
+                    <p class="text-primary fs-4 mb-0">
+                        آیدی اکانت : <strong class="fs-6 fw-boler" id="trackNo">
+                            <?= (isset($acc_row['id'])? cidAccount($acc_row['id']) : cidAccount($row['id']))?>
+                        </strong>
+                    </p>
+                </div>
+                <div class="col-md-4 d-flex flex-column mt-4">
+                    <p class="text-primary fs-4 mb-0 ">
+                        نوع اکانت : <strong class="fs-6 fw-boler border" id="trackNo">
+                            <?php
+                            if(isset($acc_row['managed'])){
+                                if($acc_row['managed']== 1) echo "مدیریت شده";
+                                else echo "اختصاصی";
+                            }else{
+                                if($row['managed']== 1) echo "مدیریت شده";
+                                else echo "اختصاصی";
+                            }
+                           
+                            ?>
+                        </strong>
+                    </p>
+                </div>
+                <!-- ------------------------------- -->
+
             </div>
 
 
@@ -205,6 +282,9 @@ $id = $_SESSION["user_data"]["id"];
             <div class="row justify-content-center">
                 <div class="col-md-6" >
 
+                    <?php
+                        if(!isset($id_invoice)){
+                    ?>
                     <!-- Checkbox and Button to Open Modal -->
                     <div class="form-check form-check-inline align-items-center d-flex justify-content-center" id="condition">
                         <input id="termsAccept" class="form-check-input success" type="checkbox" style="width: 25px;height: 25px;margin-left: 10px;" onclick="showpardakht()">
@@ -215,6 +295,15 @@ $id = $_SESSION["user_data"]["id"];
                             </span>
                         </label>
                     </div>
+                    <?php
+                        }else{
+                            ?>
+                              <p>جمع کل : <?= number_format($amount). " تومان" ?></p>
+                                <span>پرداخت شده</span>
+
+                        <?php
+                        }
+                    ?>
 
                     <!-- Modal for Terms and Conditions -->
                     <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
@@ -253,7 +342,7 @@ $id = $_SESSION["user_data"]["id"];
                 </div>
                 <div class="col-md-6" style="text-align: left;">
                     <div id="pardakhtmethod" style="display: none;">
-                        <p>جمع کل : <?= $amount ?></p>
+                        <p>جمع کل : <?= number_format($amount) ." تومان"  ?></p> 
                         <?php
                         if(isset($id_invoice)){
                         ?>
@@ -399,9 +488,27 @@ if (isset($_POST['submit'])) {
                 $update = "UPDATE orders SET status = 1 WHERE id = '$idOrder'";
                 
                 if ($conn->query($update)) 
-                    echo "پرداخت شما با موفقیت انجام شد";
+                    echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+                    <div class='toast-header bg-success text-white'>
+                        <strong class='mr-auto'>Success</strong>
+                    </div>
+                    <div class='toast-body'>
+                    پرداخت شما با موفقیت انجام شد!
+                    </div>
+                    </div>
+                    <script>
+                    $(document).ready(function(){
+                        $('#successToast').toast({
+                            autohide: true,
+                            delay: 3000
+                        }).toast('show');
+                        setTimeout(function(){
+                            window.location.href = 'payments';
+                        }, 3000);
+                    });
+                </script>";
             } else {
-                echo "خطا در پرداخ��ت";
+                echo "خطا در پرداخت";
             }
         } else {
             echo "خطا در آپلود فایل";

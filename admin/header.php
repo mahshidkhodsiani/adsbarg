@@ -54,9 +54,9 @@ include "../functions.php";
                   </div>
                 </div>
               </div>
-              <button class="btn btn-outline-danger" onclick="signOut()">
+              <a href="../logout_proccess" class="btn btn-outline-danger" onclick="signOut()">
                 <i class="fa fa-arrow-right-from-bracket"></i>
-                خروج </button>
+                خروج </a>
             </div>
           </div>
         </div>

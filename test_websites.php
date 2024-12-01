@@ -12,7 +12,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch websites from database
+// Fetch websites from the database
 $query = "SELECT user_id, user_website FROM user_websites";
 $result = $conn->query($query);
 
@@ -29,6 +29,17 @@ if ($result->num_rows > 0) {
             // Check if the keyword exists in the content
             if (strpos($content, $keyword) !== false) {
                 echo "Keyword found in website ID: $id ($url)<br>";
+
+                // Insert the found keyword into the robot_words table
+                $stmt = $conn->prepare("INSERT INTO robot_words (user_id, user_websites, user_words) VALUES (?, ?, ?)");
+                $stmt->bind_param("iss", $id, $url, $keyword);
+
+                if ($stmt->execute()) {
+                    echo "Data inserted into robot_words for website ID: $id ($url)<br>";
+                } else {
+                    echo "Error inserting data into robot_words for website ID: $id ($url): " . $stmt->error . "<br>";
+                }
+                $stmt->close();
             } else {
                 echo "Keyword NOT found in website ID: $id ($url)<br>";
             }

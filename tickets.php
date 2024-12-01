@@ -174,7 +174,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                               $i++;
                                           }
                                       } else {
-                                          echo "<tr><td colspan='5'>No records found.</td></tr>";
+                                          echo "<tr><td colspan='5'>تیکتی وجود ندارد</td></tr>";
                                       }
                                       ?>
                                   </tbody>

@@ -34,7 +34,7 @@ $admin = $_SESSION["user_data"]["admin"];
     
 
 
-    <title>صفحه اصلی</title>
+    <title>تمامی پرداخت ها</title>
     <style>
       body {
         font-family: "tahoma" !important;

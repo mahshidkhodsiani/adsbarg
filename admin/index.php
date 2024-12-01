@@ -94,6 +94,14 @@ if($admin == 0){
                 <!--   نمودار قیمت ارز ها دسکتاپ -->
                    
 
+                <?php 
+                $currencys = "SELECT * FROM currencys ORDER BY id DESC LIMIT 1";
+                $result_currency = $conn->query($currencys);
+                if ($result_currency->num_rows > 0) {
+                  $row_currency = $result_currency->fetch_assoc();
+                }
+                ?>
+
                 <div class="row d-md-flex" id="currencys">
                   <div class="col-md-3 d-flex align-items-stretch">
                     <div class="card w-100 bg-light-primary shadow-sm overflow-hidden">
@@ -101,15 +109,9 @@ if($admin == 0){
                         <div class="d-flex align-items-center">
                           <div>
                             <h5 class="card-title fw-semibold">
-                              <img src="../images/usd.jpg" alt="قیمت دلار امروز" width="20px"> قیمت دلار <span>70,801</span> تومان
+                              <img src="../images/usd.jpg" alt="قیمت دلار امروز" width="20px"> قیمت دلار <span><?=number_format(floatval($row_currency['dollar']) * 100) ?></span> تومان
                             </h5>
-                            <div class="d-flex gap-2">
-                              <span>
-                                <span class="round-8 bg-success rounded-circle d-inline-block"></span>
-                              </span>
-                              <span style="font-size: 0.9em;"> آخرین به روزرسانی: <span>1403/08/18-16:20:19</span>
-                              </span>
-                            </div>
+                          
                           </div>
                         </div>
                       </div>
@@ -227,15 +229,9 @@ if($admin == 0){
                         <div class="d-flex align-items-center">
                           <div>
                             <h5 class="card-title fw-semibold">
-                              <img src="../images/aed.png" alt="قیمت درهم امروز" width="15px"> قیمت درهم <span>19,659</span> تومان
+                              <img src="../images/aed.png" alt="قیمت درهم امروز" width="15px"> قیمت درهم <span><?=number_format(floatval($row_currency['derham']) * 100) ?></span> تومان
                             </h5>
-                            <div class="d-flex gap-2">
-                              <span>
-                                <span class="round-8 bg-success rounded-circle d-inline-block"></span>
-                              </span>
-                              <span style="font-size: 0.9em;"> آخرین به روزرسانی: <span>1403/08/18-16:20:19</span>
-                              </span>
-                            </div>
+                      
                           </div>
                         </div>
                       </div>
@@ -354,16 +350,10 @@ if($admin == 0){
                         <div class="d-flex align-items-center">
                           <div>
                             <h5 class="card-title fw-semibold">
-                              <img src="../images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت لیر <span>2,060</span> تومان
+                              <img src="../images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت لیر <span><?=number_format(floatval($row_currency['lira']) * 100) ?></span> تومان
                             
                             </h5>
-                            <div class="d-flex gap-2">
-                              <span>
-                                <span class="round-8 bg-success rounded-circle d-inline-block"></span>
-                              </span>
-                              <span style="font-size: 0.9em;"> آخرین به روزرسانی: <span>1403/08/18-16:20:19</span>
-                              </span>
-                            </div>
+                    
                           </div>
                         </div>
                       </div>
@@ -482,15 +472,9 @@ if($admin == 0){
                         <div class="d-flex align-items-center">
                           <div>
                             <h5 class="card-title fw-semibold">
-                            <img src="../images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت لیر <span>2,060</span> تومان
+                            <img src="../images/bat.jpg" alt="قیمت بات امروز" width="20px"> قیمت بات تایلند <span><?=number_format(floatval($row_currency['bat']) * 100) ?></span> تومان
                             </h5>
-                            <div class="d-flex gap-2">
-                              <span>
-                                <span class="round-8 bg-success rounded-circle d-inline-block"></span>
-                              </span>
-                              <span style="font-size: 0.9em;"> آخرین به روزرسانی: <span>1403/08/18-16:20:19</span>
-                              </span>
-                            </div>
+                   
                           </div>
                         </div>
                       </div>
@@ -604,6 +588,9 @@ if($admin == 0){
                     </div>
                   </div>
                 </div>
+
+
+
                 <!-- آخرین اکانت های شارژ شده -->
                 <div class="row mb-4">
                   <div class="col-12 d-flex flex-row justify-content-between mb-md-4 mb-0 align-items-center">

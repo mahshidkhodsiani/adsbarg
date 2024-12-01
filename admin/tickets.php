@@ -34,7 +34,7 @@ $admin = $_SESSION["user_data"]["admin"];
     
 
 
-    <title>صفحه اصلی</title>
+    <title>تیکت ها</title>
     <style>
       body {
         font-family: "tahoma" !important;
@@ -94,7 +94,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                 <i class="fa fa-file"></i>
                             </div>
                             <div>
-                                <h6 class="mb-0 fs-4 fw-semibold">مدیریت سفارشات</h6>
+                                <h6 class="mb-0 fs-4 fw-semibold">مدیریت تیکت ها</h6>
                             </div>
                             </div>
                         </div>
@@ -177,7 +177,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                               $i++;
                                           }
                                       } else {
-                                          echo "<tr><td colspan='5'>No records found.</td></tr>";
+                                          echo "<tr><td colspan='5'>تیکتی وجود ندارد.</td></tr>";
                                       }
                                       ?>
                                   </tbody>

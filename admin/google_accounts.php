@@ -212,7 +212,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                           <form action="" method="POST" style="display: flex; align-items: center; gap: 10px; margin: 0;">
                                               <input type="hidden" name="id_account" value="<?= $account['id'] ?>">
                                               
-                                              <input class="form-control" style="width: 200px;" name="give_cid">
+                                              <input class="form-control" style="width: 200px;" name="give_cid" required>
                                               <button name="submit_cid" class="btn btn-primary">ثبت</button>
                                           </form>
                                       <?php endif; ?>
@@ -223,22 +223,81 @@ $admin = $_SESSION["user_data"]["admin"];
                                 </div>
                             </div>
 
+                            <?php 
+                            $currencys = "SELECT * FROM currencys ORDER BY id DESC LIMIT 1";
+                            $result_currency = $conn->query($currencys);
+                            if ($result_currency->num_rows > 0) {
+                              $row_currency = $result_currency->fetch_assoc();
+
+                              $price = floatval($row_currency['dollar']) * 100 + 9000;
+                            
+                              
+
+                            }
+                            ?>
+
+
+
                             <div class="card-body p-0 shadow-none">
                                 <div class="collapse p-3" id="acc_<?= $account['id'] ?>">
                                     <form action="invoice.php" method="POST">
                                         <div class="form-floating mb-2">
-                                          <input type="hidden" name="id_account" value="<?= $account['id'] ?>">
-                                            <input type="text" name="amount_charge" class="accountGoogle_amount form-control mb-2 text-end" placeholder="عدد وارد کنید" required>
-                                            <label><i class="fa fa-USD me-2 fs-5 text-primary fw-bolder"></i>مقدار دلار را وارد کنید </label>
+                                            <input type="hidden" name="id_account" value="<?= $account['id'] ?>">
+                                            <input type="hidden" name="total_amount" id="hidden_total_price_<?= $account['id'] ?>" value="0"> <!-- Hidden input to send the total amount -->
+                                            <input type="text" name="amount_charge" id="amount_charge_<?= $account['id'] ?>" 
+                                                  class="accountGoogle_amount form-control mb-2 text-end" 
+                                                  placeholder="عدد وارد کنید" required>
+                                            <label>
+                                                <i class="fa fa-USD me-2 fs-5 text-primary fw-bolder"></i> 
+                                                $ مقدار دلار را وارد کنید
+                                            </label>
                                         </div>
-                                        <p class="form-control-feedback text text-center">قیمت ارز با کارمزد: <span class="accountGoogle_currencyIranAmount">0</span></p>
-                                        <p class="accountGoogle_serviceCost_parent text-center">قابل پرداخت: <span class="accountGoogle_serviceCost fw-bolder text-success fs-6">0</span></p>
+                                        <p class="form-control-feedback text text-center">
+                                            قیمت ارز با کارمزد: 
+                                            <span class="accountGoogle_currencyIranAmount" id="price_<?= $account['id'] ?>">
+                                                <?= $price ?>
+                                            </span>
+                                        </p>
+                                        <p class="accountGoogle_serviceCost_parent text-center">
+                                            قابل پرداخت: 
+                                            <span class="accountGoogle_serviceCost fw-bolder text-success fs-6" 
+                                                  id="total_price_<?= $account['id'] ?>">
+                                                0
+                                            </span>
+                                        </p>
                                         <div class="text-center">
-                                            <button  class="accountGoogle_submit btn btn-primary" name="charge">شارژ کن <i class="fa fa-rocket"></i></button>
+                                            <button class="accountGoogle_submit btn btn-primary" name="charge">
+                                                شارژ کن <i class="fa fa-rocket"></i>
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', () => {
+                                    // Select the input and display elements
+                                    const amountInput = document.getElementById('amount_charge_<?= $account['id'] ?>');
+                                    const priceSpan = document.getElementById('price_<?= $account['id'] ?>');
+                                    const totalPriceSpan = document.getElementById('total_price_<?= $account['id'] ?>');
+                                    const hiddenTotalInput = document.getElementById('hidden_total_price_<?= $account['id'] ?>');
+
+                                    // Parse the price as a number
+                                    const price = parseFloat(priceSpan.textContent.replace(/,/g, '')) || 0;
+
+                                    // Add event listener to update the total price dynamically
+                                    amountInput.addEventListener('input', () => {
+                                        const amount = parseFloat(amountInput.value) || 0; // Get the input value, default to 0
+                                        const total = price * amount; // Calculate the total
+                                        totalPriceSpan.textContent = total.toLocaleString('en-US'); // Update the total price display
+                                        hiddenTotalInput.value = total; // Set the value of the hidden input
+                                    });
+                                });
+                            </script>
+
+
+
+
                         </div>
                     </div>
                     <?php

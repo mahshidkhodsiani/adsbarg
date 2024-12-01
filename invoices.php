@@ -165,7 +165,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                         <td><?= $row['amount'] ?></td>
                                         <td>
                                             <div class="d-flex align-items-center flex-row">
-                                                <form action="invoice.php" method="POST" target="_blank">
+                                                <form action="invoice.php" method="POST" >
                                                     <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
                                                     <button class="btn btn-outline-info btn-circle btn-sm" name="charge">
                                                         <i class="fs-5 fa fa-credit-card"></i>
@@ -178,7 +178,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                             $i++;
                                         }
                                     } else {
-                                        echo "<tr><td colspan='5'>No records found.</td></tr>";
+                                        echo "<tr><td colspan='5'>هیچ سفارشی پیدا نشد.</td></tr>";
                                     }
                                     ?>
                                 </tbody>

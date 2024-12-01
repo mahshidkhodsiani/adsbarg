@@ -107,15 +107,9 @@ $admin = $_SESSION["user_data"]["admin"];
                         <div class="d-flex align-items-center">
                           <div>
                             <h5 class="card-title fw-semibold">
-                              <img src="images/usd.jpg" alt="قیمت دلار امروز" width="20px"> قیمت دلار <span><?=$row_currency['dollar'] ?></span> تومان
+                              <img src="images/usd.jpg" alt="قیمت دلار امروز" width="20px"> قیمت دلار <span><?= number_format(floatval($row_currency['dollar']) * 100) ?></span> تومان
                             </h5>
-                            <div class="d-flex gap-2">
-                              <span>
-                                <span class="round-8 bg-success rounded-circle d-inline-block"></span>
-                              </span>
-                              <span style="font-size: 0.9em;"> آخرین به روزرسانی: <span>1403/08/18-16:20:19</span>
-                              </span>
-                            </div>
+                
                           </div>
                         </div>
                       </div>
@@ -233,15 +227,9 @@ $admin = $_SESSION["user_data"]["admin"];
                         <div class="d-flex align-items-center">
                           <div>
                             <h5 class="card-title fw-semibold">
-                              <img src="images/aed.png" alt="قیمت درهم امروز" width="15px"> قیمت درهم <span><?=$row_currency['derham'] ?></span> تومان
+                              <img src="images/aed.png" alt="قیمت درهم امروز" width="15px"> قیمت درهم <span><?=number_format(floatval($row_currency['derham']) * 100) ?></span> تومان
                             </h5>
-                            <div class="d-flex gap-2">
-                              <span>
-                                <span class="round-8 bg-success rounded-circle d-inline-block"></span>
-                              </span>
-                              <span style="font-size: 0.9em;"> آخرین به روزرسانی: <span>1403/08/18-16:20:19</span>
-                              </span>
-                            </div>
+               
                           </div>
                         </div>
                       </div>
@@ -360,15 +348,9 @@ $admin = $_SESSION["user_data"]["admin"];
                         <div class="d-flex align-items-center">
                           <div>
                             <h5 class="card-title fw-semibold">
-                              <img src="images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت لیر <span><?=$row_currency['lira'] ?></span> تومان
+                              <img src="images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت لیر <span><?=number_format(floatval($row_currency['derham']) * 100) ?></span> تومان
                             </h5>
-                            <div class="d-flex gap-2">
-                              <span>
-                                <span class="round-8 bg-success rounded-circle d-inline-block"></span>
-                              </span>
-                              <span style="font-size: 0.9em;"> آخرین به روزرسانی: <span>1403/08/18-16:20:19</span>
-                              </span>
-                            </div>
+              
                           </div>
                         </div>
                       </div>
@@ -487,15 +469,9 @@ $admin = $_SESSION["user_data"]["admin"];
                         <div class="d-flex align-items-center">
                           <div>
                             <h5 class="card-title fw-semibold">
-                             <img src="images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت بات <span><?=$row_currency['bat'] ?></span> تومان
+                             <img src="images/bat.jpg" alt="قیمت لیر امروز" width="20px"> قیمت بات <span><?=number_format(floatval($row_currency['derham']) * 100) ?></span> تومان
                             </h5>
-                            <div class="d-flex gap-2">
-                              <span>
-                                <span class="round-8 bg-success rounded-circle d-inline-block"></span>
-                              </span>
-                              <span style="font-size: 0.9em;"> آخرین به روزرسانی: <span>1403/08/18-16:20:19</span>
-                              </span>
-                            </div>
+                  
                           </div>
                         </div>
                       </div>
@@ -641,7 +617,7 @@ $admin = $_SESSION["user_data"]["admin"];
 
                         // Query to get the counts
                         $recentAccountsQuery = "SELECT COUNT(*) AS count FROM accounts WHERE user_id = $id";
-                        $activeAccountsQuery = "SELECT COUNT(*) AS count FROM accounts WHERE charge = 1 AND user_id = $id";
+                        $activeAccountsQuery = "SELECT COUNT(*) AS count FROM accounts WHERE cid is not NULL AND user_id = $id";
 
                         $recentAccountsResult = $conn->query($recentAccountsQuery);
                         $activeAccountsResult = $conn->query($activeAccountsQuery);

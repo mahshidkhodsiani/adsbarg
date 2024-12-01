@@ -1,4 +1,6 @@
-
+<?php
+  session_start();
+?>
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
   <head>
@@ -10,7 +12,7 @@
     <meta name="author" content="G-ADS">
     <meta name="keywords" content="Mordenize">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="shortcut icon" type="image/png" href="https://my.g-ads.org/assets/img/icon/fav@32.png">
+    <link rel="shortcut icon" type="image/png" href="images/logo.png">
     <link rel="stylesheet" href="https://my.g-ads.org/assets/css/style.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -165,10 +167,7 @@
 if (isset($_POST['submit'])) {
 
   include "config.php";
-  // Include the configuration file for database connection
-  // include 'config.php';
 
-  // Collect form inputs
   $phone = $_POST['phone'];
   $name = $_POST['name'];
   $family = $_POST['family'];
@@ -180,8 +179,14 @@ if (isset($_POST['submit'])) {
   $_SESSION['code_verification'] = $code;
 
 
-
-
+  $_SESSION['all_data'] = array(
+      'phone' => $phone,
+      'name' => $name,
+      'family' => $family,
+      'username' => $username,
+      'password' => $password,
+      'verification_code' => $code
+  );
 
 
   $curl = curl_init();
@@ -209,29 +214,9 @@ if (isset($_POST['submit'])) {
   curl_close($curl);
 
   if($response){
-      
-    //   echo $phone;
-    //   echo $code;
-
-    // Insert user details into the database
-    $sql = "INSERT INTO users (name, family, username, password, phone) VALUES (?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssss", $name, $family, $username, $password, $phone);
-
-    if ($stmt->execute()) {
-        echo "<script>alert('ثبت نام با موفقیت انجام شد. کد تایید برای شماره تلفن شما ارسال شد.');</script>";
-        header("location: two_step_login.php");
-        exit();
-    } else {
-        echo "Error: " . $conn->error;
-    }
+    header("location: two_step_login.php");
+    exit();
   } else {
-  echo "<script>alert('ارسال پیامک ناموفق بود. لطفاً مجدداً تلاش کنید.');</script>";
+    echo "<script>alert('ارسال پیامک ناموفق بود. لطفاً مجدداً تلاش کنید.');</script>";
   }
-
-
-  // echo $response;
-
-
-
 }

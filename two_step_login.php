@@ -1,7 +1,10 @@
 <?php
 session_start();
 
-
+if (!isset($_SESSION['all_data'])){
+  header("location: register");
+  exit();
+}
 
 ?>
 
@@ -18,7 +21,7 @@ session_start();
     <meta name="author" content="G-ADS">
     <meta name="keywords" content="Mordenize">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="shortcut icon" type="image/png" href="https://my.g-ads.org/assets/img/icon/fav@32.png">
+    <link rel="shortcut icon" type="image/png" href="images/logo.png">
     <link rel="stylesheet" href="https://my.g-ads.org/assets/css/style.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -140,31 +143,83 @@ session_start();
 <?php
 
 if (isset($_POST['submit_code'])) {
+  
+  if($_POST['enteredCode'] == $_SESSION['all_data']['verification_code']){
+    echo 'yess';
+     // Insert user details into the database
 
-    // $_POST['verification_code'];
+       // Collect form inputs
+    $phone = $_SESSION['all_data']['phone'];
+    $name = $_SESSION['all_data']['name'];
+    $family = $_SESSION['all_data']['family'];
+    $username = $_SESSION['all_data']['username'];
+    $password = $_SESSION['all_data']['password'];
 
-    if(isset($_POST['enteredCode'])) {
-
-        $enteredCode = $_POST['enteredCode'];
-        $verificationCode = $_SESSION['verification'];
-
-        if ($enteredCode == $verificationCode) {
-      
-            unset($_SESSION['verification']);
-    
-            // $_SESSION['investor_data'] = $_SESSION['investor_data_temp'];
-
-            // unset($_SESSION['investor_data_temp']);
-            
-            // header("Location: index.php");
-            // exit();
-        } else {
-            $verificationError = 'کد وارد شده اشتباه است. دوباره امتحان کنید.';
+     $sql = "INSERT INTO users (name, family, username, password, phone) VALUES (?, ?, ?, ?, ?)";
+     $stmt = $conn->prepare($sql);
+     $stmt->bind_param("sssss", $name, $family, $username, $password, $phone);
+ 
+     if ($stmt->execute()) {
+        echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+        <div class='toast-header bg-success text-white'>
+            <strong class='mr-auto'>Success</strong>
+        </div>
+        <div class='toast-body'>
+          تبریک! ثبت نام با موفقیت انجام شد!
+        </div>
+        </div>
+        <script>
+          $(document).ready(function(){
+              $('#successToast').toast({
+                  autohide: true,
+                  delay: 3000
+              }).toast('show');
+              setTimeout(function(){
+                  window.location.href = 'login';
+              }, 3000);
+          });
+        </script>";
+        }else{
+          echo "<div id='errorToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+          <div class='toast-header bg-danger text-white'>
+              <strong class='mr-auto'>Error</strong>
+          </div>
+          <div class='toast-body'>
+              خطایی رخ داده، دوباره امتحان کنید!<br>Error: " . htmlspecialchars($stmt->error) . "
+          </div>
+          </div>
+          <script>
+            $(document).ready(function(){
+                $('#errorToast').toast({
+                    autohide: true,
+                    delay: 3000
+                }).toast('show');
+                setTimeout(function(){
+                    window.location.href = 'register';
+                }, 3000);
+            });
+          </script>";
         }
-
-    }    
-    else {
-        $verificationError = 'کد تأیید را ابتدا وارد کنید';
-    }
+  }else{
+    echo "<div id='errorToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+        <div class='toast-header bg-danger text-white'>
+            <strong class='mr-auto'>Error</strong>
+        </div>
+        <div class='toast-body'>
+            اشتباه است لطفا دوباره امتحان کنید!
+        </div>
+        </div>
+        <script>
+          $(document).ready(function(){
+              $('#errorToast').toast({
+                  autohide: true,
+                  delay: 3000
+              }).toast('show');
+              setTimeout(function(){
+                  window.location.href = 'two_step_login.php';
+              }, 3000);
+          });
+        </script>";
+  }
 }
 ?>
