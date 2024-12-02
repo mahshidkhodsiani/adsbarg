@@ -76,7 +76,7 @@ $id = $_SESSION["user_data"]["id"];
                 include "../functions.php";
                 include '../PersianCalendar.php';
 
-                $sql = "SELECT payments.*, orders.* 
+                $sql = "SELECT payments.*, orders.user_id, orders.* 
                 FROM payments 
                 LEFT JOIN orders ON payments.order_id = orders.id
                 WHERE payments.id = '$id_payments'";
@@ -85,10 +85,13 @@ $id = $_SESSION["user_data"]["id"];
                 $account_id = $row['account_id'];
 
 
-                // مشخصات اکانت
-                $acount = "SELECT * from accounts where id =$account_id";
-                $account = $conn->query($acount);
-                $acc = $account->fetch_assoc();
+                if($_POST['type_account'] == 'charge'){
+                   // مشخصات اکانت
+                    $acount = "SELECT * from accounts where id =$account_id";
+                    $account = $conn->query($acount);
+                    $acc = $account->fetch_assoc(); 
+                }
+                
 
  
             ?>
@@ -113,7 +116,7 @@ $id = $_SESSION["user_data"]["id"];
 
             <div class="row mt-4 bg-light py-4">
                 <div class="col-md-4 d-flex flex-column">
-                    <p class="text-primary fs-4 mb-2">‌نام کاربر: <strong id="fullName"><?= get_name($acc['user_id'])  ?></strong></p>
+                    <p class="text-primary fs-4 mb-2">‌نام کاربر: <strong id="fullName"><?= isset($acc['user_id']) ? get_name($acc['user_id']): get_name($row['user_id'])  ?></strong></p>
 
                     <p class="text-primary fs-4 mb-0">
                         نوع فاکتور: <strong id="isOfficialInvoice">فاکتور غیر رسمی</strong>
@@ -154,6 +157,7 @@ $id = $_SESSION["user_data"]["id"];
                         سفارش : <strong class="fs-6 fw-boler" id="trackNo">
                             <?php
                             if($row['type']== 'charge') echo "شارژ اکانت";
+                            if($row['type']== 'click') echo "پرداخت سفارش کلیک";
                             ?>
                         </strong>
                     </p>

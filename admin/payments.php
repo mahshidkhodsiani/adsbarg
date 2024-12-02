@@ -186,6 +186,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                                 <div class="d-flex align-items-center flex-row">
                                                     <form action="invoice_pardakht.php" method="POST">
                                                         <input type="hidden" name="show_invoice" value="<?= $row['payments_id'] ?>">
+                                                        <input type="hidden" name="type_account" value="<?= $row['type'] ?>">
                                                         <button class="btn btn-outline-info btn-circle btn-sm" name="charge" title="مشاهده">
                                                             <i class="fs-5 fa fa-credit-card"></i>
                                                         </button>
