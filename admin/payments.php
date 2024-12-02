@@ -157,7 +157,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                               <td>
                                                 <?php
                                                 if ($row['type'] == 'charge') echo "شارج اکانت". " " . cidAccount($row['account_id']);
-                                                if ($row['type'] == 2) echo "وا��د فعالیتی";
+                                                if ($row['type'] == 'click') echo "پرداخت سفارش کلیک";
                                                 ?>
                                               </td>
                                               <td><?= (isset($row['managed']) && $row['managed'] == 1 ? "مدیریت شده" : "اختصاصی") ?></td>
@@ -182,22 +182,22 @@ $admin = $_SESSION["user_data"]["admin"];
                                                 ?>
                                               </td>
                                               <td>
-                                                  <div class="d-flex align-items-center flex-row">
-                                                      <form action="invoice_pardakht.php" method="POST">
-                                                          <input type="hidden" name="show_invoice" value="<?= $row['payments_id'] ?>">
-                                                          <button class="btn btn-outline-info btn-circle btn-sm" name="charge" title="مشاهده">
-                                                              <i class="fs-5 fa fa-credit-card"></i>
-                                                          </button>
-                                                      </form>
-                                                      <form action="" method="POST">
-                                                        <input type="hidden" name="id_invoice" value="<?= $row['payments_id'] ?>">
-                                                        <button class="btn btn-outline-info btn-circle btn-sm" name="confirm_payment" title="تایید">
-                                                        <i class="fa fa-check"></i>
+                                              
+                                                <div class="d-flex align-items-center flex-row">
+                                                    <form action="invoice_pardakht.php" method="POST">
+                                                        <input type="hidden" name="show_invoice" value="<?= $row['payments_id'] ?>">
+                                                        <button class="btn btn-outline-info btn-circle btn-sm" name="charge" title="مشاهده">
+                                                            <i class="fs-5 fa fa-credit-card"></i>
                                                         </button>
-                                                      </form>
-                                                      
-                                                      
-                                                  </div>
+                                                    </form>
+                                                    <form action="" method="POST">
+                                                      <input type="hidden" name="id_invoice" value="<?= $row['payments_id'] ?>">
+                                                      <button class="btn btn-outline-info btn-circle btn-sm" name="confirm_payment" title="تایید">
+                                                      <i class="fa fa-check"></i>
+                                                      </button>
+                                                    </form>
+                                                </div>
+                                                
                                               </td>
                                           </tr>
                                       <?php

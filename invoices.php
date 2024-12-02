@@ -150,7 +150,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                         <td>
                                             <?php
                                             if ($row['type'] == 'charge') echo "شارج اکانت". " " . cidAccount($row['account_id']);
-                                            if ($row['type'] == 2) echo "وا��د فعالیتی";
+                                            if ($row['type'] == 'click') echo "سفارش ابزار کلیک";
                                             ?>
                                         </td>
                                         <td><?= (isset($row['managed']) && $row['managed'] == 1 ? "مدیریت شده" : "اختصاصی") ?></td>
@@ -159,7 +159,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                             <?php
                                             if ($row['status'] == 2) echo "در حالت پرداخت";
                                             if ($row['status'] == 1) echo "پرداخت شده";
-                                            if ($row['status'] == 0) echo "رد شده";
+                                            if ($row['status'] == 0) echo "<p>لغو سیستمی</p>";
                                             ?>
                                         </td>
                                         <td><?= $row['amount'] ?></td>

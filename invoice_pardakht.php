@@ -121,7 +121,17 @@ $id = $_SESSION["user_data"]["id"];
                 </div>
 
                 <div class="col-md-4 d-flex flex-column">
-                    <p class="text-primary fs-4 mb-2">تاریخ ثبت: <strong id="insertDate"><?php echo mds_date("l j F Y ", time(), 0); ?></strong></p>
+                    <p class="text-primary fs-4 mb-2">تاریخ ثبت: 
+                        <strong id="insertDate">
+                            <?php 
+                            if (isset($row['created_at'])) {
+                                echo mds_date("l j F Y", strtotime($row['created_at']), 0); 
+                            } else {
+                                echo mds_date("l j F Y ", time(), 0); 
+                            }
+                            ?>
+                        </strong>
+                    </p>
                     <p class="text-primary fs-4 mb-0">
                         وضعیت:
                             <?php

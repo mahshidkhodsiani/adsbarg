@@ -108,9 +108,9 @@ if($admin == 0){
                       <div class="card-body">
                         <div class="d-flex align-items-center">
                           <div>
-                            <h5 class="card-title fw-semibold">
-                              <img src="../images/usd.jpg" alt="قیمت دلار امروز" width="20px"> قیمت دلار <span><?=number_format(floatval($row_currency['dollar']) * 100) ?></span> تومان
-                            </h5>
+                            <h6 class="card-title fw-semibold">
+                              <img src="../images/usd.jpg" alt="قیمت دلار امروز" width="20px"> قیمت حواله دلار <span><?=number_format(floatval($row_currency['dollar']) * 100) ?></span> تومان
+                            </h6>
                           
                           </div>
                         </div>
@@ -228,9 +228,9 @@ if($admin == 0){
                       <div class="card-body">
                         <div class="d-flex align-items-center">
                           <div>
-                            <h5 class="card-title fw-semibold">
-                              <img src="../images/aed.png" alt="قیمت درهم امروز" width="15px"> قیمت درهم <span><?=number_format(floatval($row_currency['derham']) * 100) ?></span> تومان
-                            </h5>
+                            <h6 class="card-title fw-semibold">
+                              <img src="../images/aed.png" alt="قیمت درهم امروز" width="15px"> قیمت حواله درهم <span><?=number_format(floatval($row_currency['derham']) * 100) ?></span> تومان
+                            </h6>
                       
                           </div>
                         </div>
@@ -349,10 +349,10 @@ if($admin == 0){
                       <div class="card-body">
                         <div class="d-flex align-items-center">
                           <div>
-                            <h5 class="card-title fw-semibold">
-                              <img src="../images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت لیر <span><?=number_format(floatval($row_currency['lira']) * 100) ?></span> تومان
+                            <h6 class="card-title fw-semibold">
+                              <img src="../images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت حواله لیر <span><?=number_format(floatval($row_currency['lira']) * 100) ?></span> تومان
                             
-                            </h5>
+                            </h6>
                     
                           </div>
                         </div>
@@ -471,10 +471,9 @@ if($admin == 0){
                       <div class="card-body">
                         <div class="d-flex align-items-center">
                           <div>
-                            <h5 class="card-title fw-semibold">
-                            <img src="../images/bat.jpg" alt="قیمت بات امروز" width="20px"> قیمت بات تایلند <span><?=number_format(floatval($row_currency['bat']) * 100) ?></span> تومان
-                            </h5>
-                   
+                            <h6 class="card-title fw-semibold">
+                            <img src="../images/bat.jpg" alt="قیمت بات امروز" width="20px"> قیمت حواله بات تایلند <span><?=number_format(floatval($row_currency['bat']) * 100) ?></span> تومان
+                            </h6>
                           </div>
                         </div>
                       </div>
@@ -620,7 +619,7 @@ if($admin == 0){
 
                         // Query to get the counts
                         $recentAccountsQuery = "SELECT COUNT(*) AS count FROM accounts";
-                        $activeAccountsQuery = "SELECT COUNT(*) AS count FROM accounts WHERE charge = 1 ";
+                        $activeAccountsQuery = "SELECT COUNT(*) AS count FROM accounts WHERE cid IS NOT NULL ";
 
                         $recentAccountsResult = $conn->query($recentAccountsQuery);
                         $activeAccountsResult = $conn->query($activeAccountsQuery);

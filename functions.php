@@ -1,21 +1,26 @@
 <?php
 
 
-function get_name($id){
+function get_name($id) {
+    if (empty($id) || !is_numeric($id)) {
+        return "Invalid ID";
+    }
 
     include "config.php";
 
-    $query = "SELECT * FROM users WHERE id = $id";
-    $result = $conn->query($query);
+    $stmt = $conn->prepare("SELECT name, family FROM users WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        return $row['name']." ".$row['family'];
-    }else{
+        return $row['name'] . " " . $row['family'];
+    } else {
         return "null";
     }
-    
-
 }
+
 
 function generateRandomID() {
     // Fixed part of the ID
@@ -33,17 +38,28 @@ function generateRandomID() {
     return $randomID;
 }
 
-function cidAccount($id){
+function cidAccount($id) {
     include "config.php";
-    $query = "SELECT * FROM accounts WHERE id = $id";
-    $result = $conn->query($query);
+
+    // Ensure $id is a valid integer
+    if (!is_numeric($id) || $id <= 0) {
+        return "Invalid account ID";
+    }
+
+    // Use a prepared statement
+    $stmt = $conn->prepare("SELECT cid FROM accounts WHERE id = ?");
+    if ($stmt === false) {
+        return "Query preparation failed: " . $conn->error;
+    }
+
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        if(isset($row['cid']))
-            return $row['cid'];
-        else
-            return "cid not put";
-    }else{
-        return "Account not found";
+        return $row['cid'] ?? "CID ایجاد نشده";
+    } else {
+        return "CID ایجاد نشده";
     }
 }

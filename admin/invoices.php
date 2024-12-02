@@ -154,7 +154,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                             <td>
                                               <?php
                                               if ($row['type'] == 'charge') echo "شارج اکانت". " " . cidAccount($row['account_id']);
-                                              if ($row['type'] == 2) echo "واحد فعالیتی";
+                                              if ($row['type'] == 'click') echo "سفارش ابزار کلیک";
                                               ?>
                                             </td>
                                             <td><?= (isset($row['managed']) && $row['managed'] == 1 ? "مدیریت شده" : "اختصاصی") ?></td>
@@ -162,12 +162,15 @@ $admin = $_SESSION["user_data"]["admin"];
                                               <?php
                                               if ($row['status'] == 2) echo "در حالت پرداخت";
                                               if ($row['status'] == 1) echo "پرداخت شده";
-                                              if ($row['status'] == 0) echo "رد شده";
+                                              if ($row['status'] == 0) echo "لغو سیستمی";
                                               ?>
                                             </td>
                                             <td><?= $row['amount'] ?></td>
                                             <td><?= get_name($row['user_id']) ?></td>
                                             <td>
+                                              <?php
+                                              if ($row['type'] == 'charge'){
+                                              ?>
                                               <div class="d-flex align-items-center flex-row">
                                                 <form action="invoice.php" method="POST">
                                                   <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
@@ -176,6 +179,20 @@ $admin = $_SESSION["user_data"]["admin"];
                                                   </button>
                                                 </form>
                                               </div>
+                                              <?php
+                                              }elseif($row['type'] == 'click'){
+                                                ?>
+                                              <div class="d-flex align-items-center flex-row">
+                                                <form action="invoice_service.php" method="POST">
+                                                  <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
+                                                  <button class="btn btn-outline-info btn-circle btn-sm" name="charge" title="مشاهده">
+                                                    <i class="fs-5 fa fa-credit-card"></i>
+                                                  </button>
+                                                </form>
+                                              </div>
+                                              <?php
+                                              }
+                                              ?>
                                             </td>
                                           </tr>
                                           <?php

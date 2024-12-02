@@ -106,9 +106,9 @@ $admin = $_SESSION["user_data"]["admin"];
                       <div class="card-body">
                         <div class="d-flex align-items-center">
                           <div>
-                            <h5 class="card-title fw-semibold">
-                              <img src="images/usd.jpg" alt="قیمت دلار امروز" width="20px"> قیمت دلار <span><?= number_format(floatval($row_currency['dollar']) * 100) ?></span> تومان
-                            </h5>
+                            <h6 class="card-title fw-semibold">
+                              <img src="images/usd.jpg" alt="قیمت دلار امروز" width="20px"> قیمت حواله دلار <span><?= number_format(floatval($row_currency['dollar']) * 100) ?></span> تومان
+                            </h6>
                 
                           </div>
                         </div>
@@ -226,9 +226,9 @@ $admin = $_SESSION["user_data"]["admin"];
                       <div class="card-body">
                         <div class="d-flex align-items-center">
                           <div>
-                            <h5 class="card-title fw-semibold">
-                              <img src="images/aed.png" alt="قیمت درهم امروز" width="15px"> قیمت درهم <span><?=number_format(floatval($row_currency['derham']) * 100) ?></span> تومان
-                            </h5>
+                            <h6 class="card-title fw-semibold">
+                              <img src="images/aed.png" alt="قیمت درهم امروز" width="15px"> قیمت حواله درهم <span><?=number_format(floatval($row_currency['derham']) * 100) ?></span> تومان
+                            </h6>
                
                           </div>
                         </div>
@@ -347,9 +347,9 @@ $admin = $_SESSION["user_data"]["admin"];
                       <div class="card-body">
                         <div class="d-flex align-items-center">
                           <div>
-                            <h5 class="card-title fw-semibold">
-                              <img src="images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت لیر <span><?=number_format(floatval($row_currency['derham']) * 100) ?></span> تومان
-                            </h5>
+                            <h6 class="card-title fw-semibold">
+                              <img src="images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت حواله لیر <span><?=number_format(floatval($row_currency['lira']) * 100) ?></span> تومان
+                            </h6>
               
                           </div>
                         </div>
@@ -468,9 +468,9 @@ $admin = $_SESSION["user_data"]["admin"];
                       <div class="card-body">
                         <div class="d-flex align-items-center">
                           <div>
-                            <h5 class="card-title fw-semibold">
-                             <img src="images/bat.jpg" alt="قیمت لیر امروز" width="20px"> قیمت بات <span><?=number_format(floatval($row_currency['derham']) * 100) ?></span> تومان
-                            </h5>
+                            <h6 class="card-title fw-semibold">
+                             <img src="images/bat.jpg" alt="قیمت لیر امروز" width="20px"> قیمت حواله بات <span><?=number_format(floatval($row_currency['bat']) * 100) ?></span> تومان
+                            </h6>
                   
                           </div>
                         </div>
@@ -807,6 +807,26 @@ $admin = $_SESSION["user_data"]["admin"];
     </div>
     
  
+    <div class="contact-circle" onclick="toggleIcons()">
+        <img src="https://cdn-icons-png.flaticon.com/512/724/724664.png" alt="تماس">
+    </div>
+
+    <div class="social-icons" id="socialIcons">
+        <a href="https://wa.me/1234567890" class="whatsapp" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="واتساپ">
+        </a>
+        <a href="https://t.me/yourtelegram" class="telegram" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="تلگرام">
+        </a>
+    </div>
+
+    <script>
+        function toggleIcons() {
+            const icons = document.getElementById('socialIcons');
+            icons.style.display = icons.style.display === 'flex' ? 'none' : 'flex';
+        }
+    </script>
+    
     <div id="modalContainer"></div>
    
     <?php include "footer.php"; ?>

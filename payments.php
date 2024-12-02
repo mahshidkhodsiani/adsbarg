@@ -161,7 +161,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                             <td>
                                               <?php
                                               if ($row['type'] == 'charge') echo "شارج اکانت". " " . cidAccount($row['account_id']);
-                                              if ($row['type'] == 2) echo "وا��د فعالیتی";
+                                              if ($row['type'] == 'click') echo "پرداخت ابزار کلیک";
                                               ?>
                                             </td>
                                             

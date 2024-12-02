@@ -198,7 +198,43 @@ $admin = $_SESSION["user_data"]["admin"];
                                           <b>6,500</b>
                                           <span>تومان</span>
                                           </h6>
-                                          <form method="POST" action="invoice.php">
+                                          <form method="POST" action="invoice_service.php">
+                                            <input type="hidden" name="amount_service_click" value="0">
+                                          <button class="btn btn-success text-white" name="charge">ثبت سفارش </button>
+                                          </form>
+                                      </div>
+                                      </div>
+                                  </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-12 col-md-6 product_item" data-groupname="SRE" data-id="306e6a86-6567-47cf-9f9e-5c2afbbde319" data-producttype="G" data-paymentcost="1,500">
+                                  <div class="card overflow-hidden rounded-2">
+                                  <div class="card-body pt-3 p-4">
+                                      <h6 class="fw-bolder fs-5 product_title text-primary">فعالسازی پروموشن</h6>
+                                   
+                                      <p class="text-justify text-black lh-lg fs-5" style="text-align:justify"></p>
+                                      <div class="productMaximize">
+                                      <p class="shortDescP text-justify text-black lh-lg fs-5">تبلیغات از طریق پروموشن کد گوگل ادز</p>
+                                      <div class="offcanvas offcanvas-start" tabindex="-1" id="moreData-306e6a86-6567-47cf-9f9e-5c2afbbde319" aria-labelledby="offcanvasExampleLabel">
+                                          <div class="offcanvas-header w-100 d-flex flex-column" style="align-items:normal !important">
+                                          <div class="d-flex align-items-center justify-content-between mx-3 mt-3">
+                                              <h5 class="offcanvas-title" id="offcanvasExampleLabel">بررسی دیزاین سایت</h5>
+                                              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                          </div>
+                                          <div class="d-flex align-items-center justify-content-between bg-light mt-4 position sticky p-3">
+                                              
+                                          </div>
+                                          </div>
+                                        
+                                      </div>
+                                      <div class="d-flex align-items-center justify-content-between">
+                                          <h6 class="fw-semibold fs-4 mb-0 text-primary product_paymentCost">
+                                          <b>ماهیانه</b>
+                                          <b>6,500</b>
+                                          <span>تومان</span>
+                                          </h6>
+                                          <form method="POST" action="">
                                             <input type="hidden" name="amount_service" value="0">
                                           <button class="btn btn-success text-white" name="charge">ثبت سفارش </button>
                                           </form>

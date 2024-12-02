@@ -1,23 +1,32 @@
 <?php
 // Database connection
 
-// $host = '185.141.212.171'; // Change as needed
-// $username = 'adsbarg_admin'; // Your database username
-// $password = 'HL(to{PCYL=b'; // Your database password
-// $dbname = 'adsbarg_dashboard'; // Replace with your database name
+
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
 
-$host = "localhost"; // Update with your DB host
-$user = "root";      // Update with your DB username
-$pass = "";          // Update with your DB password
-$dbname = "adsbarg"; // Update with your DB name
+$host = '185.141.212.171'; // Change as needed
+$username = 'adsbarg_admin'; // Your database username
+$password = 'HL(to{PCYL=b'; // Your database password
+$dbname = 'adsbarg_dashboard'; // Replace with your database name
 
-$conn = new mysqli($host, $user, $pass, $dbname);
+
+// $host = "localhost"; // Update with your DB host
+// $username = "root";      // Update with your DB username
+// $password = "";          // Update with your DB password
+// $dbname = "adsbarg"; // Update with your DB name
+
+$conn = new mysqli($host, $username, $password, $dbname);
 
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+$conn->set_charset("utf8");
+
 
 // Fetch websites where robot_checked is 0
 $query = "SELECT user_id, user_website FROM user_websites WHERE robot_checked = 0";

@@ -727,6 +727,67 @@
 }
 
 
+
+
+
 .table-responsive {
   overflow-x: auto !important;
+}
+
+
+.contact-circle {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 60px;
+  height: 60px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.contact-circle img {
+  width: 30px;
+  height: 30px;
+}
+
+.social-icons {
+  position: fixed;
+  bottom: 90px;
+  left: 20px;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.social-icons a {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.social-icons a img {
+  width: 30px;
+  height: 30px;
+}
+
+.social-icons a.whatsapp {
+  background-color: #25d366;
+}
+
+.social-icons a.telegram {
+  background-color: #0088cc;
 }

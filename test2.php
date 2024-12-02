@@ -1,5 +1,9 @@
 <?php
 
+
+// 7lx2kenv29vo7os
+// این بالایی پترن تایید پرداخت
+
 $curl = curl_init();
 curl_setopt_array($curl, array(
     CURLOPT_URL => 'https://api2.ippanel.com/api/v1/sms/pattern/normal/send',
@@ -24,4 +28,7 @@ $response = curl_exec($curl);
 curl_close($curl);
 echo $response;
 ?>
+
+
+
 

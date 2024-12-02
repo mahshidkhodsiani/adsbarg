@@ -95,7 +95,7 @@ $id = $_SESSION["user_data"]["id"];
                     $amount_charge = floatval($_POST['amount_charge']);
                     $amount = floatval($_POST['total_amount']);
 
-                    $stmt = $conn->prepare("INSERT INTO orders (user_id, amount, status, shenaseh, account_id, type) VALUES (?, ?, ?, ?, ?, 'charge')");
+                    $stmt = $conn->prepare("INSERT INTO orders (user_id, amount, status, shenaseh, account_id, type, created_at) VALUES (?, ?, ?, ?, ?, 'charge', NOW())");
                     $random = generateRandomID(); 
                     $status = 2; 
 
@@ -115,6 +115,7 @@ $id = $_SESSION["user_data"]["id"];
                             $last_row = $result->fetch_assoc();
                             $shenaseh = $last_row['shenaseh'];
                             $id_order =$last_row['id'];
+                            $status =$last_row['status'];
 
                         } else {
                             echo "No records found.";
@@ -142,6 +143,7 @@ $id = $_SESSION["user_data"]["id"];
                         if ($result->num_rows > 0) {
                             $last_row = $result->fetch_assoc();
                             $shenaseh = $last_row['shenaseh'];
+                            $cid = $last_row['account_id'];
                         } else {
                             echo "No records found.";
                         }
@@ -164,6 +166,7 @@ $id = $_SESSION["user_data"]["id"];
                         $amount = $row2['amount'];
                         $id_order =$row2['id'];
                         $account_id = $row2['account_id'];
+                        $status =$row2['status'];
 
                         $this_acount = "SELECT * FROM accounts WHERE id = $account_id";
                         $acc_result = $conn->query($this_acount);
@@ -205,7 +208,18 @@ $id = $_SESSION["user_data"]["id"];
                 </div>
 
                 <div class="col-md-4 d-flex flex-column">
-                    <p class="text-primary fs-4 mb-2">تاریخ ثبت: <strong id="insertDate"><?php echo mds_date("l j F Y ", time(), 0); ?></strong></p>
+                    <p class="text-primary fs-4 mb-2">تاریخ ثبت: 
+                    <strong id="insertDate">
+                        <?php 
+                        if (isset($row2['created_at'])) {
+                            echo mds_date("l j F Y", strtotime($row2['created_at']), 0); 
+                        } else {
+                            echo mds_date("l j F Y ", time(), 0); 
+                        }
+                        ?>
+                    </strong>
+
+                    </p>
                     <p class="text-primary fs-4 mb-0">
                         وضعیت:
                             <?php
@@ -217,7 +231,7 @@ $id = $_SESSION["user_data"]["id"];
                             if ($row2['status'] == 1) echo "پرداخت شده";
                             echo '</span>';
                             echo ' <span class="badge text-white fw-bold bg-danger" id="invoiceState">';
-                            if ($row2['status'] == 0) echo "رد شده";
+                            if ($row2['status'] == 0) echo "لغو سیستمی";
                             echo '</span>';
                             }else{
                                 echo ' <span class="badge text-white fw-bold bg-warning" id="invoiceState">';
@@ -253,7 +267,13 @@ $id = $_SESSION["user_data"]["id"];
                 <div class="col-md-4 d-flex flex-column mt-4">
                     <p class="text-primary fs-4 mb-0">
                         آیدی اکانت : <strong class="fs-6 fw-boler" id="trackNo">
-                            <?= (isset($acc_row['id'])? cidAccount($acc_row['id']) : cidAccount($row['id']))?>
+                            <?php
+                                if(isset($acc_row['id'])){
+                                    echo cidAccount($acc_row['id']);
+                                }else{
+                                     echo cidAccount($row['id']);
+                                }
+                            ?>
                         </strong>
                     </p>
                 </div>
@@ -283,7 +303,7 @@ $id = $_SESSION["user_data"]["id"];
                 <div class="col-md-6" >
 
                     <?php
-                        if(!isset($id_invoice)){
+                        if(!isset($id_invoice) AND $status == 2){
                     ?>
                     <!-- Checkbox and Button to Open Modal -->
                     <div class="form-check form-check-inline align-items-center d-flex justify-content-center" id="condition">
@@ -299,7 +319,14 @@ $id = $_SESSION["user_data"]["id"];
                         }else{
                             ?>
                               <p>جمع کل : <?= number_format($amount). " تومان" ?></p>
-                                <span>پرداخت شده</span>
+                              <?php
+                                if($row2['status']== 1 ){
+                                    echo "<span>پرداخت شده</span>";
+                                }
+                                if($row2['status']== 0) {
+                                    echo "<span>لغو سیستمی </span>";
+                                }
+                              ?>
 
                         <?php
                         }
