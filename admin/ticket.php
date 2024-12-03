@@ -69,7 +69,6 @@ if($admin == 0){
        <?php
             include 'sidebar.php';  
             include "../config.php";
-            include "../functions.php";
 
         ?> 
       <div class="sidebarHolder"></div>

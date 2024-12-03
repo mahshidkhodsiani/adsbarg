@@ -85,35 +85,35 @@
                     <form action="" method="POST">
                         <div class="mb-3">
                             <div class="form-floating mb-3">
-                            <input name="phone" type="text" class="form-control" id="txtQuery2" placeholder="enter number">
+                            <input name="phone" type="text" class="form-control" id="txtQuery2" placeholder="enter number" required>
                             <label for="gEmail">شماره تلفن </label>
                             </div>
                         
                         </div>
                         <div class="mb-3">
                             <div class="form-floating mb-3">
-                            <input name="name" type="text" class="form-control" id="txtQuery2" placeholder="enter number">
+                            <input name="name" type="text" class="form-control" id="txtQuery2" placeholder="enter number" required>
                             <label for="gEmail">نام</label>
                             </div>
                         
                         </div>
                         <div class="mb-3">
                             <div class="form-floating mb-3">
-                            <input name="family" type="text" class="form-control" id="txtQuery2" placeholder="enter number">
+                            <input name="family" type="text" class="form-control" id="txtQuery2" placeholder="enter number" required>
                             <label for="gEmail">نام خانوادگی</label>
                             </div>
                         
                         </div>
                         <div class="mb-3">
                             <div class="form-floating mb-3">
-                            <input name="username" type="text" class="form-control" id="txtQuery2" placeholder="enter number">
+                            <input name="username" type="text" class="form-control" id="txtQuery2" placeholder="enter number" required pattern="[A-Za-z]+">
                             <label for="gEmail">یوزرنیم</label>
                             </div>
                         
                         </div>
                         <div class="mb-3">
                             <div class="form-floating mb-3">
-                            <input name="password" type="text" class="form-control" id="txtQuery2" placeholder="enter number">
+                            <input name="password" type="text" class="form-control" id="txtQuery2" placeholder="enter number" required>
                             <label for="gEmail">پسورد</label>
                             </div>
                         
@@ -175,49 +175,61 @@ if (isset($_POST['submit'])) {
   $username = $_POST['username'];
   $password = $_POST['password'];
 
-  // Generate a random code for verification
-  $code = rand(1000, 9999);
-  $_SESSION['code_verification'] = $code;
+  $dupli = "SELECT * FROM users WHERE username = '$username' OR phone = '$phone'";
+  $result_dupli = $conn->query($dupli);
+  if ($result_dupli->num_rows > 0) {
+    echo "<h4 style='color:red'>کاربری با این شماره یا یوزرنیم قبلا ثبت نام کرده</h4>";
+  }else{
+
+      // Generate a random code for verification
+    $code = rand(1000, 9999);
+    $_SESSION['code_verification'] = $code;
 
 
-  $_SESSION['all_data'] = array(
-      'phone' => $phone,
-      'name' => $name,
-      'family' => $family,
-      'username' => $username,
-      'password' => $password,
-      'verification_code' => $code
-  );
+    $_SESSION['all_data'] = array(
+        'phone' => $phone,
+        'name' => $name,
+        'family' => $family,
+        'username' => $username,
+        'password' => $password,
+        'verification_code' => $code
+    );
 
 
-  $curl = curl_init();
-    curl_setopt_array($curl, array(
-      CURLOPT_URL => 'https://api2.ippanel.com/api/v1/sms/pattern/normal/send',
-      CURLOPT_RETURNTRANSFER => true,
-      CURLOPT_ENCODING => '',
-      CURLOPT_MAXREDIRS => 10,
-      CURLOPT_TIMEOUT => 0,
-      CURLOPT_FOLLOWLOCATION => true,
-      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-      CURLOPT_CUSTOMREQUEST => 'POST',
-      CURLOPT_POSTFIELDS =>'{
-          "code": "5d43det7mmbukgk" ,
-          "sender": "3000505" ,
-          "recipient": "'.$phone.'" ,
-          "variable": {"verification-code": "'.$code.'" } }',
-      CURLOPT_HTTPHEADER => array(
-      'apikey: tlx26aCDjiYqOdvtKOBvwEkbu9laYEE5DfTp9Y5a4ro=',
-      'Content-Type: application/json',
-      ),
-  ));
+    $curl = curl_init();
+      curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://api2.ippanel.com/api/v1/sms/pattern/normal/send',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS =>'{
+            "code": "5d43det7mmbukgk" ,
+            "sender": "3000505" ,
+            "recipient": "'.$phone.'" ,
+            "variable": {"verification-code": "'.$code.'" } }',
+        CURLOPT_HTTPHEADER => array(
+        'apikey: tlx26aCDjiYqOdvtKOBvwEkbu9laYEE5DfTp9Y5a4ro=',
+        'Content-Type: application/json',
+        ),
+    ));
 
-  $response = curl_exec($curl);
-  curl_close($curl);
+    $response = curl_exec($curl);
+    curl_close($curl);
 
-  if($response){
-    header("location:two_step_login.php");
-    exit();
-  } else {
-    echo "<script>alert('ارسال پیامک ناموفق بود. لطفاً مجدداً تلاش کنید.');</script>";
+    if($response){
+        echo "
+        <script>
+         window.location.href = 'two_step_login.php';
+        </script>";
+
+    } else {
+      echo "<script>alert('ارسال پیامک ناموفق بود. لطفاً مجدداً تلاش کنید.');</script>";
+    }
   }
+
+
 }
