@@ -100,10 +100,18 @@
                             <i class="fa fa-login ms-2 align-items-center"></i>
                         </button>
 
-                        <div class="mt-2">
-                          <p class="mb-0">
-                            <a href="register" class="text-dark">صفحه ثبت نام</a>
-                          </p>
+
+                        <div class="row mt-2">
+                          <div class="col-6">
+                            <p class="mb-0">
+                              <a href="register" class="text-dark">صفحه ثبت نام</a>
+                            </p>
+                          </div>
+                          <div class="col-6">
+                            <p class="mb-0">
+                              <a href="forgot_password" class="text-dark">فراموشی رمز</a>
+                            </p>
+                          </div>
                         </div>
 
                       </form>

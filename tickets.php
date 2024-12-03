@@ -30,6 +30,8 @@ $admin = $_SESSION["user_data"]["admin"];
     <script src="js/jquery.min.js"></script>
     <link rel="stylesheet" href="css/mainstyles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" type="image/png" href="images/logo.png">
+
 
     <script type="text/javascript">
       !function(){var i="CPbbUM",a=window,d=document;function g(){var g=d.createElement("script"),s="https://www.goftino.com/widget/"+i,l=localStorage.getItem("goftino_"+i);g.async=!0,g.src=l?s+"?o="+l:s;d.getElementsByTagName("head")[0].appendChild(g);}"complete"===d.readyState?g():a.attachEvent?a.attachEvent("onload",g):a.addEventListener("load",g,!1);}();
@@ -254,6 +256,24 @@ $admin = $_SESSION["user_data"]["admin"];
     
   
     <div id="modalContainer"></div>
+
+
+    <!-- ------------------------------- -->
+    <div class="contact-circle" onclick="toggleIcons()">
+    <img src="https://cdn-icons-png.flaticon.com/512/724/724664.png" alt="تماس">
+    </div>
+
+    <div class="social-icons" id="socialIcons">
+        <a href="https://wa.me/1234567890" class="whatsapp" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="واتساپ">
+        </a>
+        <a href="https://t.me/yourtelegram" class="telegram" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="تلگرام">
+        </a>
+    </div>
+    <!-- ------------------------------ -->
+
+    
     <?php include "footer.php"; ?>
  
     <script>

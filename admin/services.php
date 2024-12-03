@@ -31,6 +31,8 @@ $admin = $_SESSION["user_data"]["admin"];
     <script src="js/jquery.min.js"></script>
     <link rel="stylesheet" href="css/mainstyles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" type="image/png" href="../images/logo.png">
+
 
     
 
@@ -232,10 +234,8 @@ $admin = $_SESSION["user_data"]["admin"];
                                           <b>6,500</b>
                                           <span>تومان</span>
                                           </h6>
-                                          <form method="POST" action="">
-                                            <input type="hidden" name="amount_service" value="0">
-                                          <button class="btn btn-success text-white" name="charge">ثبت سفارش </button>
-                                          </form>
+                                            <a class="btn btn-success text-white" href="promotions">ثبت سفارش </a>
+                                         
                                       </div>
                                       </div>
                                   </div>

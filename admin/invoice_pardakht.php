@@ -28,6 +28,7 @@ $id = $_SESSION["user_data"]["id"];
     <script src="js/jquery.min.js"></script>
     <link rel="stylesheet" href="css/mainstyles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" type="image/png" href="../images/logo.png">
 
     
 
@@ -157,24 +158,38 @@ $id = $_SESSION["user_data"]["id"];
                         سفارش : <strong class="fs-6 fw-boler" id="trackNo">
                             <?php
                             if($row['type']== 'charge') echo "شارژ اکانت";
-                            if($row['type']== 'click') echo "پرداخت سفارش کلیک";
+                            if($row['type']== 'click') echo "ابزار کلیک فیک";
                             ?>
                         </strong>
                     </p>
                 </div>
                 <div class="col-md-4 d-flex flex-column mt-4">
                     <p class="text-primary fs-4 mb-0">
-                        آیدی اکانت : <strong class="fs-6 fw-boler" id="trackNo"><?= cidAccount($row['account_id'])?></strong>
+                        <?php
+                        if($_POST['type_account'] == 'charge'){
+                        ?>
+
+                            آیدی اکانت : <strong class="fs-6 fw-boler" id="trackNo"><?= cidAccount($row['account_id'])?></strong>
+                        
+                        <?php
+                        }
+                        ?>
                     </p>
                 </div>
                 <div class="col-md-4 d-flex flex-column mt-4">
                     <p class="text-primary fs-4 mb-0 ">
+                    <?php
+                    if($_POST['type_account'] == 'charge'){
+                    ?>
                         نوع اکانت : <strong class="fs-6 fw-boler border" id="trackNo">
                             <?php
                             if($acc['managed']== 1) echo "مدیریت شده";
                             else echo "اختصاصی"
                             ?>
                         </strong>
+                    <?php
+                    }
+                    ?>
                     </p>
                 </div>
             </div>

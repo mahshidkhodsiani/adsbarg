@@ -31,6 +31,8 @@ $admin = $_SESSION["user_data"]["admin"];
     <script src="js/jquery.min.js"></script>
     <link rel="stylesheet" href="css/mainstyles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" type="image/png" href="images/logo.png">
+
 
 
     <script type="text/javascript">
@@ -43,7 +45,6 @@ $admin = $_SESSION["user_data"]["admin"];
     <style>
       
       body {
-
         font-family: "tahoma" !important;
         /* font-family: "g" !important; */
       }

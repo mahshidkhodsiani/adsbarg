@@ -741,7 +741,7 @@
   left: 20px;
   width: 60px;
   height: 60px;
-  background-color: #007bff;
+  background-color: #8fa0b2;
   color: white;
   border-radius: 50%;
   display: flex;
@@ -791,3 +791,4 @@
 .social-icons a.telegram {
   background-color: #0088cc;
 }
+

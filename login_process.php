@@ -37,10 +37,14 @@ if (isset($_POST['submit'])) {
         }
         exit();
     } else {
-        $_SESSION['login_error'] = 'نام کاربری یا رمز عبور اشتباه است. دوباره امتحان کنید.';
-        header("Location: login.php"); // Redirect back to the login page
-        exit();
+        echo "<script>
+            alert('کاربری یا رمز عبور اشتباه است');
+            setTimeout(() => {
+                window.location.href = 'login';
+            });
+        </script>";
     }
+    
 
     // Close the statement
     $stmt->close();

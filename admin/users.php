@@ -30,6 +30,8 @@ $admin = $_SESSION["user_data"]["admin"];
     <script src="js/jquery.min.js"></script>
     <link rel="stylesheet" href="css/mainstyles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" type="image/png" href="../images/logo.png">
+
 
     
 
@@ -112,32 +114,29 @@ $admin = $_SESSION["user_data"]["admin"];
                               </div>
 
                               <?php
-                            
+                            // Pagination parameters
+                            $rows_per_page = 10; // Number of rows per page
+                            $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1; // Current page
+                            $offset = ($page - 1) * $rows_per_page; // Offset for SQL query
 
-                              // Pagination parameters
-                              $rows_per_page = 10; // Number of rows per page
-                              $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1; // Current page
-                              $offset = ($page - 1) * $rows_per_page; // Offset for SQL query
+                            // Total rows in the table
+                            $total_rows_query = "SELECT COUNT(*) AS total FROM users";
+                            $total_rows_result = $conn->query($total_rows_query);
+                            $total_rows = $total_rows_result->fetch_assoc()['total'];
+                            $total_pages = ceil($total_rows / $rows_per_page); // Total pages
 
-                              // Total rows in the table
-                              $total_rows_query = "SELECT COUNT(*) AS total FROM users";
-                              $total_rows_result = $conn->query($total_rows_query);
-                              $total_rows = $total_rows_result->fetch_assoc()['total'];
-                              $total_pages = ceil($total_rows / $rows_per_page); // Total pages
+                            // Fetch rows for the current page
+                            $sql = "SELECT * FROM users ORDER BY id DESC LIMIT $rows_per_page OFFSET $offset";
+                            $result = $conn->query($sql);
+                            ?>
 
-                              // Fetch rows for the current page
-                              $sql = "SELECT * FROM users ORDER BY id DESC";
-                              // echo $sql;
-                              $result = $conn->query($sql);
-                              ?>
-
-                              <div class="table-responsive">
+                            <div class="table-responsive">
                                 <table class="table">
                                     <thead>
                                         <tr>
                                             <th scope="col">ردیف</th>
                                             <th scope="col">اسم و فامیل</th>
-                                            <th scope="col">ایمیل</th>
+                                            <th scope="col">یوزرنیم</th>
                                             <th scope="col">جزئیات</th>
                                         </tr>
                                     </thead>
@@ -151,9 +150,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                                 <th scope="row"><?= $i ?></th>
                                                 <td><?= get_name($row['id']) ?></td>
                                                 <td><?= $row['username'] ?></td>
-                                                <td><a href="user.php?userId=<?=$row['id']?>">مشاهده</a></td>
-                                              
-                                              
+                                                <td><a href="user.php?userId=<?= $row['id'] ?>">مشاهده</a></td>
                                             </tr>
                                         <?php
                                                 $i++;
@@ -164,60 +161,33 @@ $admin = $_SESSION["user_data"]["admin"];
                                         ?>
                                     </tbody>
                                 </table>
-                              </div>
+                            </div>
 
-                              <!-- Pagination Links -->
-                              <nav>
-                                  <ul class="pagination justify-content-center">
-                                      <!-- Previous Link -->
-                                      <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
-                                          <a class="page-link" href="?page=<?= $page - 1 ?>">قبلی</a>
-                                      </li>
-                                      
-                                      <!-- Page Numbers -->
-                                      <?php for ($p = 1; $p <= $total_pages; $p++) : ?>
-                                          <li class="page-item <?= ($p == $page) ? 'active' : '' ?>">
-                                              <a class="page-link" href="?page=<?= $p ?>"><?= $p ?></a>
-                                          </li>
-                                      <?php endfor; ?>
-                                      
-                                      <!-- Next Link -->
-                                      <li class="page-item <?= ($page >= $total_pages) ? 'disabled' : '' ?>">
-                                          <a class="page-link" href="?page=<?= $page + 1 ?>">بعدی</a>
-                                      </li>
-                                  </ul>
-                              </nav>
+                            <!-- Pagination Links -->
+                            <nav>
+                                <ul class="pagination justify-content-center">
+                                    <!-- Previous Link -->
+                                    <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
+                                        <a class="page-link" href="?page=<?= $page - 1 ?>">قبلی</a>
+                                    </li>
+                                    
+                                    <!-- Page Numbers -->
+                                    <?php for ($p = 1; $p <= $total_pages; $p++) : ?>
+                                        <li class="page-item <?= ($p == $page) ? 'active' : '' ?>">
+                                            <a class="page-link" href="?page=<?= $p ?>"><?= $p ?></a>
+                                        </li>
+                                    <?php endfor; ?>
+                                    
+                                    <!-- Next Link -->
+                                    <li class="page-item <?= ($page >= $total_pages) ? 'disabled' : '' ?>">
+                                        <a class="page-link" href="?page=<?= $page + 1 ?>">بعدی</a>
+                                    </li>
+                                </ul>
+                            </nav>
 
 
 
-                              <form action="" method="POST" enctype="multipart/form-data" id="new_ticket" style="display: none;">
-                                <div class="row">
-                                  <h3>فرم ثبت تیکت</h3>
-                                  
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" placeholder="موضوع تیکت" name="title">
-                                    </div>
-                                </div>
-                                <div class="row mt-1">
 
-                                    <div class="col-md-6">
-                                        <textarea class="form-control" rows="8" name="matn">متن تیکت</textarea>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                      <div class="custom-file-upload">
-                                        <label for="fileUpload" class="btn btn-outline-primary">فایل ضمیمه</label>
-                                        <input type="file" id="fileUpload" class="form-control" hidden name="zamimeh">
-                                      </div>
-                                    </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col-md-6">
-                                        <button name="submit" class="btn btn-success w-100 py-8 mb-4 rounded-2">ارسال تیکت</button>
-                                    </div>
-                                </div>
-                              </form>
 
 
                           

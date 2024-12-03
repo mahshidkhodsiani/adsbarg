@@ -35,6 +35,8 @@ if($admin == 0){
     <script src="js/jquery.min.js"></script>
     <link rel="stylesheet" href="css/mainstyles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" type="image/png" href="../images/logo.png">
+
 
     
 
@@ -390,7 +392,7 @@ if(isset($_POST['send_answer2']) ){
       $pass = "43875910";
       $fromNum = "+983000505";
       $toNum = $phone;
-      $messageContent = 'تیکت شما پاسخ داده شد';
+      $messageContent = 'مشتری گرامی تیکت شما پاسخ داده شد';
       $op  = "send";
     //If you want to send in the future  ==> $time = '2016-07-30' //$time = '2016-07-30 12:50:50'
     

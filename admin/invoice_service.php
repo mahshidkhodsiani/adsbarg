@@ -28,6 +28,8 @@ $id = $_SESSION["user_data"]["id"];
     <script src="js/jquery.min.js"></script>
     <link rel="stylesheet" href="css/mainstyles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" type="image/png" href="../images/logo.png">
+
 
 
 
@@ -173,15 +175,15 @@ $id = $_SESSION["user_data"]["id"];
                     <p class="text-primary fs-4 mb-0">
                         وضعیت:
                             <?php
-                            if(isset($last_row['status'])){
+                            if(isset($row2['status'])){
                             echo ' <span class="badge text-white fw-bold bg-warning" id="invoiceState">';
-                            if ($last_row['status'] == 2) echo "در حالت پرداخت";
+                            if ($row2['status'] == 2) echo "در حالت پرداخت";
                             echo '</span>';
                             echo ' <span class="badge text-white fw-bold bg-success" id="invoiceState">';
-                            if ($last_row['status'] == 1) echo "پرداخت شده";
+                            if ($row2['status'] == 1) echo "پرداخت شده";
                             echo '</span>';
                             echo ' <span class="badge text-white fw-bold bg-danger" id="invoiceState">';
-                            if ($last_row['status'] == 0) echo "لغو سیستمی";
+                            if ($row2['status'] == 0) echo "لغو سیستمی";
                             echo '</span>';
                             }else{
                                 echo ' <span class="badge text-white fw-bold bg-warning" id="invoiceState">';
@@ -210,6 +212,10 @@ $id = $_SESSION["user_data"]["id"];
                             }
                             if(isset($_POST['amount_charge'])){
                                 echo "شارژ اکانت";
+                            }
+                            if(isset($row2['type'])){
+                                if($row2['type']== 'charge')  echo "شارژ اکانت";
+                                if($row2['type']== 'click') echo "هزینه ابزار کلیک فیک";
                             }
                             ?>
                         </strong>

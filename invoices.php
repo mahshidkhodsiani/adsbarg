@@ -30,6 +30,9 @@ $admin = $_SESSION["user_data"]["admin"];
     <script src="js/jquery.min.js"></script>
     <link rel="stylesheet" href="css/mainstyles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <link rel="shortcut icon" type="image/png" href="images/logo.png">
+
 
     <script type="text/javascript">
       !function(){var i="CPbbUM",a=window,d=document;function g(){var g=d.createElement("script"),s="https://www.goftino.com/widget/"+i,l=localStorage.getItem("goftino_"+i);g.async=!0,g.src=l?s+"?o="+l:s;d.getElementsByTagName("head")[0].appendChild(g);}"complete"===d.readyState?g():a.attachEvent?a.attachEvent("onload",g):a.addEventListener("load",g,!1);}();
@@ -138,7 +141,8 @@ $admin = $_SESSION["user_data"]["admin"];
                                     $total_pages = ceil($total_rows / $rows_per_page); // Total pages
 
                                     // Fetch rows for the current page
-                                    $sql = "SELECT * FROM orders WHERE user_id = $id ORDER BY id DESC LIMIT $rows_per_page OFFSET $offset";
+                                    $sql = "SELECT * FROM orders WHERE user_id = $id ORDER BY id DESC
+                                            LIMIT $rows_per_page OFFSET $offset";
                                     $result = $conn->query($sql);
 
                                     if ($result->num_rows > 0) {
@@ -164,14 +168,31 @@ $admin = $_SESSION["user_data"]["admin"];
                                         </td>
                                         <td><?= $row['amount'] ?></td>
                                         <td>
+                                            <?php
+                                            if ($row['type'] == 'charge'){
+                                            ?>
                                             <div class="d-flex align-items-center flex-row">
-                                                <form action="invoice.php" method="POST" >
-                                                    <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
-                                                    <button class="btn btn-outline-info btn-circle btn-sm" name="charge">
-                                                        <i class="fs-5 fa fa-credit-card"></i>
-                                                    </button>
-                                                </form>
+                                              <form action="invoice.php" method="POST">
+                                                <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
+                                                <button class="btn btn-outline-info btn-circle btn-sm" name="charge" title="مشاهده">
+                                                  <i class="fs-5 fa fa-credit-card"></i>
+                                                </button>
+                                              </form>
                                             </div>
+                                            <?php
+                                            }elseif($row['type'] == 'click'){
+                                              ?>
+                                            <div class="d-flex align-items-center flex-row">
+                                              <form action="invoice_service.php" method="POST">
+                                                <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
+                                                <button class="btn btn-outline-info btn-circle btn-sm" name="charge" title="مشاهده">
+                                                  <i class="fs-5 fa fa-credit-card"></i>
+                                                </button>
+                                              </form>
+                                            </div>
+                                            <?php
+                                            }
+                                            ?>
                                         </td>
                                     </tr>
                                     <?php
@@ -295,6 +316,22 @@ $admin = $_SESSION["user_data"]["admin"];
       </p>
     </div>
     <div id="modalContainer"></div>
+
+    <!-- ------------------------------- -->
+    <div class="contact-circle" onclick="toggleIcons()">
+    <img src="https://cdn-icons-png.flaticon.com/512/724/724664.png" alt="تماس">
+    </div>
+
+    <div class="social-icons" id="socialIcons">
+        <a href="https://wa.me/1234567890" class="whatsapp" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="واتساپ">
+        </a>
+        <a href="https://t.me/yourtelegram" class="telegram" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="تلگرام">
+        </a>
+    </div>
+    <!-- ------------------------------ -->
+
     <?php include "footer.php"; ?>
  
 

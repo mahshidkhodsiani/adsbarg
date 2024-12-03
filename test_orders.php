@@ -21,14 +21,15 @@ if ($conn->connect_error) {
 
 
 
-$sql = "UPDATE accounts 
-        SET active = 0
-        WHERE created_at < NOW() - INTERVAL 6 MONTH";
-
+// کوئری برای غیرفعال کردن سفارشات
+$sql = "UPDATE orders 
+        SET status = 0 
+        WHERE status = 2
+        AND created_at < NOW() - INTERVAL 1 DAY";
 
 // اجرای کوئری
 if ($conn->query($sql) === TRUE) {
-    echo "اکانت غیرفعال شد.";
+    echo "سفارشات قدیمی غیرفعال شدند.";
 } else {
     echo "خطا: " . $conn->error;
 }

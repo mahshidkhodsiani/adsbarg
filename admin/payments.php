@@ -30,6 +30,8 @@ $admin = $_SESSION["user_data"]["admin"];
     <script src="js/jquery.min.js"></script>
     <link rel="stylesheet" href="css/mainstyles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" type="image/png" href="../images/logo.png">
+
 
     
 
@@ -353,48 +355,83 @@ $admin = $_SESSION["user_data"]["admin"];
 
 if(isset($_POST['confirm_payment'])){
   $id_invoice = $_POST['id_invoice'];
-  $sql = "UPDATE payments SET confirm = 1 WHERE id = $id_invoice";
-  $result = $conn->query($sql);
-  if($result){
-    echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
-    <div class='toast-header bg-success text-white'>
-        <strong class='mr-auto'>Success</strong>
-    </div>
-    <div class='toast-body'>
-      با موفقیت انجام شد!
-    </div>
-    </div>
-    <script>
-        $(document).ready(function(){
-            $('#successToast').toast({
-                autohide: true,
-                delay: 3000
-            }).toast('show');
-            setTimeout(function(){
-                window.location.href = 'payments';
-            }, 3000);
-        });
-    </script>";
-  }else{
-    echo "<div id='errorToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
-    <div class='toast-header bg-danger text-white'>
-        <strong class='mr-auto'>Error</strong>
-    </div>
-    <div class='toast-body'>
-        خطایی رخ داده، دوباره امتحان کنید!<br>Error: " . htmlspecialchars($stmt->error) . "
-    </div>
-    </div>
-    <script>
-        $(document).ready(function(){
-            $('#errorToast').toast({
-                autohide: true,
-                delay: 3000
-            }).toast('show');
-            setTimeout(function(){
-                window.location.href = 'payments';
-            }, 3000);
-        });
-    </script>";
-  }
 
+  $select_number = "SELECT user_id FROM orders where id = $id_invoice";
+  $result = $conn->query($select_number);
+  if($result-> num_rows > 0){
+    $row = $result->fetch_assoc();
+    $user_id = $row['user_id'];
+    $phone = "SELECT phone FROM users WHERE id = $user_id";
+    $result_phone = $conn->query($phone);
+    $row_phone = $result_phone->fetch_assoc();
+    $phone = $row_phone['phone'];
+
+
+    // turn off the WSDL cache
+    ini_set("soap.wsdl_cache_enabled", "0");
+    try {
+      $client = new SoapClient("http://ippanel.com/class/sms/wsdlservice/server.php?wsdl");
+        $user = "arta9120469460";
+        $pass = "43875910";
+        $fromNum = "+983000505";
+        $toNum = $phone;
+        $messageContent = 'مشتری گرامی پرداخت شما با موفقیت انجام شد';
+        $op  = "send";
+      //If you want to send in the future  ==> $time = '2016-07-30' //$time = '2016-07-30 12:50:50'
+      
+      $time = '';
+      
+      echo $client->SendSMS($fromNum,$toNum,$messageContent,$user,$pass,$time,$op);
+      echo $status;
+    } catch (SoapFault $ex) {
+        echo $ex->faultstring;
+    }
+
+
+
+    $sql = "UPDATE payments SET confirm = 1 WHERE id = $id_invoice";
+    $result = $conn->query($sql);
+    if($result){
+      echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+      <div class='toast-header bg-success text-white'>
+          <strong class='mr-auto'>Success</strong>
+      </div>
+      <div class='toast-body'>
+        با موفقیت انجام شد!
+      </div>
+      </div>
+      <script>
+          $(document).ready(function(){
+              $('#successToast').toast({
+                  autohide: true,
+                  delay: 3000
+              }).toast('show');
+              setTimeout(function(){
+                  window.location.href = 'payments';
+              }, 3000);
+          });
+      </script>";
+    }else{
+      echo "<div id='errorToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+      <div class='toast-header bg-danger text-white'>
+          <strong class='mr-auto'>Error</strong>
+      </div>
+      <div class='toast-body'>
+          خطایی رخ داده، دوباره امتحان کنید!<br>Error: " . htmlspecialchars($stmt->error) . "
+      </div>
+      </div>
+      <script>
+          $(document).ready(function(){
+              $('#errorToast').toast({
+                  autohide: true,
+                  delay: 3000
+              }).toast('show');
+              setTimeout(function(){
+                  window.location.href = 'payments';
+              }, 3000);
+          });
+      </script>";
+    }
+
+  }
 }

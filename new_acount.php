@@ -29,6 +29,8 @@ $id = $_SESSION["user_data"]["id"];
     <script src="js/jquery.min.js"></script>
     <link rel="stylesheet" href="css/mainstyles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" type="image/png" href="images/logo.png">
+
 
     
 
@@ -251,7 +253,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Insert data into database
-    $stmt = $conn->prepare("INSERT INTO accounts (currency, username, managed, email, user_id, method, website) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO accounts (currency, username, managed, email, user_id, method, website, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
     $stmt->bind_param("ssissss", $currencyCode, $name, $managed_personal, $email, $id, $network, $url);
 
 

@@ -34,7 +34,7 @@
             <p class="card-text text-muted">
                 You do not have permission to access this page. If you believe this is an error, please contact the administrator.
             </p>
-            <a href="adsbarg.com" class="btn btn-primary mt-3">Go to Homepage</a>
+            <a href="../login.php" class="btn btn-primary mt-3">Go to Homepage</a>
         </div>
     </div>
 

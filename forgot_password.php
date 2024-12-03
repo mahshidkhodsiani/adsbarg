@@ -1,5 +1,6 @@
+
 <?php
-  session_start();
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
@@ -15,6 +16,7 @@
     <link rel="shortcut icon" type="image/png" href="images/logo.png">
     <link rel="stylesheet" href="https://my.g-ads.org/assets/css/style.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
 
     <title>پنل کاربری ادزبرگ</title>
     <style>
@@ -67,69 +69,42 @@
                   </h2>
                   <div class="position-relative text-center my-4"></div>
                   <ul class="nav nav-tabs pt-9" role="tablist">
-                    <li class="nav-item" role="presentation">
-                      <a class="nav-link active py-2 px-3 rounded-1" data-bs-toggle="tab" href="#tab_mobile" role="tab" aria-selected="true" id="withMobile">
-                        <span>ثبت نام با کد پیامکی</span>
-                      </a>
-                    </li>
+                  
                  
                   </ul>
                   <div class="tab-content">
                     <div class="tab-pane active show p-3" id="tab_mobile" role="tabpanel" aria-labelledby="#withMobile">
-                      <p class=" mb-9">لطفا شماره موبایل خود را وارد کنید</p>
+                      <p class=" mb-9">لطفا نام کاربری خودرا وارد کنید</p>
               
                 
                     </div>
                   
                   
-                    <form action="" method="POST">
+                      <form action="" method="POST">
                         <div class="mb-3">
-                            <div class="form-floating mb-3">
-                            <input name="phone" type="text" class="form-control" id="txtQuery2" placeholder="enter number">
-                            <label for="gEmail">شماره تلفن </label>
-                            </div>
+                          <div class="form-floating mb-3">
+                            <input name="username" type="text" class="form-control" id="txtQuery2" placeholder="Enter Name here">
+                            <label for="gEmail">
+                            <i class="fa fa-user me-1"></i>نام کاربری </label>
+                          </div>
                         
                         </div>
-                        <div class="mb-3">
-                            <div class="form-floating mb-3">
-                            <input name="name" type="text" class="form-control" id="txtQuery2" placeholder="enter number">
-                            <label for="gEmail">نام</label>
-                            </div>
-                        
-                        </div>
-                        <div class="mb-3">
-                            <div class="form-floating mb-3">
-                            <input name="family" type="text" class="form-control" id="txtQuery2" placeholder="enter number">
-                            <label for="gEmail">نام خانوادگی</label>
-                            </div>
-                        
-                        </div>
-                        <div class="mb-3">
-                            <div class="form-floating mb-3">
-                            <input name="username" type="text" class="form-control" id="txtQuery2" placeholder="enter number">
-                            <label for="gEmail">یوزرنیم</label>
-                            </div>
-                        
-                        </div>
-                        <div class="mb-3">
-                            <div class="form-floating mb-3">
-                            <input name="password" type="text" class="form-control" id="txtQuery2" placeholder="enter number">
-                            <label for="gEmail">پسورد</label>
-                            </div>
-                        
-                        </div>
-                        <button class="btn btn-primary w-100 py-8 mb-4 rounded-2" name="submit"> ثبت شماره و ایجاد اکانت 
+                        <button class="btn btn-primary w-100 py-8 mb-4 rounded-2" name="submit"> ثبت و ادامه 
                             <i class="fa fa-login ms-2 align-items-center"></i>
                         </button>
 
-                        <div class="mt-2">
-                            <p class="mb-0">
-                            <a href="login" class="text-dark">صفحه ورود</a>
-                            </p>
-                            
-                        </div>
 
-                    </form>
+                        <div class="row mt-2">
+                          <div class="col-6">
+                            <p class="mb-0">
+                              <a href="login" class="text-dark">بازگشت</a>
+                            </p>
+                          </div>
+                      
+                        </div>
+               
+
+                      </form>
               
                   </div>
                 </div>
@@ -161,63 +136,41 @@
 </html>
 
 
+
 <?php
-
-
-
 if (isset($_POST['submit'])) {
 
-  include "config.php";
+    include "config.php";
 
-  $phone = $_POST['phone'];
-  $name = $_POST['name'];
-  $family = $_POST['family'];
-  $username = $_POST['username'];
-  $password = $_POST['password'];
+    $username = $_POST['username'];
 
-  // Generate a random code for verification
-  $code = rand(1000, 9999);
-  $_SESSION['code_verification'] = $code;
+    // Prepare the SQL query
+    $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
+    $stmt->bind_param("s", $username);
 
+    // Execute the query
+    $stmt->execute();
 
-  $_SESSION['all_data'] = array(
-      'phone' => $phone,
-      'name' => $name,
-      'family' => $family,
-      'username' => $username,
-      'password' => $password,
-      'verification_code' => $code
-  );
+    // Get the result
+    $result = $stmt->get_result();
 
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $_SESSION['forgot_data'] = $row;
+        
+        // JavaScript-based redirect
+        echo "<script>window.location.href = 'reset_password.php';</script>";
+        exit();
+    } else {
+        // Use JavaScript alert and redirect
+        echo "<script>
+                alert('کاربری با این مشخصات پیدا نشد لطفا با پشتیبانی تماس بگیرید: 02136604248');
+                window.location.href = 'login.php'; 
+              </script>";
+        exit();
+    }
 
-  $curl = curl_init();
-    curl_setopt_array($curl, array(
-      CURLOPT_URL => 'https://api2.ippanel.com/api/v1/sms/pattern/normal/send',
-      CURLOPT_RETURNTRANSFER => true,
-      CURLOPT_ENCODING => '',
-      CURLOPT_MAXREDIRS => 10,
-      CURLOPT_TIMEOUT => 0,
-      CURLOPT_FOLLOWLOCATION => true,
-      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-      CURLOPT_CUSTOMREQUEST => 'POST',
-      CURLOPT_POSTFIELDS =>'{
-          "code": "5d43det7mmbukgk" ,
-          "sender": "3000505" ,
-          "recipient": "'.$phone.'" ,
-          "variable": {"verification-code": "'.$code.'" } }',
-      CURLOPT_HTTPHEADER => array(
-      'apikey: tlx26aCDjiYqOdvtKOBvwEkbu9laYEE5DfTp9Y5a4ro=',
-      'Content-Type: application/json',
-      ),
-  ));
-
-  $response = curl_exec($curl);
-  curl_close($curl);
-
-  if($response){
-    header("location:two_step_login.php");
-    exit();
-  } else {
-    echo "<script>alert('ارسال پیامک ناموفق بود. لطفاً مجدداً تلاش کنید.');</script>";
-  }
+    // Close the statement
+    $stmt->close();
 }
+

@@ -11,6 +11,11 @@ if (!isset($_SESSION["user_data"])) {
 $id = $_SESSION["user_data"]["id"];
 $admin = $_SESSION["user_data"]["admin"];
 
+if ($admin == 0 ){
+  header("Location: restricted.php");
+  exit(); 
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
@@ -30,6 +35,8 @@ $admin = $_SESSION["user_data"]["admin"];
     <script src="js/jquery.min.js"></script>
     <link rel="stylesheet" href="css/mainstyles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" type="image/png" href="../images/logo.png">
+
 
     
 
@@ -112,116 +119,132 @@ $admin = $_SESSION["user_data"]["admin"];
                               </div>
 
                               <?php
-                            
+                            // Pagination for user_websites
+                            $rows_per_page_websites = 10;
+                            $page_websites = isset($_GET['page_websites']) && is_numeric($_GET['page_websites']) ? intval($_GET['page_websites']) : 1;
+                            $offset_websites = ($page_websites - 1) * $rows_per_page_websites;
 
-                              // Pagination parameters
-                              $rows_per_page = 10; // Number of rows per page
-                              $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1; // Current page
-                              $offset = ($page - 1) * $rows_per_page; // Offset for SQL query
+                            $total_rows_query_websites = "SELECT COUNT(*) AS total FROM user_websites";
+                            $total_rows_result_websites = $conn->query($total_rows_query_websites);
+                            $total_rows_websites = $total_rows_result_websites->fetch_assoc()['total'];
+                            $total_pages_websites = ceil($total_rows_websites / $rows_per_page_websites);
 
-                              // Total rows in the table
-                              $total_rows_query = "SELECT COUNT(*) AS total FROM user_websites";
-                              $total_rows_result = $conn->query($total_rows_query);
-                              $total_rows = $total_rows_result->fetch_assoc()['total'];
-                              $total_pages = ceil($total_rows / $rows_per_page); // Total pages
-
-                              // Fetch rows for the current page
-                              $sql = "SELECT * FROM user_websites ORDER BY id DESC";
-                              // echo $sql;
-                              $result = $conn->query($sql);
-                              ?>
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
+                            $sql_websites = "SELECT * FROM user_websites ORDER BY id DESC LIMIT $rows_per_page_websites OFFSET $offset_websites";
+                            $result_websites = $conn->query($sql_websites);
+                            ?>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ردیف</th>
+                                            <th scope="col">یوزر</th>
+                                            <th scope="col">وب سایت</th>
+                                            <th scope="col">اکانت</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if ($result_websites->num_rows > 0) {
+                                            $i = $offset_websites + 1;
+                                            while ($row = $result_websites->fetch_assoc()) {
+                                        ?>
                                             <tr>
-                                                <th scope="col">ردیف</th>
-                                                <th scope="col">یوزر</th>
-                                                <th scope="col">وب سایت</th>
-                                                <th scope="col">اکانت</th>
+                                                <th scope="row"><?= $i ?></th>
+                                                <td><?= get_name($row['user_id']) ?></td>
+                                                <td><?= $row['user_website'] ?></td>
+                                                <td><?= 'اکانت ' . cidAccount($row['account_id']) ?></td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            if ($result->num_rows > 0) {
-                                                $i = $offset + 1; // Adjust row number for pagination
-                                                while ($row = $result->fetch_assoc()) {
-                                            ?>
-                                                <tr>
-                                                    <th scope="row"><?= $i ?></th>
-                                                    <td><?= get_name($row['user_id'])?></td>
-                                                    <td>
-                                                        <?=
-                                                        $row['user_website'];
-                                                        ?>
-                                                    </td>
-                                                    <td><?='اکانت ' . cidAccount($row['account_id'])?></td>
-                                                
-                                                
-                                                </tr>
-                                            <?php
-                                                    $i++;
-                                                }
-                                            } else {
-                                                echo "<tr><td colspan='5'>وبسایتی وجود ندارد.</td></tr>";
+                                        <?php
+                                                $i++;
                                             }
-                                            ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                              <!-- Pagination Links -->
-                              <nav>
-                                  <ul class="pagination justify-content-center">
-                                      <!-- Previous Link -->
-                                      <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
-                                          <a class="page-link" href="?page=<?= $page - 1 ?>">قبلی</a>
-                                      </li>
-                                      
-                                      <!-- Page Numbers -->
-                                      <?php for ($p = 1; $p <= $total_pages; $p++) : ?>
-                                          <li class="page-item <?= ($p == $page) ? 'active' : '' ?>">
-                                              <a class="page-link" href="?page=<?= $p ?>"><?= $p ?></a>
-                                          </li>
-                                      <?php endfor; ?>
-                                      
-                                      <!-- Next Link -->
-                                      <li class="page-item <?= ($page >= $total_pages) ? 'disabled' : '' ?>">
-                                          <a class="page-link" href="?page=<?= $page + 1 ?>">بعدی</a>
-                                      </li>
-                                  </ul>
-                              </nav>
+                                        } else {
+                                            echo "<tr><td colspan='4'>وبسایتی وجود ندارد.</td></tr>";
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <nav>
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item <?= ($page_websites <= 1) ? 'disabled' : '' ?>">
+                                        <a class="page-link" href="?page_websites=<?= $page_websites - 1 ?>">قبلی</a>
+                                    </li>
+                                    <?php for ($p = 1; $p <= $total_pages_websites; $p++) : ?>
+                                        <li class="page-item <?= ($p == $page_websites) ? 'active' : '' ?>">
+                                            <a class="page-link" href="?page_websites=<?= $p ?>"><?= $p ?></a>
+                                        </li>
+                                    <?php endfor; ?>
+                                    <li class="page-item <?= ($page_websites >= $total_pages_websites) ? 'disabled' : '' ?>">
+                                        <a class="page-link" href="?page_websites=<?= $page_websites + 1 ?>">بعدی</a>
+                                    </li>
+                                </ul>
+                            </nav>
 
 
+                            <hr>
+                            <h4>کلمات پیدا شده توسط ربات:</h4>
 
-                              <form action="" method="POST" enctype="multipart/form-data" id="new_ticket" style="display: none;">
-                                <div class="row">
-                                  <h3>فرم ثبت تیکت</h3>
-                                  
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" placeholder="موضوع تیکت" name="title">
-                                    </div>
-                                </div>
-                                <div class="row mt-1">
+                            <?php
+                            // Pagination for robot_words
+                            $rows_per_page_words = 10;
+                            $page_words = isset($_GET['page_words']) && is_numeric($_GET['page_words']) ? intval($_GET['page_words']) : 1;
+                            $offset_words = ($page_words - 1) * $rows_per_page_words;
 
-                                    <div class="col-md-6">
-                                        <textarea class="form-control" rows="8" name="matn">متن تیکت</textarea>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                      <div class="custom-file-upload">
-                                        <label for="fileUpload" class="btn btn-outline-primary">فایل ضمیمه</label>
-                                        <input type="file" id="fileUpload" class="form-control" hidden name="zamimeh">
-                                      </div>
-                                    </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col-md-6">
-                                        <button name="submit" class="btn btn-success w-100 py-8 mb-4 rounded-2">ارسال تیکت</button>
-                                    </div>
-                                </div>
-                              </form>
+                            $total_rows_query_words = "SELECT COUNT(*) AS total FROM robot_words";
+                            $total_rows_result_words = $conn->query($total_rows_query_words);
+                            $total_rows_words = $total_rows_result_words->fetch_assoc()['total'];
+                            $total_pages_words = ceil($total_rows_words / $rows_per_page_words);
 
+                            $sql_words = "SELECT * FROM robot_words ORDER BY id DESC LIMIT $rows_per_page_words OFFSET $offset_words";
+                            $result_words = $conn->query($sql_words);
+                            ?>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ردیف</th>
+                                            <th scope="col">یوزر</th>
+                                            <th scope="col">وب سایت</th>
+                                            <th scope="col">کلمه پیدا شده</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if ($result_words->num_rows > 0) {
+                                            $i = $offset_words + 1;
+                                            while ($row = $result_words->fetch_assoc()) {
+                                        ?>
+                                            <tr>
+                                                <th scope="row"><?= $i ?></th>
+                                                <td><?= get_name($row['user_id']) ?></td>
+                                                <td><?= $row['user_websites'] ?></td>
+                                                <td><?= $row['user_words'] ?></td>
+                                            </tr>
+                                        <?php
+                                                $i++;
+                                            }
+                                        } else {
+                                            echo "<tr><td colspan='4'>وبسایتی وجود ندارد.</td></tr>";
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <nav>
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item <?= ($page_words <= 1) ? 'disabled' : '' ?>">
+                                        <a class="page-link" href="?page_words=<?= $page_words - 1 ?>">قبلی</a>
+                                    </li>
+                                    <?php for ($p = 1; $p <= $total_pages_words; $p++) : ?>
+                                        <li class="page-item <?= ($p == $page_words) ? 'active' : '' ?>">
+                                            <a class="page-link" href="?page_words=<?= $p ?>"><?= $p ?></a>
+                                        </li>
+                                    <?php endfor; ?>
+                                    <li class="page-item <?= ($page_words >= $total_pages_words) ? 'disabled' : '' ?>">
+                                        <a class="page-link" href="?page_words=<?= $page_words + 1 ?>">بعدی</a>
+                                    </li>
+                                </ul>
+                            </nav>
 
                           
                                   

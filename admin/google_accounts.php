@@ -31,6 +31,8 @@ $admin = $_SESSION["user_data"]["admin"];
     <script src="js/jquery.min.js"></script>
     <link rel="stylesheet" href="css/mainstyles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" type="image/png" href="../images/logo.png">
+
 
     
 
@@ -70,7 +72,7 @@ $admin = $_SESSION["user_data"]["admin"];
         <!-- هدر بالای صفحه -->
         <?php
         // Define how many accounts per page
-        $limit = 9; // Adjust the number of accounts per page
+        $limit = 10; // Adjust the number of accounts per page
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Get the current page
         $page = max($page, 1); // Ensure page number is at least 1
         $offset = ($page - 1) * $limit; // Calculate offset for SQL query
@@ -195,6 +197,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                     </div>
                                     <p class="accountGoogle_name fw-bolder fs-7 mb-0" style="direction: ltr;"><?= $account['username'] ?></p>
                                     <p class="mb-1" style="direction:ltr">CID: <span><?=$account['cid'] ?? "هنوز آیدی ایجاد نشده" ?> </span></p>
+                                    <p>یوزر آیدی : <?=get_name($account['user_id'])?></p>
                                     <p class="text-start mt-2">
                                         <button class="btn btn-sm btn-success icoAccordian text-white" data-bs-toggle="collapse" data-bs-target="#acc_<?= $account['id'] ?>" aria-expanded="false" aria-controls="acc_<?= $account['id'] ?>">
                                             <i class="fa fa-circle-arrow-down"></i> شارژ کنید

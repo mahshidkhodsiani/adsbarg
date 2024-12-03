@@ -31,6 +31,8 @@ $admin = $_SESSION["user_data"]["admin"];
     <script src="js/jquery.min.js"></script>
     <link rel="stylesheet" href="css/mainstyles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" type="image/png" href="images/logo.png">
+
 
     
     <script type="text/javascript">
@@ -174,6 +176,12 @@ $admin = $_SESSION["user_data"]["admin"];
                                     </div>
                                     <p class="accountGoogle_name fw-bolder fs-7 mb-0" style="direction: ltr;"><?= $account['username'] ?></p>
                                     <p class="mb-1" style="direction:ltr">CID: <span><?=$row['cid'] ?? "هنوز آیدی ایجاد نشده" ?> </span></p>
+                                    <p class="">
+                                        <a href="https://adsbarg.com/" class="btn btn-outline-dark" target="_blank">
+                                             شارژ دلخواه (کلیک کنید) 
+                                        </a>
+                                   
+                                    </p>
                                     <p class="text-start mt-2">
                                         <button class="btn btn-sm btn-success icoAccordian text-white" data-bs-toggle="collapse" data-bs-target="#acc_<?= $account['id'] ?>" aria-expanded="false" aria-controls="acc_<?= $account['id'] ?>">
                                             <i class="fa fa-circle-arrow-down"></i> شارژ کنید
@@ -279,6 +287,18 @@ $admin = $_SESSION["user_data"]["admin"];
     </div>
     
 
+        <div class="contact-circle" onclick="toggleIcons()">
+            <img src="https://cdn-icons-png.flaticon.com/512/724/724664.png" alt="تماس">
+        </div>
+
+        <div class="social-icons" id="socialIcons">
+            <a href="https://wa.me/1234567890" class="whatsapp" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="واتساپ">
+            </a>
+            <a href="https://t.me/yourtelegram" class="telegram" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="تلگرام">
+            </a>
+        </div>
   
     <?php include "footer.php"; ?>
 
