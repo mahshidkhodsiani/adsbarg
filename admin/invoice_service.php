@@ -269,11 +269,12 @@ $id = $_SESSION["user_data"]["id"];
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="termsModalLabel">قوانین و شرایط</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <p></p><h3 class="">قوانین کلی ادز برگ</h3><br><br>برای همکاری با مجموعه ادز برگ باید قوانین زیر توسط مشتری یا کارفرما پذیرفته شده باشد:<p></p><p><font color="#397b21">الف) قوانین عمومی</font></p><p><br></p><p>1.<span style="white-space:pre">	</span> تمامی فعالیت شرکت ادز برگ بر اساس قانون اساسی ج.ا.ا و دستورالعمل‌های اتحادیه کسب و کارهای مجازی است.&nbsp;</p><p>2.<span style="white-space:pre">	</span> خدمات ادز برگ پس از تکمیل پروفایل کاربری و واریز وجه ارائه می‌گردد.</p><p>3.<span style="white-space:pre">	</span> کارمزد شارژ یا هزینه&nbsp; تبلیغات در گوگل&nbsp; بر اساس توافق ادز برگ و مشتری محاسبه می‌گردد.</p><p>4.<span style="white-space:pre">	</span>&nbsp; ساخت و شارژ اکانت طی یک ساعت کاری پس از واریز وجه انجام میشود</p><p>5.<span style="white-space:pre">	</span>در صورت گذشت 12 ماه از آخرین کلیک اکانت، ادز برگ مسئولیتی در نگهداری یا حفاظت از اکانت (اعم از شارژ باقی مانده یا پاک نشدن اطلاعات)، ندارد.&nbsp;</p><p>6.<span style="white-space:pre">	</span> ادز برگ متهد می‌گردد که اطلاعات اکانت‌ها و مشتریان محفوظ است.&nbsp;</p><p>7.<span style="white-space:pre">	</span> مشتری موظف است پلتفورم های تبلیغاتیِ گوگل ادز، فیسبوک و لینکدین ادز، مقررات آن پلتفورم را رعایت کند. عواقب عدم رعایت قوانین همه پلتفورم ها مانند گوگل ادز، مانند اجرای تبلیغات گوگل ادز برای سایت‌های ممنوع اعلام شده از طرف گوگل ادز، بر عهده مشتری است.</p><p>8.<span style="white-space:pre">	</span> برای سایت‌های no index با قدمت دامنه زیر سه ماه تبلیغات اجرا نمی‌شود. برای سایت no index باید مدارک لازم برای اثبات قدمت دامه ارائه شود.</p><p>9.<span style="white-space:pre">	</span> میزان 50% مبلغ&nbsp; پروموشن از مشتری دریافت می‌گردد.</p><p>10.<span style="white-space:pre">	</span> اکانت‌‌های ادز برای همه مشتریان به صورت استیجاری بوده و&nbsp; مشتری هیچ گونه حق مالکیتی مانند انتقال اکانت، شارژ اکانت توسط خود مشتری، حذف اکانت و … ندارد.</p><p>11.<span style="white-space:pre">	</span> حداقل شارژ برای ساخت و شارژ اکانت 2000 بات. 50 دلار و 2000 لیر میباشد.&nbsp;</p><p>12.<span style="white-space:pre">	</span>&nbsp; درصورتی که ثابت شود فعالیت مشتری خلاف قانون است، کلیه امور جزایی و مسئولیت کیفری با مشتری است.</p><p>13.<span style="white-space:pre">	</span>&nbsp; در صورت ساسپندی اکانت‌هایی که مدیریت آن با مشتری است، اگر از نوع دور زدن قوانین یا کسب و کار غیرمجاز باشد، تعهدی برای بازگشت هزینه وجود ندارد.</p><p><br></p><p><font color="#397b21">ب) موارد فسخ همکاری:</font></p><p>1.<span style="white-space:pre">	</span>عدم تطابق فعالیت مشتری بر اساس قوانین جمهوری اسلامی: در صورت مشاهده هر گونه فعالیت مشکوک غیرقانونی یا غیر اخلاقی، اعم از محتوای سایت یا خدمات به مشتریان، یا مصادیق ذکر شده در جرائم رایانه‌ای و تجارت الکترونیک کشور، قرارداد به حالت تعلیق قرار می‌گیرد.</p><p>2.<span style="white-space:pre">	</span>عدم رعایت قوانین عمومی: در صورت عدم رعایت هر یک از بندهای قسمت الف، پس از تذکر و&nbsp; فرصت 24 ساعته، درصورت عدم رفع تخلف، اکانت به حالت تعلیق قرار می‌گیرد و دسترسی کاربران به صورت Read only&nbsp; خواهد شد. به مدت شش روز کاری، کاربر فرصت دارد تغییرات لازم را برای رفع تخلف با همکاری تیم ادز برگ در اکانت خود انجام دهد. در صورت عدم رفع تخلف قرارداد فسق می‌گردد.</p><p>3.<span style="white-space:pre">	</span>مشتری موظف است فقط دامنه اعلام شده به ادزبرگ را برای ساخت اکانت ، کمپین و شارژ های بعدی استفاده نماید</p><p>4.<span style="white-space:pre">	</span>اگر مشتری در حین استفاده از اکانت به غیر از دامنه اعلام شده کمپین دیگری با دامنه متفاوت ایجاد نماید دسترسی اکانت به طور کلی از مشتری گرفته میشود و میزان شارژ باقیمانده در اکانت مسدود میشود و قابل استرداد نمیباشد.</p>
+
+                                   <h3 class="">قوانین کلی ادز برگ</h3><p><br></p><h6 class="">برای همکاری با مجموعه ادز برگ باید قوانین زیر توسط مشتری یا کارفرما پذیرفته شده باشد:</h6><p><br></p><p><font color="#397b21">الف) قوانین عمومی</font></p><p>1.<span style="white-space:pre">	</span> تمامی فعالیت شرکت ادز برگ بر اساس قانون اساسی ج.ا.ا و دستورالعمل‌های اتحادیه کسب و کارهای مجازی است.&nbsp;</p><p>2.<span style="white-space:pre">	</span> خدمات ادز برگ پس از تکمیل پروفایل کاربری و واریز وجه ارائه می‌گردد.</p><p>3.<span style="white-space:pre">	</span> کارمزد شارژ یا هزینه&nbsp; تبلیغات در گوگل&nbsp; بر اساس توافق ادز برگ و مشتری محاسبه می‌گردد.</p><p>4.<span style="white-space:pre">	</span>&nbsp; ساخت و شارژ اکانت طی یک ساعت کاری پس از واریز وجه انجام میشود</p><p>5.<span style="white-space:pre">	</span>در صورت گذشت 12 ماه از آخرین کلیک اکانت، ادز برگ مسئولیتی در نگهداری یا حفاظت از اکانت (اعم از شارژ باقی مانده یا پاک نشدن اطلاعات)، ندارد.&nbsp;</p><p>6.<span style="white-space:pre">	</span> ادز برگ متهد می‌گردد که اطلاعات اکانت‌ها و مشتریان محفوظ است.&nbsp;</p><p>7.<span style="white-space:pre">	</span> مشتری موظف است پلتفورم های تبلیغاتیِ گوگل ادز، فیسبوک و لینکدین ادز، مقررات آن پلتفورم را رعایت کند. عواقب عدم رعایت قوانین همه پلتفورم ها مانند گوگل ادز، مانند اجرای تبلیغات گوگل ادز برای سایت‌های ممنوع اعلام شده از طرف گوگل ادز، بر عهده مشتری است.</p><p>8.<span style="white-space:pre">	</span> برای سایت‌های no index با قدمت دامنه زیر سه ماه تبلیغات اجرا نمی‌شود. برای سایت no index باید مدارک لازم برای اثبات قدمت دامه ارائه شود.</p><p>9.<span style="white-space:pre">	</span> میزان 50% مبلغ&nbsp; پروموشن از مشتری دریافت می‌گردد.</p><p>10.<span style="white-space:pre">	</span> اکانت‌‌های ادز برای همه مشتریان به صورت استیجاری بوده و&nbsp; مشتری هیچ گونه حق مالکیتی مانند انتقال اکانت، شارژ اکانت توسط خود مشتری، حذف اکانت و … ندارد.</p><p>11.<span style="white-space:pre">	</span> حداقل شارژ برای ساخت و شارژ اکانت 2000 بات. 50 دلار و 2000 لیر میباشد.&nbsp;</p><p>12.<span style="white-space:pre">	</span>&nbsp; درصورتی که ثابت شود فعالیت مشتری خلاف قانون است، کلیه امور جزایی و مسئولیت کیفری با مشتری است.</p><p>13.<span style="white-space:pre">	</span>&nbsp; در صورت ساسپندی اکانت‌هایی که مدیریت آن با مشتری است، اگر از نوع دور زدن قوانین یا کسب و کار غیرمجاز باشد، تعهدی برای بازگشت هزینه وجود ندارد.</p><p><br></p><p><font color="#397b21">ب) موارد فسخ همکاری:</font></p><p>1.<span style="white-space:pre">	</span>عدم تطابق فعالیت مشتری بر اساس قوانین جمهوری اسلامی: در صورت مشاهده هر گونه فعالیت مشکوک غیرقانونی یا غیر اخلاقی، اعم از محتوای سایت یا خدمات به مشتریان، یا مصادیق ذکر شده در جرائم رایانه‌ای و تجارت الکترونیک کشور، قرارداد به حالت تعلیق قرار می‌گیرد.</p><p>2.<span style="white-space:pre">	</span>عدم رعایت قوانین عمومی: در صورت عدم رعایت هر یک از بندهای قسمت الف، پس از تذکر و&nbsp; فرصت 24 ساعته، درصورت عدم رفع تخلف، اکانت به حالت تعلیق قرار می‌گیرد و دسترسی کاربران به صورت Read only&nbsp; خواهد شد. به مدت شش روز کاری، کاربر فرصت دارد تغییرات لازم را برای رفع تخلف با همکاری تیم ادز برگ در اکانت خود انجام دهد. در صورت عدم رفع تخلف قرارداد فسق می‌گردد.</p><p>3.<span style="white-space:pre">	</span>مشتری موظف است فقط دامنه اعلام شده به ادزبرگ را برای ساخت اکانت ، کمپین و شارژ های بعدی استفاده نماید</p><p>4.<span style="white-space:pre">	</span>اگر مشتری در حین استفاده از اکانت به غیر از دامنه اعلام شده کمپین دیگری با دامنه متفاوت ایجاد نماید دسترسی اکانت به طور کلی از مشتری گرفته میشود و میزان شارژ باقیمانده در اکانت مسدود میشود و قابل استرداد نمیباشد.</p><p><br></p><p><font color="#397b21">&nbsp;ج) قوانین استرداد وجه:</font></p><p>1.<span style="white-space:pre">	</span>در صورت اشتباه در واریزی توسط مشتری، و درخواست مشتری برای استرداد وجه، با توجه به دستور پلیس فتا استرداد وجه حداکثر باید تا 15 روز کاری و بر اساس قوانین رعایت موازین مبارزه با پولشوئی انجام می‌گردد. استرداد وجه در ادز برگ، بین یک تا چهار روز کاری بعد از درخواست بازگشت وجه انجام می‌گردد.</p><p>2.<span style="white-space:pre">	</span>اگر واریزی بر اساس پیش‌فاکتور انجام شده باشد، در صورت تغییر نظر مشتری برای ادامه همکاری، یا درخواست بازگشت وجه، استرداد وجه فقط در صورتی انجام می‌گردد که هزینه&nbsp; گوگل ادز به پنل گوگل ادز واریز نشده باشد. برای بازگشت وجه نیز 10 درصد کارمزد ارزی به ریال، از مبلغ واریزی کاسته می‌شود.</p><p>3.<span style="white-space:pre">	</span>در صورت فسق همکاری، پرداخت وجه تنها در زمانی انجام می‌گردد که بودجه برای شارژ اکانت گوگل مصرف نشده باشد. برای بازگشت وجه در موارد فسخ همکاری، 10 درصد کارمزد ارزی از مبلغ مانده، کاسته می‌شود حتی اگر هزینه‌ای برای خرید کلیک گوگل مصرف نشده باشد. مقدار شارژ باقی مانده از پروموشن شامل بازگشت هزینه نمی‌شود.</p><p>4.<span style="white-space:pre">	</span>در صورت مسدودی اکانت، اگر مدیریت اکانت با ادز برگ باشد و یا ساسپندی از نوع پیمنت باشد ادز برگ متعهد به بازگشت دادن هزینه هست.</p><p>5.<span style="white-space:pre">	</span>برای مثال‌های دیگر علت ساسپندی&nbsp; می‌توان به دادن دسترسی به کاربران ساسپند شده، دور زدن قوانین مانند سو استفاده از برند دیگران و کسب و کار غیر مجاز مانند فروش دخانیات و ... اشاره&nbsp; کرد.</p><p>6.<span style="white-space:pre">	</span>اگر مسئولیت مدیریت اکانت با ادز برگ باشد، در صورت ساسپندی به هر دلیلی وجه باقی مانده طی 4 روز کاری، کامل عودت داده یا به درخواست مشتری اکانت جدیدی با همان میزان شارژ&nbsp; باقی مانده ساخته خواهد شد. میزان شارژ پروموشن برای عودت در نظر گرفته نمیشود.</p><p><br></p>
+                                   
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
@@ -320,18 +321,30 @@ $id = $_SESSION["user_data"]["id"];
 
             <form action="" method="POST" enctype="multipart/form-data">
                 <div class="row" id="cardtocard" style="display: none;">
-                
+                    <?php
+                        $carts = "SELECT * FROM cart_numbers WHERE active = 1";
+                        $result_carts = $conn->query($carts);
+                        if ($result_carts->num_rows > 0){
+                            while($row_carts = $result_carts->fetch_assoc()){
+                                $cart_number = $row_carts['number'];
+                                $named = $row_carts['named'];?>
+                                <p><b> به نام : <?= $named ." ". $cart_number?></b></p>
+                            <?php
+                            }
+                        }
+                    ?>
+
+
+
                     <div class="col-md-6">
-                        <label for="payCard_i_cardNumber">
-                            شماره کارت واریز
-                            کننده:
+                        <label for="peygiri">
+                            شماره پیگیری پرداخت :
                         </label>
-                        <input type="text" dir="ltr" class="form-control text-center" name="card_number" data-inputmask="'mask': '9999 9999 9999 9999'" placeholder="0000-0000-0000-0000" minlength="16" maxlength="16" autocomplete="off" id="payCard_i_cardNumber" 
-                            dv="required"  required>
+                        <input type="text" dir="ltr" class="form-control text-center" name="peygiri" autocomplete="off" required>
                     </div>  
                     <div class="col-md-6">
                         <label for="payCard_i_description">توضیحات تراکنش:</label>
-                            <textarea name="explain" id="payCard_i_description" autocomplete="off" class="form-control" required>توضیحات پرداخت شامل کد پیگیری و....</textarea> 
+                            <textarea name="explain" id="payCard_i_description" autocomplete="off" class="form-control" ></textarea> 
                     </div>  
                     <div class="col-md-6">
                         اپلود فیش واریزی
@@ -409,7 +422,7 @@ if (isset($_POST['submit'])) {
     include '../config.php';
 
     $idOrder = $_POST['id_order'];
-    $cardNumber = $_POST['card_number'];
+    $peygiri = $_POST['peygiri'];
     $explain = $_POST['explain'];
     $fish = $_FILES['fish'];
 
@@ -422,8 +435,8 @@ if (isset($_POST['submit'])) {
         // Move the uploaded file to the target directory
         if (move_uploaded_file($fish['tmp_name'], $targetFile)) {
             // Insert the data into the database, saving the file path
-            $sql_insert = "INSERT INTO payments (order_id, card_number, explains, fish, pardakht) 
-                           VALUES ('$idOrder', '$cardNumber', '$explain', '$targetFile', 1)";
+            $sql_insert = "INSERT INTO payments (order_id, peygiri, explains, fish, pardakht) 
+                           VALUES ('$idOrder', '$peygiri', '$explain', '$targetFile', 1)";
             
             $result = $conn->query($sql_insert);
 
@@ -443,15 +456,15 @@ if (isset($_POST['submit'])) {
                             $(document).ready(function(){
                                 $('#successToast').toast({
                                     autohide: true,
-                                    delay: 3000
+                                    delay: 1000
                                 }).toast('show');
                                 setTimeout(function(){
                                     window.location.href = 'payments';
-                                }, 3000);
+                                }, 1000);
                             });
                         </script>";
             } else {
-                echo "خطا در پرداخ��ت";
+                echo "خطا در پرداخت";
             }
         } else {
             echo "خطا در آپلود فایل";

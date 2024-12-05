@@ -97,7 +97,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                 <i class="fa fa-file"></i>
                             </div>
                             <div>
-                                <h6 class="mb-0 fs-4 fw-semibold">مدیریت سفارشات</h6>
+                                <h6 class="mb-0 fs-4 fw-semibold">تیکت ها</h6>
                             </div>
                             </div>
                         </div>
@@ -259,18 +259,25 @@ $admin = $_SESSION["user_data"]["admin"];
 
 
     <!-- ------------------------------- -->
-    <div class="contact-circle" onclick="toggleIcons()">
-    <img src="https://cdn-icons-png.flaticon.com/512/724/724664.png" alt="تماس">
-    </div>
+      <div class="contact-circle" onclick="toggleIcons()">
+              <img src="https://cdn-icons-png.flaticon.com/512/724/724664.png" alt="تماس">
+      </div>
 
-    <div class="social-icons" id="socialIcons">
-        <a href="https://wa.me/1234567890" class="whatsapp" target="_blank">
-            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="واتساپ">
-        </a>
-        <a href="https://t.me/yourtelegram" class="telegram" target="_blank">
-            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="تلگرام">
-        </a>
-    </div>
+      <div class="social-icons" id="socialIcons">
+            <a href="https://wa.me/1234567890" class="whatsapp" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="واتساپ">
+            </a>
+            <a href="https://t.me/yourtelegram" class="telegram" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="تلگرام">
+            </a>
+      </div>  
+        
+      <script>
+          function toggleIcons() {
+              const icons = document.getElementById('socialIcons');
+              icons.style.display = icons.style.display === 'flex' ? 'none' : 'flex';
+          }
+      </script>
     <!-- ------------------------------ -->
 
     

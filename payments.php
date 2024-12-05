@@ -162,7 +162,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                             <th scope="row"><?= $i ?></th>
                                             <td>
                                               <?php
-                                              if ($row['type'] == 'charge') echo "شارج اکانت". " " . cidAccount($row['account_id']);
+                                              if ($row['type'] == 'charge') echo "شارژ اکانت". " " . cidAccount($row['account_id']);
                                               if ($row['type'] == 'click') echo "پرداخت ابزار کلیک";
                                               ?>
                                             </td>
@@ -175,7 +175,12 @@ $admin = $_SESSION["user_data"]["admin"];
                                                 if ($row['status'] == 0) echo "رد شده";
                                                 ?>
                                             </td>
-                                            <td><?= $row['amount'] ?></td>
+                                            <td>
+                                              <?php
+                                              if($row['type']== 'charge')  echo number_format($row['amount']);
+                                              else echo $row['amount'];
+                                              ?>
+                                            </td>
                                             <td>
                                               <?php
                                               if ($row['confirm'] == 1) {
@@ -320,18 +325,25 @@ $admin = $_SESSION["user_data"]["admin"];
 
 
     <!-- ------------------------------- -->
-    <div class="contact-circle" onclick="toggleIcons()">
-    <img src="https://cdn-icons-png.flaticon.com/512/724/724664.png" alt="تماس">
-    </div>
+      <div class="contact-circle" onclick="toggleIcons()">
+              <img src="https://cdn-icons-png.flaticon.com/512/724/724664.png" alt="تماس">
+      </div>
 
-    <div class="social-icons" id="socialIcons">
-        <a href="https://wa.me/1234567890" class="whatsapp" target="_blank">
-            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="واتساپ">
-        </a>
-        <a href="https://t.me/yourtelegram" class="telegram" target="_blank">
-            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="تلگرام">
-        </a>
-    </div>
+      <div class="social-icons" id="socialIcons">
+            <a href="https://wa.me/1234567890" class="whatsapp" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="واتساپ">
+            </a>
+            <a href="https://t.me/yourtelegram" class="telegram" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="تلگرام">
+            </a>
+      </div>  
+        
+      <script>
+          function toggleIcons() {
+              const icons = document.getElementById('socialIcons');
+              icons.style.display = icons.style.display === 'flex' ? 'none' : 'flex';
+          }
+      </script>
     <!-- ------------------------------ -->
 
     <?php include "footer.php"; ?>

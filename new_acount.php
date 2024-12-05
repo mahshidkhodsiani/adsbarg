@@ -281,7 +281,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }).toast('show');
                 setTimeout(function(){
                     window.location.href = 'google_accounts';
-                }, 3000);
+                }, 2000);
             });
         </script>";
       }else{

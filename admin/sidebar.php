@@ -85,10 +85,18 @@ $current_page = basename($_SERVER['PHP_SELF']); // Gets the current page's file 
 
       <li class="sidebar-item">
         <a class="sidebar-link <?php echo ($current_page == 'user_websites.php') ? 'active' : ''; ?>" href="user_websites" aria-expanded="false">
-          <span><i class="fa fa-ticket"></i></span>
+          <span><i class="fa fa-globe"></i></span>
           <span class="hide-menu">وب سایت های ثبت شده</span>
         </a>
       </li>
+
+      <li class="sidebar-item">
+        <a class="sidebar-link <?php echo ($current_page == 'cart_numbers.php') ? 'active' : ''; ?>" href="cart_numbers" aria-expanded="false">
+          <span><i class="fa fa-cash-register"></i></span>
+          <span class="hide-menu">افزودن شماره کارت جدید</span>
+        </a>
+      </li>
+
 
 
       <li class="sidebar-item">

@@ -141,6 +141,7 @@ $admin = $_SESSION["user_data"]["admin"];
               </div>
             </div>
 
+            
             <div class="row" id="accountsgoogle_g">
                 <?php
                 $count = 0;
@@ -198,7 +199,15 @@ $admin = $_SESSION["user_data"]["admin"];
                             if ($result_currency->num_rows > 0) {
                               $row_currency = $result_currency->fetch_assoc();
 
-                              $price = floatval($row_currency['dollar']) * 100 + 9000;
+                              if($account['currency'] == 'USD'){
+                                $price = floatval($row_currency['dollar']) * 100 + 9000;
+                              }elseif($account['currency'] == 'AED'){
+                                $price = floatval($row_currency['derham']) * 100 + 9000;
+                              }elseif($account['currency'] == 'TL'){
+                                $price = floatval($row_currency['lira']) * 100 + 9000;
+                              }elseif($account['currency'] == 'bat'){
+                                $price = floatval($row_currency['bat']) * 100 + 9000;
+                              }
                             
                               
 
@@ -218,7 +227,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                                   placeholder="عدد وارد کنید" required>
                                             <label>
                                                 <i class="fa fa-USD me-2 fs-5 text-primary fw-bolder"></i> 
-                                                $ مقدار دلار را وارد کنید
+                                                مقدار را وارد کنید
                                             </label>
                                         </div>
                                         <p class="form-control-feedback text text-center">
@@ -299,6 +308,13 @@ $admin = $_SESSION["user_data"]["admin"];
                 <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="تلگرام">
             </a>
         </div>
+        
+        <script>
+            function toggleIcons() {
+                const icons = document.getElementById('socialIcons');
+                icons.style.display = icons.style.display === 'flex' ? 'none' : 'flex';
+            }
+        </script>
   
     <?php include "footer.php"; ?>
 

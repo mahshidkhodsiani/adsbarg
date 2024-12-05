@@ -142,7 +142,8 @@ $admin = $_SESSION["user_data"]["admin"];
                                           <th scope="col">پرداخت</th>
                                           <th scope="col">نوع</th>
                                           <th scope="col">وضعیت</th>
-                                          <th scope="col">مبلغ</th>
+                                          <th scope="col">مبلغ(تومان)</th>
+                                          <th scope="col">فیش واریزی</th>
                                           <th scope="col">تایید</th>
                                           <th scope="col">عملیات</th>
                                         </tr>
@@ -158,7 +159,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                               <td scope="row"><?= get_name($row['user_id']) ?></td>
                                               <td>
                                                 <?php
-                                                if ($row['type'] == 'charge') echo "شارج اکانت". " " . cidAccount($row['account_id']);
+                                                if ($row['type'] == 'charge') echo "شارژ اکانت". " " . cidAccount($row['account_id']);
                                                 if ($row['type'] == 'click') echo "پرداخت سفارش کلیک";
                                                 ?>
                                               </td>
@@ -172,7 +173,17 @@ $admin = $_SESSION["user_data"]["admin"];
                                                   ?>
                                               </td>
 
-                                              <td><?= $row['amount'] ?></td>
+                                              <td>
+                                                <?php
+                                                if($row['type'] == 'charge'): echo number_format($row['amount']);
+                                                else: echo $row['amount'];
+                                                endif;
+                                                ?>
+                                              </td>
+
+                                              <td>
+                                                <a title="مشاهده" href="../<?=$row['fish']?>"><img src="../<?=$row['fish']?>" height="50px" width="50px"></a>
+                                              </td>
 
                                               <td>
                                                 <?php

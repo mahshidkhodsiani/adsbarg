@@ -123,7 +123,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                             <th scope="col">سفارش</th>
                                             <th scope="col">نوع</th>
                                             <th scope="col">وضعیت</th>
-                                            <th scope="col">مبلغ</th>
+                                            <th scope="col">مبلغ(تومان)</th>
                                             <th scope="col">یوزر</th>
                                             <th scope="col">عملیات</th>
                                           </tr>
@@ -155,7 +155,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                             <th scope="row"><?= $i ?></th>
                                             <td>
                                               <?php
-                                              if ($row['type'] == 'charge') echo "شارج اکانت". " " . cidAccount($row['account_id']);
+                                              if ($row['type'] == 'charge') echo "شارژ اکانت". " " . cidAccount($row['account_id']);
                                               if ($row['type'] == 'click') echo "سفارش ابزار کلیک";
                                               ?>
                                             </td>
@@ -167,7 +167,13 @@ $admin = $_SESSION["user_data"]["admin"];
                                               if ($row['status'] == 0) echo "لغو سیستمی";
                                               ?>
                                             </td>
-                                            <td><?= $row['amount'] ?></td>
+                                            <td>
+                                                <?php
+                                                if($row['type'] == 'charge'): echo number_format($row['amount']);
+                                                else: echo $row['amount'];
+                                                endif;
+                                                ?>
+                                            </td>
                                             <td><?= get_name($row['user_id']) ?></td>
                                             <td>
                                               <?php

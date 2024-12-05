@@ -188,6 +188,18 @@ $id = $_SESSION["user_data"]["id"];
                     </p>
                 </div>
                 <!-- ------------------------------- -->
+
+               
+
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div id="pardakhtmethod" >
+                        <p>جمع کل : <?php  if($row['type']== 'charge') echo number_format($row['amount']) ." تومان" ;
+                                            else echo $row['amount'];?>
+                        </p>
+                            <span>پرداخت شده</span>
+                </div>
             </div>
             
 
