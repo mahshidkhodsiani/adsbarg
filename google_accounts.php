@@ -219,7 +219,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                 $price = floatval($row_currency['derham']) * 100 + 9000;
                               }elseif($account['currency'] == 'TL'){
                                 $price = floatval($row_currency['lira']) * 100 + 9000;
-                              }elseif($account['currency'] == 'bat'){
+                              }elseif($account['currency'] == 'BHT'){
                                 $price = floatval($row_currency['bat']) * 100 + 9000;
                               }
                             

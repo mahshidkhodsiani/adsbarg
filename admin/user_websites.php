@@ -152,7 +152,7 @@ if ($admin == 0 ){
                                                 <th scope="row"><?= $i ?></th>
                                                 <td><?= get_name($row['user_id']) ?></td>
                                                 <td><?= $row['user_website'] ?></td>
-                                                <td><?= 'اکانت ' . cidAccount($row['account_id']) ?></td>
+                                                <td><?= cidAccount($row['account_id']) ?></td>
                                             </tr>
                                         <?php
                                                 $i++;

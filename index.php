@@ -70,6 +70,7 @@ $admin = $_SESSION["user_data"]["admin"];
        <?php
             include "config.php";
             include 'sidebar.php';  
+            include 'PersianCalendar.php';  
         ?> 
       <div class="sidebarHolder"></div>
       <!-- کانتینر اصلی دیتا -->
@@ -107,9 +108,10 @@ $admin = $_SESSION["user_data"]["admin"];
                       <div class="card-body">
                         <div class="d-flex align-items-center">
                           <div>
-                            <h6 class="card-title fw-semibold">
+                            <h6 class="card-title fw-semibold" style="font-family: system-ui;">
                               <img src="images/usd.jpg" alt="قیمت دلار امروز" width="20px"> قیمت حواله دلار آمریکا <span><?= number_format(floatval($row_currency['dollar']) * 100) ?></span> تومان
                             </h6>
+                            <p>آخرین بروز رسانی : <?= mds_date("l j F Y H:i:s", strtotime($row_currency['updated']), 0);?></p>
                 
                           </div>
                         </div>
@@ -227,9 +229,10 @@ $admin = $_SESSION["user_data"]["admin"];
                       <div class="card-body">
                         <div class="d-flex align-items-center">
                           <div>
-                            <h6 class="card-title fw-semibold">
+                            <h6 class="card-title fw-semibold" style="font-family: system-ui;">
                               <img src="images/aed.png" alt="قیمت درهم امروز" width="15px"> قیمت حواله درهم امارات <span><?=number_format(floatval($row_currency['derham']) * 100) ?></span> تومان
                             </h6>
+                            <p>آخرین بروز رسانی : <?= mds_date("l j F Y H:i:s", strtotime($row_currency['updated']), 0);?></p>
                
                           </div>
                         </div>
@@ -348,9 +351,10 @@ $admin = $_SESSION["user_data"]["admin"];
                       <div class="card-body">
                         <div class="d-flex align-items-center">
                           <div>
-                            <h6 class="card-title fw-semibold">
+                            <h6 class="card-title fw-semibold" style="font-family: system-ui;">
                               <img src="images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت حواله لیر ترکیه <span><?=number_format(floatval($row_currency['lira']) * 100) ?></span> تومان
                             </h6>
+                            <p>آخرین بروز رسانی : <?= mds_date("l j F Y H:i:s", strtotime($row_currency['updated']), 0);?></p>
               
                           </div>
                         </div>
@@ -469,9 +473,10 @@ $admin = $_SESSION["user_data"]["admin"];
                       <div class="card-body">
                         <div class="d-flex align-items-center">
                           <div>
-                            <h6 class="card-title fw-semibold">
+                            <h6 class="card-title fw-semibold" style="font-family: system-ui;">
                              <img src="images/bat.jpg" alt="قیمت لیر امروز" width="20px"> قیمت حواله بات <span><?=number_format(floatval($row_currency['bat']) * 100) ?></span> تومان
                             </h6>
+                            <p>آخرین بروز رسانی : <?= mds_date("l j F Y H:i:s", strtotime($row_currency['updated']), 0);?></p>
                   
                           </div>
                         </div>

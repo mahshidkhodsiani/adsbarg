@@ -76,7 +76,7 @@ foreach ($currencyQueries as $key => $query) {
 }
 
 // Prepare the SQL statement for inserting all currencies
-$stmt = $conn->prepare("INSERT INTO currencys (dollar, derham, lira, bat) VALUES (?, ?, ?, ?)");
+$stmt = $conn->prepare("INSERT INTO currencys (dollar, derham, lira, bat, updated) VALUES (?, ?, ?, ?, NOW())");
 
 // Bind parameters to the query
 $stmt->bind_param(
