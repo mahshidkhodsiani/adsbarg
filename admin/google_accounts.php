@@ -71,32 +71,44 @@ $admin = $_SESSION["user_data"]["admin"];
       <div class="body-wrapper bg-light" >
         <!-- هدر بالای صفحه -->
         <?php
-        // Define how many accounts per page
-        $limit = 10; // Adjust the number of accounts per page
-        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Get the current page
-        $page = max($page, 1); // Ensure page number is at least 1
-        $offset = ($page - 1) * $limit; // Calculate offset for SQL query
+          // تعداد رکوردها در هر صفحه
+          $limit = 10;
+          $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+          $page = max($page, 1);
+          $offset = ($page - 1) * $limit;
 
-        // Get total accounts count
-        $total_query = "SELECT COUNT(*) as total FROM accounts";
-        $total_result = $conn->query($total_query);
-        $total_row = $total_result->fetch_assoc();
-        $total_accounts = $total_row['total'];
+          // مقدار جستجو
+          $search = isset($_GET['search']) ? $_GET['search'] : '';
 
-        // Calculate total pages
-        $total_pages = ceil($total_accounts / $limit);
 
-        // Fetch accounts for the current page
-        $query = "SELECT * FROM accounts ORDER BY id DESC LIMIT $limit OFFSET $offset";
-        $result = $conn->query($query);
-        $accounts = [];
+          // شمارش کل رکوردها
+          $total_query = "SELECT COUNT(*) as total FROM accounts";
+          if (!empty($search)) {
+              $total_query .= " WHERE cid LIKE '%$search%'"; // اضافه کردن شرط جستجو
+          }
+          $total_result = $conn->query($total_query);
+          $total_row = $total_result->fetch_assoc();
+          $total_accounts = $total_row['total'];
 
-        while ($row = $result->fetch_assoc()) {
-            $accounts[] = $row;
-        }
-        
-        include "header.php";
-        ?>
+          // محاسبه تعداد کل صفحات
+          $total_pages = ceil($total_accounts / $limit);
+
+          // بازیابی رکوردها برای صفحه جاری
+          $query = "SELECT * FROM accounts";
+          if (!empty($search)) {
+              $query .= " WHERE cid LIKE '%$search%'"; // اضافه کردن شرط جستجو
+          }
+          $query .= " ORDER BY id DESC LIMIT $limit OFFSET $offset";
+          $result = $conn->query($query);
+          $accounts = [];
+
+          while ($row = $result->fetch_assoc()) {
+              $accounts[] = $row;
+          }
+
+          include "header.php";
+          ?>
+
 
         <div class="container-fluid">
           <div class="row" id="notify-content"></div>
@@ -123,20 +135,23 @@ $admin = $_SESSION["user_data"]["admin"];
                       <i class="fa fa-filter"></i>
                     </a>
                   </div> -->
-                  <form class="position-relative">
-                    <input type="text" class="form-control search-chat py-2 ps-5 text-right" id="txtSearch" placeholder="جست و جو">
-                    <i class="fa fa-search position-absolute top-50  translate-middle-y fs-6 text-dark me-3" style="right:10px"></i>
+                
+
+                  <form class="position-relative" action="" method="GET">
+                      <input type="text" class="form-control search-chat py-2 ps-5 text-right" 
+                      name="search" id="txtSearch" placeholder="جست و جو بر اساس cid">
+                      <i class="fa fa-search position-absolute top-50  translate-middle-y fs-6 text-dark me-3" style="right:10px"></i>
                   </form>
+
+
                 </div>
                 <div class="collapse" id="filteringBox">
                   <div class=" border border-1 rounded p-3">
                     <div class="row">
                       <div class="col-md-3">
-                        <div class="form-floating mb-2">
-                          <input id="query" type="text" class="form-control" placeholder="جستجو‌" autocomplete="off">
-                          <label>
-                            <i class="ti ti-123 me-2 fs-4"></i>جستجو‌ </label>
-                        </div>
+                      
+              
+
                       </div>
                       <div class="col-md-3">
                         <div class="mb-2">
@@ -322,24 +337,23 @@ $admin = $_SESSION["user_data"]["admin"];
             <!-- Pagination -->
             <nav>
                 <ul class="pagination justify-content-center">
-                    <!-- Previous Link -->
                     <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
-                        <a class="page-link" href="?page=<?= $page - 1 ?>">قبلی</a>
+                        <a class="page-link" href="?page=<?= max(1, $page - 1) ?>&search=<?= urlencode($search) ?>">قبلی</a>
                     </li>
                     
-                    <!-- Page Numbers -->
                     <?php for ($p = 1; $p <= $total_pages; $p++) : ?>
                         <li class="page-item <?= ($p == $page) ? 'active' : '' ?>">
-                            <a class="page-link" href="?page=<?= $p ?>"><?= $p ?></a>
+                            <a class="page-link" href="?page=<?= $p ?>&search=<?= urlencode($search) ?>"><?= $p ?></a>
                         </li>
                     <?php endfor; ?>
                     
-                    <!-- Next Link -->
                     <li class="page-item <?= ($page >= $total_pages) ? 'disabled' : '' ?>">
-                        <a class="page-link" href="?page=<?= $page + 1 ?>">بعدی</a>
+                        <a class="page-link" href="?page=<?= min($total_pages, $page + 1) ?>&search=<?= urlencode($search) ?>">بعدی</a>
                     </li>
                 </ul>
             </nav>
+
+
 
            
           </div>

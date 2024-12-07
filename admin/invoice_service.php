@@ -85,7 +85,7 @@ $id = $_SESSION["user_data"]["id"];
             
               
                 if (isset($_POST['amount_service_click']) && $_POST['amount_service_click'] != '') {
-                    $amount = "6/500/000" . " تومان";
+                    $amount = "6/500/000";
                     $stmt = $conn->prepare("INSERT INTO orders (user_id, amount, status, shenaseh, type, created_at) VALUES (?, ?, ?, ?, 'click', NOW())");
                     $random = generateRandomID(); 
                     $status = 2; 
@@ -103,6 +103,8 @@ $id = $_SESSION["user_data"]["id"];
                         if ($result->num_rows > 0) {
                             $last_row = $result->fetch_assoc();
                             $shenaseh = $last_row['shenaseh'];
+                            $id_order = $last_row['id'];
+
                         } else {
                             echo "No records found.";
                         }

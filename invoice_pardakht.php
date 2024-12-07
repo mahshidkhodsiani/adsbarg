@@ -166,7 +166,8 @@ $id = $_SESSION["user_data"]["id"];
                     <?php
                     if($_POST['type_account'] == 'charge'){
                     ?>
-                        آیدی اکانت : <strong class="fs-6 fw-boler" id="trackNo"><?= cidAccount($row['account_id'])?></strong>
+                        <p class="text-primary fs-4 mb-0">آیدی اکانت :</p>
+                        <p class="text-primary fs-4 mb-0"><strong><?= cidAccount($row['account_id'])?></strong></p>
                     <?php
                     }
                     ?>

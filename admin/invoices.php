@@ -11,6 +11,11 @@ if (!isset($_SESSION["user_data"])) {
 $id = $_SESSION["user_data"]["id"];
 $admin = $_SESSION["user_data"]["admin"];
 
+if ($admin == 0 ){
+  header("Location: restricted.php");
+  exit();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
@@ -103,10 +108,14 @@ $admin = $_SESSION["user_data"]["admin"];
                        
                         <div class="card-body p-0 pb-0 position-relative" style="min-height:1000px">
                             <div class="d-flex justify-content-end align-items-center mb-4">
-                            <form class="position-relative">
-                                <input type="text" class="form-control search-chat py-2 ps-5 text-right" id="txtSearch" placeholder="جست و جو">
-                                <i class="fa fa-search position-absolute top-50  translate-middle-y fs-6 text-dark me-3" style="right:10px"></i>
+                         
+
+                            <form class="position-relative" action="" method="GET">
+                              <input type="text" class="form-control search-chat py-2 ps-5 text-right" 
+                              name="search" id="txtSearch" placeholder="جست و جو بر اساس cid">
+                              <i class="fa fa-search position-absolute top-50  translate-middle-y fs-6 text-dark me-3" style="right:10px"></i>
                             </form>
+
                             </div>
 
 
@@ -121,6 +130,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                           <tr>
                                             <th scope="col">ردیف</th>
                                             <th scope="col">سفارش</th>
+                                            <th scope="col">آیدی اکانت</th>
                                             <th scope="col">نوع</th>
                                             <th scope="col">وضعیت</th>
                                             <th scope="col">مبلغ(تومان)</th>
@@ -131,21 +141,42 @@ $admin = $_SESSION["user_data"]["admin"];
                                         <tbody>
                                           <?php
                                           include "../config.php";
-
+                                          
                                           // Define pagination parameters
                                           $rows_per_page = 10; // Number of rows per page
                                           $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1; // Current page
                                           $offset = ($page - 1) * $rows_per_page; // Offset for SQL query
-
-                                          // Total rows in the orders table for the given user_id
+                                          
+                                          // Get the search term from the URL
+                                          $search = isset($_GET['search']) ? $_GET['search'] : '';
+                                          
+                                          // Build the SQL query
+                                         
+                                          
+                                          // Count total rows for pagination
                                           $total_rows_query = "SELECT COUNT(*) AS total FROM orders";
+                                          if (!empty($search)) {
+                                              $total_rows_query .= " LEFT JOIN accounts ON orders.account_id = accounts.id WHERE accounts.cid LIKE '%$search%' ";
+                                          }
                                           $total_rows_result = $conn->query($total_rows_query);
                                           $total_rows = $total_rows_result->fetch_assoc()['total'];
                                           $total_pages = ceil($total_rows / $rows_per_page); // Total pages
+                                         
 
-                                          // Fetch rows for the current page
-                                          $sql = "SELECT * FROM orders ORDER BY id DESC LIMIT $rows_per_page OFFSET $offset";
+
+                                          $sql = "SELECT orders.id as id, orders.* FROM orders";
+                                          
+                                          // If a search term is provided, add a LEFT JOIN and WHERE clause
+                                          if (!empty($search)) {
+                                              $sql .= " LEFT JOIN accounts ON orders.account_id = accounts.id WHERE accounts.cid LIKE '%$search%' ";
+                                          } 
+                                          
+                                          $sql .= " ORDER BY orders.id DESC LIMIT $rows_per_page OFFSET $offset";
+                                          
+                                          // Execute the query
                                           $result = $conn->query($sql);
+
+                                         
 
                                           if ($result->num_rows > 0) {
                                             $i = $offset + 1; // Adjust row number for pagination
@@ -155,10 +186,11 @@ $admin = $_SESSION["user_data"]["admin"];
                                             <th scope="row"><?= $i ?></th>
                                             <td>
                                               <?php
-                                              if ($row['type'] == 'charge') echo "شارژ اکانت". " " . cidAccount($row['account_id']);
+                                              if ($row['type'] == 'charge') echo " شارژ اکانت ";
                                               if ($row['type'] == 'click') echo "سفارش ابزار کلیک";
                                               ?>
                                             </td>
+                                            <td><?= cidAccount($row['account_id']) ?></td>
                                             <td><?= (isset($row['managed']) && $row['managed'] == 1 ? "مدیریت شده" : "اختصاصی") ?></td>
                                             <td>
                                               <?php
@@ -221,24 +253,24 @@ $admin = $_SESSION["user_data"]["admin"];
                      
 
 
-                          <!-- Pagination Links -->
+                         <!-- Pagination Links -->
                           <nav>
                               <ul class="pagination justify-content-center">
                                   <!-- Previous Link -->
                                   <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
-                                      <a class="page-link" href="?page=<?= $page - 1 ?>">قبلی</a>
+                                      <a class="page-link" href="?page=<?= $page - 1 ?>&search=<?= urlencode($search) ?>">قبلی</a>
                                   </li>
                                   
                                   <!-- Page Numbers -->
                                   <?php for ($p = 1; $p <= $total_pages; $p++) : ?>
                                       <li class="page-item <?= ($p == $page) ? 'active' : '' ?>">
-                                          <a class="page-link" href="?page=<?= $p ?>"><?= $p ?></a>
+                                          <a class="page-link" href="?page=<?= $p ?>&search=<?= urlencode($search) ?>"><?= $p ?></a>
                                       </li>
                                   <?php endfor; ?>
                                   
                                   <!-- Next Link -->
                                   <li class="page-item <?= ($page >= $total_pages) ? 'disabled' : '' ?>">
-                                      <a class="page-link" href="?page=<?= $page + 1 ?>">بعدی</a>
+                                      <a class="page-link" href="?page=<?= $page + 1 ?>&search=<?= urlencode($search) ?>">بعدی</a>
                                   </li>
                               </ul>
                           </nav>

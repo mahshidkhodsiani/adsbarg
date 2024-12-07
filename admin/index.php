@@ -111,7 +111,7 @@ if($admin == 0){
                         <div class="d-flex align-items-center">
                           <div>
                             <h6 class="card-title fw-semibold">
-                              <img src="../images/usd.jpg" alt="قیمت دلار امروز" width="20px"> قیمت حواله دلار <span><?=number_format(floatval($row_currency['dollar']) * 100) ?></span> تومان
+                              <img src="../images/usd.jpg" alt="قیمت دلار امروز" width="20px"> قیمت حواله دلار آمریکا <span><?=number_format(floatval($row_currency['dollar']) * 100) ?></span> تومان
                             </h6>
                           
                           </div>
@@ -231,7 +231,7 @@ if($admin == 0){
                         <div class="d-flex align-items-center">
                           <div>
                             <h6 class="card-title fw-semibold">
-                              <img src="../images/aed.png" alt="قیمت درهم امروز" width="15px"> قیمت حواله درهم <span><?=number_format(floatval($row_currency['derham']) * 100) ?></span> تومان
+                              <img src="../images/aed.png" alt="قیمت درهم امروز" width="15px"> قیمت حواله درهم امارات <span><?=number_format(floatval($row_currency['derham']) * 100) ?></span> تومان
                             </h6>
                       
                           </div>
@@ -352,7 +352,7 @@ if($admin == 0){
                         <div class="d-flex align-items-center">
                           <div>
                             <h6 class="card-title fw-semibold">
-                              <img src="../images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت حواله لیر <span><?=number_format(floatval($row_currency['lira']) * 100) ?></span> تومان
+                              <img src="../images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت حواله لیر ترکیه <span><?=number_format(floatval($row_currency['lira']) * 100) ?></span> تومان
                             
                             </h6>
                     

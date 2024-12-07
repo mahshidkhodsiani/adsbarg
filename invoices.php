@@ -90,156 +90,169 @@ $admin = $_SESSION["user_data"]["admin"];
             <div class="container-fluid" id="dashboard">
                 <div class="col-md-12">
                     <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between mb-1 mb-md-3">
-                        <div class="mb-3 mb-sm-0">
-                            <div class="d-flex align-items-center">
-                            <div class="p-6 bg-light-primary rounded-2 me-6 d-flex align-items-center justify-content-center">
-                                <i class="fa fa-file"></i>
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between mb-1 mb-md-3">
+                                <div class="mb-3 mb-sm-0">
+                                    <div class="d-flex align-items-center">
+                                        <div class="p-6 bg-light-primary rounded-2 me-6 d-flex align-items-center justify-content-center">
+                                            <i class="fa fa-file"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0 fs-4 fw-semibold">مدیریت سفارشات</h6>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <h6 class="mb-0 fs-4 fw-semibold">مدیریت سفارشات</h6>
-                            </div>
+                            <div class="shop-part d-flex w-100 flex-column">
+                                <div class="card-body p-0 pb-0 position-relative" style="min-height:1000px">
+                                    <div class="d-flex justify-content-end align-items-center mb-4">
+                                    <form class="position-relative" action="" method="GET">
+                                      <input type="text" class="form-control search-chat py-2 ps-5 text-right" 
+                                        name="search" id="txtSearch" placeholder="جست و جو بر اساس cid">
+                                      <i class="fa fa-search position-absolute top-50  translate-middle-y fs-6 text-dark me-3" style="right:10px"></i>
+                                    </form>
+                                    </div>
+
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">ردیف</th>
+                                                    <th scope="col"> سفارش</th>
+                                                    <th scope="col"> آیدی اکانت</th>
+                                                    <th scope="col">نوع</th>
+                                                    <th scope="col">وضعیت</th>
+                                                    <th scope="col">مبلغ(تومان)</th>
+                                                    <th scope="col">عملیات</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                              <?php
+                                                include "config.php";
+
+                                                // Define pagination parameters
+                                                $rows_per_page = 10; // Number of rows per page
+                                                $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1; // Current page
+                                                $offset = ($page - 1) * $rows_per_page; // Offset for SQL query
+                                                
+                                                // Get the search term from the URL
+                                                $search = isset($_GET['search']) ? $_GET['search'] : '';
+                                                
+                                                // Count total rows for pagination
+                                                $total_rows_query = "SELECT COUNT(*) AS total FROM orders LEFT JOIN accounts ON orders.account_id = accounts.id WHERE orders.user_id = $id";
+                                                if (!empty($search)) {
+                                                    $total_rows_query .= " AND accounts.cid LIKE '%$search%'";
+                                                }
+                                                $total_rows_result = $conn->query($total_rows_query);
+                                                $total_rows = $total_rows_result->fetch_assoc()['total'];
+                                                $total_pages = ceil($total_rows / $rows_per_page); // Total pages
+                                                
+                                                // Fetch rows for the current page
+                                                $sql = "SELECT orders.id as id ,  orders.* FROM orders LEFT JOIN accounts ON orders.account_id = accounts.id WHERE orders.user_id = $id";
+                                                
+                                                if (!empty($search)) {
+                                                    $sql .= " AND accounts.cid LIKE '%$search%'";
+                                                }
+                                                
+                                                $sql .= " ORDER BY orders.id DESC LIMIT $rows_per_page OFFSET $offset";
+                                                
+                                                // Execute the query
+                                                $result = $conn->query($sql);
+                                                
+                                                if ($result->num_rows > 0) {
+                                                    $i = $offset + 1; // Adjust row number for pagination
+                                                    while ($row = $result->fetch_assoc()) {
+                                                ?>
+
+                                                <tr>
+                                                    <th scope="row"><?= $i ?></th>
+                                                    <td>
+                                                        <?php
+                                                        if ($row['type'] == 'charge') echo "شارژ اکانت";
+                                                        if ($row['type'] == 'click') echo "سفارش ابزار کلیک";
+                                                        ?>
+                                                    </td>
+                                                    <td><?= cidAccount($row['account_id']) ?></td>
+                                                    <td><?= (isset($row['managed']) && $row['managed'] == 1 ? "مدیریت شده" : "اختصاصی") ?></td>
+                                                    <td>
+                                                        <?php
+                                                        if ($row['status'] == 2) echo "در حالت پرداخت";
+                                                        if ($row['status'] == 1) echo "پرداخت شده";
+                                                        if ($row['status'] == 0) echo "<p>لغو سیستمی</p>";
+                                                        ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php
+                                                        if($row['type']== 'charge')  echo number_format($row['amount']);
+                                                        else echo $row['amount'];
+                                                        ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php
+                                                        if ($row['type'] == 'charge'){
+                                                        ?>
+                                                        <div class="d-flex align-items-center flex-row">
+                                                          <form action="invoice.php" method="POST">
+                                                            <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
+                                                            <button class="btn btn-outline-info btn-circle btn-sm" name="charge" title="مشاهده">
+                                                              <i class="fs-5 fa fa-credit-card"></i>
+                                                            </button>
+                                                          </form>
+                                                        </div>
+                                                        <?php
+                                                        }elseif($row['type'] == 'click'){
+                                                          ?>
+                                                        <div class="d-flex align-items-center flex-row">
+                                                          <form action="invoice_service.php" method="POST">
+                                                            <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
+                                                            <button class="btn btn-outline-info btn-circle btn-sm" name="charge" title="مشاهده">
+                                                              <i class="fs-5 fa fa-credit-card"></i>
+                                                            </button>
+                                                          </form>
+                                                        </div>
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                                        $i++;
+                                                    }
+                                                } else {
+                                                    echo "<tr><td colspan='6'>هیچ سفارشی پیدا نشد.</td></tr>";
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    
+                                    
+                                  <!-- Pagination Links -->
+                                  <nav>
+                                      <ul class="pagination justify-content-center">
+                                          <!-- Previous Link -->
+                                          <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
+                                              <a class="page-link" href="?page=<?= $page - 1 ?>&search=<?= isset($_GET['search']) ? urlencode($_GET['search']) : '' ?>">قبلی</a>
+                                          </li>
+
+                                          <!-- Page Numbers -->
+                                          <?php for ($p = 1; $p <= $total_pages; $p++) : ?>
+                                              <li class="page-item <?= ($p == $page) ? 'active' : '' ?>">
+                                                  <a class="page-link" href="?page=<?= $p ?>&search=<?= isset($_GET['search']) ? urlencode($_GET['search']) : '' ?>"><?= $p ?></a>
+                                              </li>
+                                          <?php endfor; ?>
+
+                                          <!-- Next Link -->
+                                          <li class="page-item <?= ($page >= $total_pages) ? 'disabled' : '' ?>">
+                                              <a class="page-link" href="?page=<?= $page + 1 ?>&search=<?= isset($_GET['search']) ? urlencode($_GET['search']) : '' ?>">بعدی</a>
+                                          </li>
+                                      </ul>
+                                  </nav>
+
+                                </div>
                             </div>
                         </div>
-                        </div>
-                        <div class="shop-part d-flex w-100 flex-column">
-                       
-                        <div class="card-body p-0 pb-0 position-relative" style="min-height:1000px">
-                            <div class="d-flex justify-content-end align-items-center mb-4">
-                            <form class="position-relative">
-                                <input type="text" class="form-control search-chat py-2 ps-5 text-right" id="txtSearch" placeholder="جست و جو">
-                                <i class="fa fa-search position-absolute top-50  translate-middle-y fs-6 text-dark me-3" style="right:10px"></i>
-                            </form>
-                            </div>
-
-                          <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">ردیف</th>
-                                        <th scope="col"> سفارش</th>
-                                        <th scope="col">نوع</th>
-                                        <th scope="col">وضعیت</th>
-                                        <th scope="col">مبلغ</th>
-                                        <th scope="col">عملیات</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    include "config.php";
-
-                                    // Define pagination parameters
-                                    $rows_per_page = 10; // Number of rows per page
-                                    $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1; // Current page
-                                    $offset = ($page - 1) * $rows_per_page; // Offset for SQL query
-
-                                    // Total rows in the orders table for the given user_id
-                                    $total_rows_query = "SELECT COUNT(*) AS total FROM orders WHERE user_id = $id ORDER BY id";
-                                    $total_rows_result = $conn->query($total_rows_query);
-                                    $total_rows = $total_rows_result->fetch_assoc()['total'];
-                                    $total_pages = ceil($total_rows / $rows_per_page); // Total pages
-
-                                    // Fetch rows for the current page
-                                    $sql = "SELECT * FROM orders WHERE user_id = $id ORDER BY id DESC
-                                            LIMIT $rows_per_page OFFSET $offset";
-                                    $result = $conn->query($sql);
-
-                                    if ($result->num_rows > 0) {
-                                        $i = $offset + 1; // Adjust row number for pagination
-                                        while ($row = $result->fetch_assoc()) {
-                                    ?>
-                                    <tr>
-                                        <th scope="row"><?= $i ?></th>
-                                        <td>
-                                            <?php
-                                            if ($row['type'] == 'charge') echo "شارژ اکانت". " " . cidAccount($row['account_id']);
-                                            if ($row['type'] == 'click') echo "سفارش ابزار کلیک";
-                                            ?>
-                                        </td>
-                                        <td><?= (isset($row['managed']) && $row['managed'] == 1 ? "مدیریت شده" : "اختصاصی") ?></td>
-                                        
-                                        <td>
-                                            <?php
-                                            if ($row['status'] == 2) echo "در حالت پرداخت";
-                                            if ($row['status'] == 1) echo "پرداخت شده";
-                                            if ($row['status'] == 0) echo "<p>لغو سیستمی</p>";
-                                            ?>
-                                        </td>
-                                        <td>
-                                          <?php
-                                          if($row['type']== 'charge')  echo number_format($row['amount']);
-                                          else echo $row['amount'];
-                                          ?>
-                                        </td>
-                                        <td>
-                                            <?php
-                                            if ($row['type'] == 'charge'){
-                                            ?>
-                                            <div class="d-flex align-items-center flex-row">
-                                              <form action="invoice.php" method="POST">
-                                                <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
-                                                <button class="btn btn-outline-info btn-circle btn-sm" name="charge" title="مشاهده">
-                                                  <i class="fs-5 fa fa-credit-card"></i>
-                                                </button>
-                                              </form>
-                                            </div>
-                                            <?php
-                                            }elseif($row['type'] == 'click'){
-                                              ?>
-                                            <div class="d-flex align-items-center flex-row">
-                                              <form action="invoice_service.php" method="POST">
-                                                <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
-                                                <button class="btn btn-outline-info btn-circle btn-sm" name="charge" title="مشاهده">
-                                                  <i class="fs-5 fa fa-credit-card"></i>
-                                                </button>
-                                              </form>
-                                            </div>
-                                            <?php
-                                            }
-                                            ?>
-                                        </td>
-                                    </tr>
-                                    <?php
-                                            $i++;
-                                        }
-                                    } else {
-                                        echo "<tr><td colspan='5'>هیچ سفارشی پیدا نشد.</td></tr>";
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-                          </div>
-
-                          <!-- Pagination Links -->
-                          <nav>
-                              <ul class="pagination justify-content-center">
-                                  <!-- Previous Link -->
-                                  <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
-                                      <a class="page-link" href="?page=<?= $page - 1 ?>">قبلی</a>
-                                  </li>
-                                  
-                                  <!-- Page Numbers -->
-                                  <?php for ($p = 1; $p <= $total_pages; $p++) : ?>
-                                      <li class="page-item <?= ($p == $page) ? 'active' : '' ?>">
-                                          <a class="page-link" href="?page=<?= $p ?>"><?= $p ?></a>
-                                      </li>
-                                  <?php endfor; ?>
-                                  
-                                  <!-- Next Link -->
-                                  <li class="page-item <?= ($page >= $total_pages) ? 'disabled' : '' ?>">
-                                      <a class="page-link" href="?page=<?= $page + 1 ?>">بعدی</a>
-                                  </li>
-                              </ul>
-                          </nav>
-
-
-
-
-
-                        </div>
-                        </div>
-                    </div>
                     </div>
                 </div>
             </div>

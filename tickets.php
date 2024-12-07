@@ -106,9 +106,10 @@ $admin = $_SESSION["user_data"]["admin"];
                        
                           <div class="card-body p-0 pb-0 position-relative" style="min-height:1000px">
                               <div class="d-flex justify-content-end align-items-center mb-4">
-                              <form class="position-relative">
-                                  <input type="text" class="form-control search-chat py-2 ps-5 text-right" id="txtSearch" placeholder="جست و جو">
-                                  <i class="ti ti-search position-absolute top-50  translate-middle-y fs-6 text-dark me-3" style="right:10px"></i>
+                              <form class="position-relative" action="" method="GET">
+                                  <input type="text" class="form-control search-chat py-2 ps-5 text-right" 
+                                  id="txtSearch" placeholder="جست و جو بر اساس موضوع" name="search">
+                                  <i class="fa fa-search position-absolute top-50  translate-middle-y fs-6 text-dark me-3" style="right:10px"></i>
                               </form>
                               <button class="btn btn-light-info mb-2 font-medium text-info px-4 rounded-pill cursor-pointer" onclick="ticket_show()">
                                   <span class="d-md-inline d-none">تیکت جدید</span><i class="fa fa-plus"></i>
@@ -124,14 +125,24 @@ $admin = $_SESSION["user_data"]["admin"];
                               $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1; // Current page
                               $offset = ($page - 1) * $rows_per_page; // Offset for SQL query
 
+                              $search = isset($_GET['search']) ? $_GET['search'] : '';
+
                               // Total rows in the table
                               $total_rows_query = "SELECT COUNT(*) AS total FROM tickets WHERE user_id = $id";
+                              if(!empty($search)){
+                                $total_rows_query.= " AND title LIKE '%$search%' OR text1 LIKE '%$search%'";  // Add search condition to the query if search string is not empty
+                              }
                               $total_rows_result = $conn->query($total_rows_query);
                               $total_rows = $total_rows_result->fetch_assoc()['total'];
                               $total_pages = ceil($total_rows / $rows_per_page); // Total pages
 
                               // Fetch rows for the current page
-                              $sql = "SELECT * FROM tickets WHERE user_id = $id ORDER BY id DESC";
+                              $sql = "SELECT * FROM tickets WHERE user_id = $id ";
+                              if(!empty($search)){
+                                $sql.= " AND title LIKE '%$search%' ";  // Add search condition to the query if search string is not empty
+                              }
+                              $sql.= " ORDER BY id DESC LIMIT $offset, $rows_per_page";  // Add pagination condition to the query
+
                               // echo $sql;
                               $result = $conn->query($sql);
                               ?>
@@ -184,24 +195,23 @@ $admin = $_SESSION["user_data"]["admin"];
                                 </table>
                               </div>
 
-                              <!-- Pagination Links -->
                               <nav>
                                   <ul class="pagination justify-content-center">
                                       <!-- Previous Link -->
                                       <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
-                                          <a class="page-link" href="?page=<?= $page - 1 ?>">قبلی</a>
+                                          <a class="page-link" href="?page=<?= $page - 1 ?>&search=<?= urlencode($search) ?>">قبلی</a>
                                       </li>
                                       
                                       <!-- Page Numbers -->
                                       <?php for ($p = 1; $p <= $total_pages; $p++) : ?>
                                           <li class="page-item <?= ($p == $page) ? 'active' : '' ?>">
-                                              <a class="page-link" href="?page=<?= $p ?>"><?= $p ?></a>
+                                              <a class="page-link" href="?page=<?= $p ?>&search=<?= urlencode($search) ?>"><?= $p ?></a>
                                           </li>
                                       <?php endfor; ?>
                                       
                                       <!-- Next Link -->
                                       <li class="page-item <?= ($page >= $total_pages) ? 'disabled' : '' ?>">
-                                          <a class="page-link" href="?page=<?= $page + 1 ?>">بعدی</a>
+                                          <a class="page-link" href="?page=<?= $page + 1 ?>&search=<?= urlencode($search) ?>">بعدی</a>
                                       </li>
                                   </ul>
                               </nav>
@@ -367,11 +377,11 @@ if(isset($_POST['submit'])){
         $(document).ready(function(){
             $('#successToast').toast({
                 autohide: true,
-                delay: 3000
+                delay: 2000
             }).toast('show');
             setTimeout(function(){
                 window.location.href = 'tickets';
-            }, 3000);
+            }, 2000);
         });
     </script>";
   }else{
@@ -387,11 +397,11 @@ if(isset($_POST['submit'])){
         $(document).ready(function(){
             $('#errorToast').toast({
                 autohide: true,
-                delay: 3000
+                delay: 2000
             }).toast('show');
             setTimeout(function(){
                 window.location.href = 'tickets';
-            }, 3000);
+            }, 2000);
         });
     </script>";
   }

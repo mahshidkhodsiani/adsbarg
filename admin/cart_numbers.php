@@ -110,10 +110,7 @@ if ($admin == 0 ){
                        
                           <div class="card-body p-0 pb-0 position-relative" style="min-height:1000px">
                               <div class="d-flex justify-content-end align-items-center mb-4">
-                              <form class="position-relative">
-                                  <input type="text" class="form-control search-chat py-2 ps-5 text-right" id="txtSearch" placeholder="جست و جو">
-                                  <i class="fa fa-search position-absolute top-50  translate-middle-y fs-6 text-dark me-3" style="right:10px"></i>
-                              </form>
+                           
                               <button class="btn btn-light-info mb-2 font-medium text-info px-4 rounded-pill cursor-pointer" onclick="cart_show()">
                                   <span class="d-md-inline d-none">شماره کارت جدید</span><i class="fa fa-plus"></i>
                               </button>

@@ -43,7 +43,7 @@ function cidAccount($id) {
 
     // Ensure $id is a valid integer
     if (!is_numeric($id) || $id <= 0) {
-        return "Invalid account ID";
+        return "Invalid";
     }
 
     // Use a prepared statement

@@ -77,7 +77,14 @@ $admin = $_SESSION["user_data"]["admin"];
         include "config.php";
         
 
-        $query = "SELECT * FROM accounts WHERE user_id = $id ORDER BY id DESC";
+        $query = "SELECT * FROM accounts WHERE user_id = $id ";
+
+        if (!empty($_POST['search'])) {
+          $search = $_POST['search'];
+          $query .= " AND cid LIKE '%$search%'"; // شرط جستجو فقط برای CID
+        }
+        $query .= " ORDER BY id DESC"; // مرتب‌سازی
+        
         $result = $conn->query($query);
         $accounts = [];
 
@@ -112,6 +119,13 @@ $admin = $_SESSION["user_data"]["admin"];
                       <span class="d-md-inline d-none">فیلتر</span>
                       <i class="fa fa-filter"></i>
                     </a>
+
+                    <form class="position-relative" action="" method="POST">
+                      <input type="text" class="form-control search-chat py-2 ps-5 text-right" 
+                      name="search" id="txtSearch" placeholder="جست و جو بر اساس cid">
+                      <i class="fa fa-search position-absolute top-50  translate-middle-y fs-6 text-dark me-3" style="right:10px"></i>
+                    </form>
+
                   </div>
                 </div>
                 <div class="collapse" id="filteringBox">
@@ -176,7 +190,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                         </div>
                                     </div>
                                     <p class="accountGoogle_name fw-bolder fs-7 mb-0" style="direction: ltr;"><?= $account['username'] ?></p>
-                                    <p class="mb-1" style="direction:ltr">CID: <span><?=$row['cid'] ?? "هنوز آیدی ایجاد نشده" ?> </span></p>
+                                    <p class="mb-1" style="direction:ltr">CID: <span><?=$account['cid'] ?? "هنوز آیدی ایجاد نشده" ?> </span></p>
                                     <p class="">
                                         <a href="https://adsbarg.com/" class="btn btn-outline-dark" target="_blank">
                                              شارژ دلخواه (کلیک کنید) 

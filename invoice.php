@@ -268,7 +268,10 @@ $id = $_SESSION["user_data"]["id"];
                 </div>
                 <div class="col-md-4 d-flex flex-column mt-4">
                     <p class="text-primary fs-4 mb-0">
-                        آیدی اکانت : <strong class="fs-6 fw-boler" id="trackNo">
+                        <p class="text-primary fs-4 mb-0">آیدی اکانت :</p>
+
+                        <p class="text-primary fs-4 mb-0">
+                        <strong>
                             <?php
                                 if(isset($acc_row['id'])){
                                     echo cidAccount($acc_row['id']);
@@ -277,6 +280,7 @@ $id = $_SESSION["user_data"]["id"];
                                 }
                             ?>
                         </strong>
+                        </p>
                     </p>
                 </div>
                 <div class="col-md-4 d-flex flex-column mt-4">
