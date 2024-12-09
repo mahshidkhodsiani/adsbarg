@@ -78,13 +78,27 @@ foreach ($currencyQueries as $key => $query) {
 // Prepare the SQL statement for inserting all currencies
 $stmt = $conn->prepare("INSERT INTO currencys (dollar, derham, lira, bat, updated) VALUES (?, ?, ?, ?, NOW())");
 
+// Corrected calculations
+$p1 = 0.04 * (float)$currencyValues['dollar'];
+$dollar = $p1 + (float)$currencyValues['dollar'];
+
+$p2 = 0.07 * (float)$currencyValues['derham'];
+$derham = $p2 + (float)$currencyValues['derham'];
+
+$p3 = 0.07 * (float)$currencyValues['lira'];
+$lira = $p3 + (float)$currencyValues['lira'];
+
+$p4 = 0.11 * (float)$currencyValues['bat'];
+$bat = $p4 + (float)$currencyValues['bat'];
+
+
 // Bind parameters to the query
 $stmt->bind_param(
     "ssss",
-    $currencyValues['dollar'],
-    $currencyValues['derham'],
-    $currencyValues['lira'],
-    $currencyValues['bat']
+    $dollar,
+    $derham,
+    $lira,
+    $bat
 );
 
 // Execute the query

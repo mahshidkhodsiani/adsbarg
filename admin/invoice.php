@@ -13,6 +13,7 @@ $id = $_SESSION["user_data"]["id"];
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
   <head>
+  
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <meta name="handheldfriendly" content="true">
@@ -465,6 +466,8 @@ $id = $_SESSION["user_data"]["id"];
 
     <script src="js/javascripts.js"></script>
 
+    
+
     <script>
         function showpardakht(){
             document.getElementById("pardakhtmethod").style.display = "block";
@@ -478,13 +481,13 @@ $id = $_SESSION["user_data"]["id"];
             document.getElementById("cardtocard").style.display = "";
         }
     </script>
-
     
 
     <jdp-container style="z-index: 1000;"></jdp-container>
     <jdp-overlay style="z-index: 999;"></jdp-overlay>
   </body>
-  </body>
+ 
+
 </html>
 
 

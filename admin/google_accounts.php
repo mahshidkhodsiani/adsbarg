@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 // Check if the user data is set in the session
@@ -242,48 +241,52 @@ $admin = $_SESSION["user_data"]["admin"];
                             </div>
 
                            
-                           
                             <?php 
+                         
+                            
+                          
                             $currencys = "SELECT * FROM currencys ORDER BY id DESC LIMIT 1";
                             $result_currency = $conn->query($currencys);
                             if ($result_currency->num_rows > 0) {
-                              $row_currency = $result_currency->fetch_assoc();
+                                $row_currency = $result_currency->fetch_assoc();
 
-                              if($account['currency'] == 'USD'){
-                                $price = floatval($row_currency['dollar']) * 100 + 9000;
-                              }elseif($account['currency'] == 'AED'){
-                                $price = floatval($row_currency['derham']) * 100 + 9000;
-                              }elseif($account['currency'] == 'TL'){
-                                $price = floatval($row_currency['lira']) * 100 + 9000;
-                              }elseif($account['currency'] == 'BHT'){
-                                $price = floatval($row_currency['bat']) * 100 + 9000;
-                              }
-                            
-                              
-
+                                if ($account['currency'] == 'USD') {
+                                    $price = number_format(floatval($row_currency['dollar']) * 100);
+                                } elseif ($account['currency'] == 'AED') {
+                                    $price = number_format(floatval($row_currency['derham']) * 100);
+                                } elseif ($account['currency'] == 'TRY') {
+                                    $price = number_format(floatval($row_currency['lira']) * 100);
+                                } elseif ($account['currency'] == 'BHT') {
+                                    $price = number_format(floatval($row_currency['bat']) * 100);
+                                }
                             }
                             ?>
-
-
 
                             <div class="card-body p-0 shadow-none">
                                 <div class="collapse p-3" id="acc_<?= $account['id'] ?>">
                                     <form action="invoice.php" method="POST">
                                         <div class="form-floating mb-2">
                                             <input type="hidden" name="id_account" value="<?= $account['id'] ?>">
-                                            <input type="hidden" name="total_amount" id="hidden_total_price_<?= $account['id'] ?>" value="0"> <!-- Hidden input to send the total amount -->
+                                            <input type="hidden" name="total_amount" id="hidden_total_price_<?= $account['id'] ?>" value="0">
                                             <input type="text" name="amount_charge" id="amount_charge_<?= $account['id'] ?>" 
-                                                  class="accountGoogle_amount form-control mb-2 text-end" 
+                                                  class="accountGoogle_amount form-control mb-2 text-end"  
                                                   placeholder="عدد وارد کنید" required>
                                             <label>
                                                 <i class="fa fa-USD me-2 fs-5 text-primary fw-bolder"></i> 
-                                                 مقدار را وارد کنید
+                                                مقدار را وارد کنید
                                             </label>
                                         </div>
+                                    
                                         <p class="form-control-feedback text text-center">
-                                            قیمت ارز با کارمزد: 
+                                            قیمت حواله : 
                                             <span class="accountGoogle_currencyIranAmount" id="price_<?= $account['id'] ?>">
                                                 <?= $price ?>
+                                            </span>
+                                        </p>
+                                        <p class="form-control-feedback text text-center">
+                                            کارمزد: 
+                                            <span class="accountGoogle_currencyIranAmount text-danger fw-bolder" id="fee_<?= $account['id'] ?>">
+                                                0
                                             </span>
                                         </p>
                                         <p class="accountGoogle_serviceCost_parent text-center">
@@ -302,26 +305,105 @@ $admin = $_SESSION["user_data"]["admin"];
                                 </div>
                             </div>
 
+
+
                             <script>
-                                document.addEventListener('DOMContentLoaded', () => {
-                                    // Select the input and display elements
-                                    const amountInput = document.getElementById('amount_charge_<?= $account['id'] ?>');
-                                    const priceSpan = document.getElementById('price_<?= $account['id'] ?>');
-                                    const totalPriceSpan = document.getElementById('total_price_<?= $account['id'] ?>');
-                                    const hiddenTotalInput = document.getElementById('hidden_total_price_<?= $account['id'] ?>');
+                               document.addEventListener('DOMContentLoaded', () => {
+                                  const account = <?= json_encode($account); ?>; // انتقال متغیر account از PHP به جاوااسکریپت
+                                  const amountInput = document.getElementById('amount_charge_<?= $account['id'] ?>');
+                                  const priceSpan = document.getElementById('price_<?= $account['id'] ?>');
+                                  const totalPriceSpan = document.getElementById('total_price_<?= $account['id'] ?>');
+                                  const feeSpan = document.getElementById('fee_<?= $account['id'] ?>');
+                                  const hiddenTotalInput = document.getElementById('hidden_total_price_<?= $account['id'] ?>');
 
-                                    // Parse the price as a number
-                                    const price = parseFloat(priceSpan.textContent.replace(/,/g, '')) || 0;
+                                  const price = parseFloat(priceSpan.textContent.replace(/,/g, '')) || 0;
 
-                                    // Add event listener to update the total price dynamically
-                                    amountInput.addEventListener('input', () => {
-                                        const amount = parseFloat(amountInput.value) || 0; // Get the input value, default to 0
-                                        const total = price * amount; // Calculate the total
-                                        totalPriceSpan.textContent = total.toLocaleString('en-US'); // Update the total price display
-                                        hiddenTotalInput.value = total; // Set the value of the hidden input
-                                    });
-                                });
+                                  amountInput.addEventListener('input', () => {
+                                      const amount = parseFloat(amountInput.value) || 0;
+                                      let total = price * amount;
+                                      let feePercentage = 0;
+
+                                        // اگر حساب مدیریت شده باشد، مبلغ کل را ضرب در 2 کنید
+                                        if (account.managed == 1) {
+                                          total *= 2;
+                                        }
+
+                                      // اضافه کردن منطق برای محاسبه کارمزد بر اساس ارز و مقدار وارد شده
+                                      if (account.currency === 'USD') {
+                                          if (amount >= 50 && amount < 100) {
+                                              feePercentage = 10;
+                                          } else if (amount >= 100 && amount < 200) {
+                                              feePercentage = 9;
+                                          } else if (amount >= 200 && amount < 300) {
+                                              feePercentage = 8;
+                                          } else if (amount >= 300 && amount < 500) {
+                                              feePercentage = 7.5;
+                                          } else if (amount >= 500 && amount < 750) {
+                                              feePercentage = 7;
+                                          } else if (amount >= 750 && amount < 1000) {
+                                              feePercentage = 6.5;
+                                          } else if (amount >= 1000) {
+                                              feePercentage = 6;
+                                          }
+                                      } else if (account.currency === 'BHT') {
+                                          if (amount >= 2000 && amount < 3500) {
+                                              feePercentage = 10;
+                                          } else if (amount >= 3500 && amount < 5000) {
+                                              feePercentage = 9;
+                                          } else if (amount >= 5000 && amount < 8000) {
+                                              feePercentage = 8.5;
+                                          } else if (amount >= 8000 && amount < 10000) {
+                                              feePercentage = 8;
+                                          } else if (amount >= 10000 && amount < 20000) {
+                                              feePercentage = 7.5;
+                                          } else if (amount >= 20000) {
+                                              feePercentage = 6.5;
+                                          }
+                                      } else if (account.currency === 'TRY') {
+                                          if (amount >= 500 && amount < 1000) {
+                                              feePercentage = 10;
+                                          } else if (amount >= 1000 && amount < 2000) {
+                                              feePercentage = 9;
+                                          } else if (amount >= 2000 && amount < 3000) {
+                                              feePercentage = 8.5;
+                                          } else if (amount >= 3000 && amount < 5000) {
+                                              feePercentage = 8;
+                                          } else if (amount >= 5000 && amount < 10000) {
+                                              feePercentage = 7.5;
+                                          } else if (amount >= 10000) {
+                                              feePercentage = 6.5;
+                                          }
+                                      } else if (account.currency === 'AED') {
+                                          if (amount >= 300 && amount < 500) {
+                                              feePercentage = 10;
+                                          } else if (amount >= 500 && amount < 1000) {
+                                              feePercentage = 9;
+                                          } else if (amount >= 1000 && amount < 2000) {
+                                              feePercentage = 8;
+                                          } else if (amount >= 2000 && amount < 3500) {
+                                              feePercentage = 7;
+                                          } else if (amount >= 3500) {
+                                              feePercentage = 6;
+                                          }
+                                      }
+
+                                    
+
+                                      // محاسبه مبلغ کارمزد
+                                      const feeAmount = (total * feePercentage) / 100;
+                                      const finalAmount = total + feeAmount;
+
+                                      // به‌روزرسانی مقادیر در صفحه
+                                      feeSpan.textContent = feeAmount.toLocaleString('en-US');
+                                      totalPriceSpan.textContent = finalAmount.toLocaleString('en-US');
+                                      hiddenTotalInput.value = finalAmount; // ذخیره مبلغ نهایی در فیلد مخفی
+                                  });
+                              });
+
                             </script>
+
+
+
 
 
 
