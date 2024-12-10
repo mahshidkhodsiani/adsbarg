@@ -155,8 +155,174 @@ $admin = $_SESSION["user_data"]["admin"];
               </div>
             </div>
 
+
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-outline-success mx-2" onclick="show_personal()">کارمزد اکانت اختصاصی</button>
+                <button class="btn btn-outline-success mx-2" onclick="show_manage()">کارمزد اکانت مدیریت شده</button>
+            </div>
+
+
+
+            <div class="container" id="card_personal">
+              <div class="row mt-2">
+                <!-- دلار آمریکا -->
+                <div class="col-md-3">
+                  <div class="card shadow-sm border-0" style="background-color: #eafaf1; border-left: 5px solid #28a745;">
+                    <div class="card-body">
+                      <h5 class="card-title text-success fw-bold">کارمزد دلار آمریکا <img src="images/usd.jpg" alt="دلار" width="17px"></h5>
+                      <ul class="list-unstyled text-dark">
+                        <li>50 تا 99 دلار : 10 درصد</li>
+                        <li>100 تا 199 دلار : 9 درصد</li>
+                        <li>200 تا 299 دلار : 8 درصد</li>
+                        <li>300 تا 499 دلار : 7.5 درصد</li>
+                        <li>500 تا 749 دلار : 7 درصد</li>
+                        <li>750 تا 999 دلار : 6.5 درصد</li>
+                        <li>1000 دلار به بالا : 6 درصد</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- درهم امارات -->
+                <div class="col-md-3">
+                  <div class="card shadow-sm border-0" style="background-color: #eafaf1; border-left: 5px solid #28a745;">
+                    <div class="card-body">
+                      <h5 class="card-title text-success fw-bold">کارمزد درهم امارات <img src="images/aed.png" alt="درهم" width="17px"></h5>
+                      <ul class="list-unstyled text-dark">
+                        <li>300 تا 499 : 10 درصد</li>
+                        <li>500 تا 999 : 9 درصد</li>
+                        <li>1000 تا 1999 : 8 درصد</li>
+                        <li>2000 تا 3499 : 7 درصد</li>
+                        <li>3500 به بالا : 6 درصد</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- بات تایلند -->
+                <div class="col-md-3">
+                  <div class="card shadow-sm border-0" style="background-color: #eafaf1; border-left: 5px solid #28a745;">
+                    <div class="card-body">
+                      <h5 class="card-title text-success fw-bold">کارمزد بات تایلند <img src="images/bat.jpg" alt="بات" width="17px"></h5>
+                      <ul class="list-unstyled text-dark">
+                        <li>2000 تا 3499 : 10 درصد</li>
+                        <li>3500 تا 4999 : 9 درصد</li>
+                        <li>5000 تا 7999 : 8.5 درصد</li>
+                        <li>8000 تا 9999 : 8 درصد</li>
+                        <li>10000 تا 19999 : 7.5 درصد</li>
+                        <li>20000 به بالا : 6.5 درصد</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- لیر ترکیه -->
+                <div class="col-md-3">
+                  <div class="card shadow-sm border-0" style="background-color: #eafaf1; border-left: 5px solid #28a745;">
+                    <div class="card-body">
+                      <h5 class="card-title text-success fw-bold">کارمزد لیر ترکیه <img src="images/tur.jpg" alt="لیر" width="20px"></h5>
+                      <ul class="list-unstyled text-dark">
+                        <li>500 تا 999 : 10 درصد</li>
+                        <li>1000 تا 1999 : 9 درصد</li>
+                        <li>2000 تا 2999 : 8.5 درصد</li>
+                        <li>3000 تا 4999 : 8 درصد</li>
+                        <li>5000 تا 9999 : 7.5 درصد</li>
+                        <li>10000 به بالا : 6.5 درصد</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                
+              </div>
+            </div>
+
+            <div class="container" id="card_manage" style="display: none;">
+              <div class="row mt-2">
+                <!-- دلار آمریکا -->
+                <div class="col-md-3">
+                  <div class="card shadow-sm border-0" style="background-color: #eafaf1; border-left: 5px solid #28a745;">
+                    <div class="card-body">
+                      <h5 class="card-title text-success fw-bold">کارمزد دلار آمریکا <img src="images/usd.jpg" alt="دلار" width="17px"></h5>
+                      <ul class="list-unstyled text-dark">
+                        <li>50 تا 99 دلار : 20 درصد</li>
+                        <li>100 تا 199 دلار : 18 درصد</li>
+                        <li>200 تا 299 دلار : 16 درصد</li>
+                        <li>300 تا 499 دلار : 15 درصد</li>
+                        <li>500 تا 749 دلار : 14 درصد</li>
+                        <li>750 تا 999 دلار : 13 درصد</li>
+                        <li>1000 دلار به بالا : 12 درصد</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- درهم امارات -->
+                <div class="col-md-3">
+                  <div class="card shadow-sm border-0" style="background-color: #eafaf1; border-left: 5px solid #28a745;">
+                    <div class="card-body">
+                      <h5 class="card-title text-success fw-bold">کارمزد درهم امارات <img src="images/aed.png" alt="درهم" width="17px"></h5>
+                      <ul class="list-unstyled text-dark">
+                        <li>300 تا 499 : 20 درصد</li>
+                        <li>500 تا 999 : 18 درصد</li>
+                        <li>1000 تا 1999 : 16 درصد</li>
+                        <li>2000 تا 3499 : 14 درصد</li>
+                        <li>3500 به بالا : 12 درصد</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- بات تایلند -->
+                <div class="col-md-3">
+                  <div class="card shadow-sm border-0" style="background-color: #eafaf1; border-left: 5px solid #28a745;">
+                    <div class="card-body">
+                      <h5 class="card-title text-success fw-bold">کارمزد بات تایلند <img src="images/bat.jpg" alt="بات" width="17px"></h5>
+                      <ul class="list-unstyled text-dark">
+                        <li>2000 تا 3499 : 20 درصد</li>
+                        <li>3500 تا 4999 : 18 درصد</li>
+                        <li>5000 تا 7999 : 17 درصد</li>
+                        <li>8000 تا 9999 : 16 درصد</li>
+                        <li>10000 تا 19999 : 15 درصد</li>
+                        <li>20000 به بالا : 13 درصد</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- لیر ترکیه -->
+                <div class="col-md-3">
+                  <div class="card shadow-sm border-0" style="background-color: #eafaf1; border-left: 5px solid #28a745;">
+                    <div class="card-body">
+                      <h5 class="card-title text-success fw-bold">کارمزد لیر ترکیه <img src="images/tur.jpg" alt="لیر" width="20px"></h5>
+                      <ul class="list-unstyled text-dark">
+                        <li>500 تا 999 : 20 درصد</li>
+                        <li>1000 تا 1999 : 18 درصد</li>
+                        <li>2000 تا 2999 : 17 درصد</li>
+                        <li>3000 تا 4999 : 16 درصد</li>
+                        <li>5000 تا 9999 : 15 درصد</li>
+                        <li>10000 به بالا : 13 درصد</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <script>
+              function show_personal(){
+                document.getElementById('card_personal').style.display = 'block';
+                document.getElementById('card_manage').style.display = 'none';
+              }
+              function show_manage(){
+                document.getElementById('card_manage').style.display = 'block';
+                document.getElementById('card_personal').style.display = 'none';
+              }
+            </script>
+
             
-            <div class="row" id="accountsgoogle_g">
+            <div class="row mt-2" id="accountsgoogle_g">
                 <?php
                 $count = 0;
                 foreach ($accounts as $account) {
@@ -191,12 +357,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                     </div>
                                     <p class="accountGoogle_name fw-bolder fs-7 mb-0" style="direction: ltr;"><?= $account['username'] ?></p>
                                     <p class="mb-1" style="direction:ltr">CID: <span><?=$account['cid'] ?? "هنوز آیدی ایجاد نشده" ?> </span></p>
-                                    <p class="">
-                                        <a href="https://adsbarg.com/" class="btn btn-outline-dark" target="_blank">
-                                             شارژ دلخواه (کلیک کنید) 
-                                        </a>
-                                   
-                                    </p>
+                                    
                                     <p class="text-start mt-2">
                                         <button class="btn btn-sm btn-success icoAccordian text-white" data-bs-toggle="collapse" data-bs-target="#acc_<?= $account['id'] ?>" aria-expanded="false" aria-controls="acc_<?= $account['id'] ?>">
                                             <i class="fa fa-circle-arrow-down"></i> شارژ کنید
@@ -208,83 +369,168 @@ $admin = $_SESSION["user_data"]["admin"];
                             </div>
 
                             <?php 
-                            $currencys = "SELECT * FROM currencys ORDER BY id DESC LIMIT 1";
-                            $result_currency = $conn->query($currencys);
-                            if ($result_currency->num_rows > 0) {
-                              $row_currency = $result_currency->fetch_assoc();
+                         
+                              $currencys = "SELECT * FROM currencys ORDER BY id DESC LIMIT 1";
+                              $result_currency = $conn->query($currencys);
+                              if ($result_currency->num_rows > 0) {
+                                  $row_currency = $result_currency->fetch_assoc();
 
-                              if($account['currency'] == 'USD'){
-                                $price = floatval($row_currency['dollar']) * 100 + 9000;
-                              }elseif($account['currency'] == 'AED'){
-                                $price = floatval($row_currency['derham']) * 100 + 9000;
-                              }elseif($account['currency'] == 'TL'){
-                                $price = floatval($row_currency['lira']) * 100 + 9000;
-                              }elseif($account['currency'] == 'BHT'){
-                                $price = floatval($row_currency['bat']) * 100 + 9000;
+                                  if ($account['currency'] == 'USD') {
+                                      $price = number_format(floatval($row_currency['dollar']) * 100);
+                                  } elseif ($account['currency'] == 'AED') {
+                                      $price = number_format(floatval($row_currency['derham']) * 100);
+                                  } elseif ($account['currency'] == 'TRY') {
+                                      $price = number_format(floatval($row_currency['lira']) * 100);
+                                  } elseif ($account['currency'] == 'BHT') {
+                                      $price = number_format(floatval($row_currency['bat']) * 100);
+                                  }
                               }
-                            
-                              
-
-                            }
                             ?>
 
 
 
                             <div class="card-body p-0 shadow-none">
-                                <div class="collapse p-3" id="acc_<?= $account['id'] ?>">
-                                    <form action="invoice.php" method="POST">
-                                        <div class="form-floating mb-2">
-                                            <input type="hidden" name="id_account" value="<?= $account['id'] ?>">
-                                            <input type="hidden" name="total_amount" id="hidden_total_price_<?= $account['id'] ?>" value="0"> <!-- Hidden input to send the total amount -->
-                                            <input type="text" name="amount_charge" id="amount_charge_<?= $account['id'] ?>" 
-                                                  class="accountGoogle_amount form-control mb-2 text-end" 
-                                                  placeholder="عدد وارد کنید" required>
-                                            <label>
-                                                <i class="fa fa-USD me-2 fs-5 text-primary fw-bolder"></i> 
-                                                مقدار را وارد کنید
-                                            </label>
-                                        </div>
-                                        <p class="form-control-feedback text text-center">
-                                            قیمت ارز با کارمزد: 
-                                            <span class="accountGoogle_currencyIranAmount" id="price_<?= $account['id'] ?>">
-                                                <?= $price ?>
-                                            </span>
-                                        </p>
-                                        <p class="accountGoogle_serviceCost_parent text-center">
-                                            قابل پرداخت: 
-                                            <span class="accountGoogle_serviceCost fw-bolder text-success fs-6" 
-                                                  id="total_price_<?= $account['id'] ?>">
-                                                0
-                                            </span>
-                                        </p>
-                                        <div class="text-center">
-                                            <button class="accountGoogle_submit btn btn-primary" name="charge">
-                                                شارژ کن <i class="fa fa-rocket"></i>
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
+                              <div class="collapse p-3" id="acc_<?= $account['id'] ?>">
+                                  <form action="invoice.php" method="POST">
+                                      <div class="form-floating mb-2">
+                                          <input type="hidden" name="id_account" value="<?= $account['id'] ?>">
+                                          <input type="hidden" name="total_amount" id="hidden_total_price_<?= $account['id'] ?>" value="0">
+                                          <input 
+                                            type="number" 
+                                            name="amount_charge" 
+                                            id="amount_charge_<?= $account['id'] ?>" 
+                                            class="accountGoogle_amount form-control mb-2 text-end"  
+                                            placeholder="عدد وارد کنید" 
+                                            min="<?= $account['currency'] === 'USD' ? 50 : ($account['currency'] === 'BHT' ? 2000 : ($account['currency'] === 'TRY' ? 500 : ($account['currency'] === 'AED' ? 300 : 0))) ?>" 
+                                            required>
+                                          <label>
+                                              <i class="fa fa-USD me-2 fs-5 text-primary fw-bolder"></i> 
+                                              مقدار را وارد کنید
+                                          </label>
+                                      </div>
+                                  
+                                      <p class="form-control-feedback text text-center">
+                                          قیمت حواله : 
+                                          <span class="accountGoogle_currencyIranAmount" id="price_<?= $account['id'] ?>">
+                                              <?= $price ?>
+                                          </span>
+                                      </p>
+                                      <p class="form-control-feedback text text-center">
+                                          کارمزد: 
+                                          <span class="accountGoogle_currencyIranAmount text-danger fw-bolder" id="fee_<?= $account['id'] ?>">
+                                              0
+                                          </span>
+                                      </p>
+                                      <p class="accountGoogle_serviceCost_parent text-center">
+                                          قابل پرداخت: 
+                                          <span class="accountGoogle_serviceCost fw-bolder text-success fs-6" 
+                                                id="total_price_<?= $account['id'] ?>">
+                                              0
+                                          </span>
+                                      </p>
+                                      <div class="text-center">
+                                          <button class="accountGoogle_submit btn btn-primary" name="charge">
+                                              شارژ کن <i class="fa fa-rocket"></i>
+                                          </button>
+                                      </div>
+                                  </form>
+                              </div>
                             </div>
 
+
                             <script>
-                                document.addEventListener('DOMContentLoaded', () => {
-                                    // Select the input and display elements
-                                    const amountInput = document.getElementById('amount_charge_<?= $account['id'] ?>');
-                                    const priceSpan = document.getElementById('price_<?= $account['id'] ?>');
-                                    const totalPriceSpan = document.getElementById('total_price_<?= $account['id'] ?>');
-                                    const hiddenTotalInput = document.getElementById('hidden_total_price_<?= $account['id'] ?>');
+                               document.addEventListener('DOMContentLoaded', () => {
+                                  const account = <?= json_encode($account); ?>; // انتقال متغیر account از PHP به جاوااسکریپت
+                                  const amountInput = document.getElementById('amount_charge_<?= $account['id'] ?>');
+                                  const priceSpan = document.getElementById('price_<?= $account['id'] ?>');
+                                  const totalPriceSpan = document.getElementById('total_price_<?= $account['id'] ?>');
+                                  const feeSpan = document.getElementById('fee_<?= $account['id'] ?>');
+                                  const hiddenTotalInput = document.getElementById('hidden_total_price_<?= $account['id'] ?>');
 
-                                    // Parse the price as a number
-                                    const price = parseFloat(priceSpan.textContent.replace(/,/g, '')) || 0;
+                                  const price = parseFloat(priceSpan.textContent.replace(/,/g, '')) || 0;
 
-                                    // Add event listener to update the total price dynamically
-                                    amountInput.addEventListener('input', () => {
-                                        const amount = parseFloat(amountInput.value) || 0; // Get the input value, default to 0
-                                        const total = price * amount; // Calculate the total
-                                        totalPriceSpan.textContent = total.toLocaleString('en-US'); // Update the total price display
-                                        hiddenTotalInput.value = total; // Set the value of the hidden input
-                                    });
-                                });
+                                  amountInput.addEventListener('input', () => {
+                                      const amount = parseFloat(amountInput.value) || 0;
+                                      let total = price * amount;
+                                      let feePercentage = 0;
+
+                                        // اگر حساب مدیریت شده باشد، مبلغ کل را ضرب در 2 کنید
+                                        if (account.managed == 1) {
+                                          total *= 2;
+                                        }
+
+                                      // اضافه کردن منطق برای محاسبه کارمزد بر اساس ارز و مقدار وارد شده
+                                      if (account.currency === 'USD') {
+                                          if (amount >= 50 && amount < 100) {
+                                              feePercentage = 10;
+                                          } else if (amount >= 100 && amount < 200) {
+                                              feePercentage = 9;
+                                          } else if (amount >= 200 && amount < 300) {
+                                              feePercentage = 8;
+                                          } else if (amount >= 300 && amount < 500) {
+                                              feePercentage = 7.5;
+                                          } else if (amount >= 500 && amount < 750) {
+                                              feePercentage = 7;
+                                          } else if (amount >= 750 && amount < 1000) {
+                                              feePercentage = 6.5;
+                                          } else if (amount >= 1000) {
+                                              feePercentage = 6;
+                                          }
+                                      } else if (account.currency === 'BHT') {
+                                          if (amount >= 2000 && amount < 3500) {
+                                              feePercentage = 10;
+                                          } else if (amount >= 3500 && amount < 5000) {
+                                              feePercentage = 9;
+                                          } else if (amount >= 5000 && amount < 8000) {
+                                              feePercentage = 8.5;
+                                          } else if (amount >= 8000 && amount < 10000) {
+                                              feePercentage = 8;
+                                          } else if (amount >= 10000 && amount < 20000) {
+                                              feePercentage = 7.5;
+                                          } else if (amount >= 20000) {
+                                              feePercentage = 6.5;
+                                          }
+                                      } else if (account.currency === 'TRY') {
+                                          if (amount >= 500 && amount < 1000) {
+                                              feePercentage = 10;
+                                          } else if (amount >= 1000 && amount < 2000) {
+                                              feePercentage = 9;
+                                          } else if (amount >= 2000 && amount < 3000) {
+                                              feePercentage = 8.5;
+                                          } else if (amount >= 3000 && amount < 5000) {
+                                              feePercentage = 8;
+                                          } else if (amount >= 5000 && amount < 10000) {
+                                              feePercentage = 7.5;
+                                          } else if (amount >= 10000) {
+                                              feePercentage = 6.5;
+                                          }
+                                      } else if (account.currency === 'AED') {
+                                          if (amount >= 300 && amount < 500) {
+                                              feePercentage = 10;
+                                          } else if (amount >= 500 && amount < 1000) {
+                                              feePercentage = 9;
+                                          } else if (amount >= 1000 && amount < 2000) {
+                                              feePercentage = 8;
+                                          } else if (amount >= 2000 && amount < 3500) {
+                                              feePercentage = 7;
+                                          } else if (amount >= 3500) {
+                                              feePercentage = 6;
+                                          }
+                                      }
+
+                                    
+
+                                      // محاسبه مبلغ کارمزد
+                                      const feeAmount = (total * feePercentage) / 100;
+                                      const finalAmount = total + feeAmount;
+
+                                      // به‌روزرسانی مقادیر در صفحه
+                                      feeSpan.textContent = feeAmount.toLocaleString('en-US');
+                                      totalPriceSpan.textContent = finalAmount.toLocaleString('en-US');
+                                      hiddenTotalInput.value = finalAmount; // ذخیره مبلغ نهایی در فیلد مخفی
+                                  });
+                              });
+
                             </script>
 
 

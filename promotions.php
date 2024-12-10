@@ -38,7 +38,7 @@ $admin = $_SESSION["user_data"]["admin"];
     </script>
 
 
-    <title>پرداخت های من</title>
+    <title>پروموشن</title>
     <style>
       body {
         font-family: "tahoma" !important;
@@ -97,7 +97,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                 <i class="fa fa-file"></i>
                             </div>
                             <div>
-                                <h6 class="mb-0 fs-4 fw-semibold">پرداخت های من</h6>
+                                <h6 class="mb-0 fs-4 fw-semibold">درخواست پروموشن</h6>
                             </div>
                             </div>
                         </div>

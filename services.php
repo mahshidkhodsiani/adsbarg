@@ -197,7 +197,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                       <div class="d-flex align-items-center justify-content-between">
                                           <h6 class="fw-semibold fs-4 mb-0 text-primary product_paymentCost">
                                           <b>ماهیانه</b>
-                                          <b>6,500</b>
+                                          <b>6,500,000</b>
                                           <span>تومان</span>
                                           </h6>
                                           <form method="POST" action="invoice_service.php">
@@ -232,9 +232,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                       </div>
                                       <div class="d-flex align-items-center justify-content-between">
                                           <h6 class="fw-semibold fs-4 mb-0 text-primary product_paymentCost">
-                                          <b>ماهیانه</b>
-                                          <b>6,500</b>
-                                          <span>تومان</span>
+                                        
                                           </h6>
                                           <a class="btn btn-success text-white" href="promotions">ثبت سفارش </a>
                                       </div>

@@ -176,7 +176,174 @@ $admin = $_SESSION["user_data"]["admin"];
               </div>
             </div>
 
-            <div class="row" id="accountsgoogle_g">
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-outline-success mx-2" onclick="show_personal()">کارمزد اکانت اختصاصی</button>
+                <button class="btn btn-outline-success mx-2" onclick="show_manage()">کارمزد اکانت مدیریت شده</button>
+            </div>
+
+
+
+            <div class="container" id="card_personal">
+              <div class="row mt-2">
+                <!-- دلار آمریکا -->
+                <div class="col-md-3">
+                  <div class="card shadow-sm border-0" style="background-color: #eafaf1; border-left: 5px solid #28a745;">
+                    <div class="card-body">
+                      <h5 class="card-title text-success fw-bold">کارمزد دلار آمریکا <img src="../images/usd.jpg" alt="دلار" width="17px"></h5>
+                      <ul class="list-unstyled text-dark">
+                        <li>50 تا 99 دلار : 10 درصد</li>
+                        <li>100 تا 199 دلار : 9 درصد</li>
+                        <li>200 تا 299 دلار : 8 درصد</li>
+                        <li>300 تا 499 دلار : 7.5 درصد</li>
+                        <li>500 تا 749 دلار : 7 درصد</li>
+                        <li>750 تا 999 دلار : 6.5 درصد</li>
+                        <li>1000 دلار به بالا : 6 درصد</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- درهم امارات -->
+                <div class="col-md-3">
+                  <div class="card shadow-sm border-0" style="background-color: #eafaf1; border-left: 5px solid #28a745;">
+                    <div class="card-body">
+                      <h5 class="card-title text-success fw-bold">کارمزد درهم امارات <img src="../images/aed.png" alt="درهم" width="17px"></h5>
+                      <ul class="list-unstyled text-dark">
+                        <li>300 تا 499 : 10 درصد</li>
+                        <li>500 تا 999 : 9 درصد</li>
+                        <li>1000 تا 1999 : 8 درصد</li>
+                        <li>2000 تا 3499 : 7 درصد</li>
+                        <li>3500 به بالا : 6 درصد</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- بات تایلند -->
+                <div class="col-md-3">
+                  <div class="card shadow-sm border-0" style="background-color: #eafaf1; border-left: 5px solid #28a745;">
+                    <div class="card-body">
+                      <h5 class="card-title text-success fw-bold">کارمزد بات تایلند <img src="../images/bat.jpg" alt="بات" width="17px"></h5>
+                      <ul class="list-unstyled text-dark">
+                        <li>2000 تا 3499 : 10 درصد</li>
+                        <li>3500 تا 4999 : 9 درصد</li>
+                        <li>5000 تا 7999 : 8.5 درصد</li>
+                        <li>8000 تا 9999 : 8 درصد</li>
+                        <li>10000 تا 19999 : 7.5 درصد</li>
+                        <li>20000 به بالا : 6.5 درصد</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- لیر ترکیه -->
+                <div class="col-md-3">
+                  <div class="card shadow-sm border-0" style="background-color: #eafaf1; border-left: 5px solid #28a745;">
+                    <div class="card-body">
+                      <h5 class="card-title text-success fw-bold">کارمزد لیر ترکیه <img src="../images/tur.jpg" alt="لیر" width="20px"></h5>
+                      <ul class="list-unstyled text-dark">
+                        <li>500 تا 999 : 10 درصد</li>
+                        <li>1000 تا 1999 : 9 درصد</li>
+                        <li>2000 تا 2999 : 8.5 درصد</li>
+                        <li>3000 تا 4999 : 8 درصد</li>
+                        <li>5000 تا 9999 : 7.5 درصد</li>
+                        <li>10000 به بالا : 6.5 درصد</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                
+              </div>
+            </div>
+
+            <div class="container" id="card_manage" style="display: none;">
+              <div class="row mt-2">
+                <!-- دلار آمریکا -->
+                <div class="col-md-3">
+                  <div class="card shadow-sm border-0" style="background-color: #eafaf1; border-left: 5px solid #28a745;">
+                    <div class="card-body">
+                      <h5 class="card-title text-success fw-bold">کارمزد دلار آمریکا <img src="../images/usd.jpg" alt="دلار" width="17px"></h5>
+                      <ul class="list-unstyled text-dark">
+                        <li>50 تا 99 دلار : 20 درصد</li>
+                        <li>100 تا 199 دلار : 18 درصد</li>
+                        <li>200 تا 299 دلار : 16 درصد</li>
+                        <li>300 تا 499 دلار : 15 درصد</li>
+                        <li>500 تا 749 دلار : 14 درصد</li>
+                        <li>750 تا 999 دلار : 13 درصد</li>
+                        <li>1000 دلار به بالا : 12 درصد</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- درهم امارات -->
+                <div class="col-md-3">
+                  <div class="card shadow-sm border-0" style="background-color: #eafaf1; border-left: 5px solid #28a745;">
+                    <div class="card-body">
+                      <h5 class="card-title text-success fw-bold">کارمزد درهم امارات <img src="../images/aed.png" alt="درهم" width="17px"></h5>
+                      <ul class="list-unstyled text-dark">
+                        <li>300 تا 499 : 20 درصد</li>
+                        <li>500 تا 999 : 18 درصد</li>
+                        <li>1000 تا 1999 : 16 درصد</li>
+                        <li>2000 تا 3499 : 14 درصد</li>
+                        <li>3500 به بالا : 12 درصد</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- بات تایلند -->
+                <div class="col-md-3">
+                  <div class="card shadow-sm border-0" style="background-color: #eafaf1; border-left: 5px solid #28a745;">
+                    <div class="card-body">
+                      <h5 class="card-title text-success fw-bold">کارمزد بات تایلند <img src="../images/bat.jpg" alt="بات" width="17px"></h5>
+                      <ul class="list-unstyled text-dark">
+                        <li>2000 تا 3499 : 20 درصد</li>
+                        <li>3500 تا 4999 : 18 درصد</li>
+                        <li>5000 تا 7999 : 17 درصد</li>
+                        <li>8000 تا 9999 : 16 درصد</li>
+                        <li>10000 تا 19999 : 15 درصد</li>
+                        <li>20000 به بالا : 13 درصد</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- لیر ترکیه -->
+                <div class="col-md-3">
+                  <div class="card shadow-sm border-0" style="background-color: #eafaf1; border-left: 5px solid #28a745;">
+                    <div class="card-body">
+                      <h5 class="card-title text-success fw-bold">کارمزد لیر ترکیه <img src="../images/tur.jpg" alt="لیر" width="20px"></h5>
+                      <ul class="list-unstyled text-dark">
+                        <li>500 تا 999 : 20 درصد</li>
+                        <li>1000 تا 1999 : 18 درصد</li>
+                        <li>2000 تا 2999 : 17 درصد</li>
+                        <li>3000 تا 4999 : 16 درصد</li>
+                        <li>5000 تا 9999 : 15 درصد</li>
+                        <li>10000 به بالا : 13 درصد</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <script>
+              function show_personal(){
+                document.getElementById('card_personal').style.display = 'block';
+                document.getElementById('card_manage').style.display = 'none';
+              }
+              function show_manage(){
+                document.getElementById('card_manage').style.display = 'block';
+                document.getElementById('card_personal').style.display = 'none';
+              }
+            </script>
+
+
+
+            <div class="row mt-2" id="accountsgoogle_g">
                 <?php
                 $count = 0;
                 foreach ($accounts as $account) {
@@ -224,7 +391,11 @@ $admin = $_SESSION["user_data"]["admin"];
                                     <div style="display: flex; align-items: center; gap: 10px; flex-wrap: nowrap;">
                                       <h6 style="margin: 0;">وارد کردن CID:</h6>
                                       <?php if(isset($account['cid'])): ?>
+                                        <form action="" method="POST" style="display: flex; align-items: center; gap: 10px; margin: 0;">
+                                          <input type="hidden" name="id_account" value="<?= $account['id'] ?>">
                                           <input class="form-control" style="width: 200px;" value="<?= $account['cid'] ?>" readonly>
+                                          <button name="delete_cid" class="btn btn-primary">حدف اکانت آیدی</button>
+                                        </form>
                                       <?php else: ?>
                                           <form action="" method="POST" style="display: flex; align-items: center; gap: 10px; margin: 0;">
                                               <input type="hidden" name="id_account" value="<?= $account['id'] ?>">
@@ -243,23 +414,21 @@ $admin = $_SESSION["user_data"]["admin"];
                            
                             <?php 
                          
-                            
-                          
-                            $currencys = "SELECT * FROM currencys ORDER BY id DESC LIMIT 1";
-                            $result_currency = $conn->query($currencys);
-                            if ($result_currency->num_rows > 0) {
-                                $row_currency = $result_currency->fetch_assoc();
+                              $currencys = "SELECT * FROM currencys ORDER BY id DESC LIMIT 1";
+                              $result_currency = $conn->query($currencys);
+                              if ($result_currency->num_rows > 0) {
+                                  $row_currency = $result_currency->fetch_assoc();
 
-                                if ($account['currency'] == 'USD') {
-                                    $price = number_format(floatval($row_currency['dollar']) * 100);
-                                } elseif ($account['currency'] == 'AED') {
-                                    $price = number_format(floatval($row_currency['derham']) * 100);
-                                } elseif ($account['currency'] == 'TRY') {
-                                    $price = number_format(floatval($row_currency['lira']) * 100);
-                                } elseif ($account['currency'] == 'BHT') {
-                                    $price = number_format(floatval($row_currency['bat']) * 100);
-                                }
-                            }
+                                  if ($account['currency'] == 'USD') {
+                                      $price = number_format(floatval($row_currency['dollar']) * 100);
+                                  } elseif ($account['currency'] == 'AED') {
+                                      $price = number_format(floatval($row_currency['derham']) * 100);
+                                  } elseif ($account['currency'] == 'TRY') {
+                                      $price = number_format(floatval($row_currency['lira']) * 100);
+                                  } elseif ($account['currency'] == 'BHT') {
+                                      $price = number_format(floatval($row_currency['bat']) * 100);
+                                  }
+                              }
                             ?>
 
                             <div class="card-body p-0 shadow-none">
@@ -268,9 +437,14 @@ $admin = $_SESSION["user_data"]["admin"];
                                         <div class="form-floating mb-2">
                                             <input type="hidden" name="id_account" value="<?= $account['id'] ?>">
                                             <input type="hidden" name="total_amount" id="hidden_total_price_<?= $account['id'] ?>" value="0">
-                                            <input type="text" name="amount_charge" id="amount_charge_<?= $account['id'] ?>" 
-                                                  class="accountGoogle_amount form-control mb-2 text-end"  
-                                                  placeholder="عدد وارد کنید" required>
+                                            <input 
+                                              type="number" 
+                                              name="amount_charge" 
+                                              id="amount_charge_<?= $account['id'] ?>" 
+                                              class="accountGoogle_amount form-control mb-2 text-end"  
+                                              placeholder="عدد وارد کنید" 
+                                              min="<?= $account['currency'] === 'USD' ? 50 : ($account['currency'] === 'BHT' ? 2000 : ($account['currency'] === 'TRY' ? 500 : ($account['currency'] === 'AED' ? 300 : 0))) ?>" 
+                                              required>
                                             <label>
                                                 <i class="fa fa-USD me-2 fs-5 text-primary fw-bolder"></i> 
                                                 مقدار را وارد کنید
@@ -493,11 +667,11 @@ if(isset($_POST['submit_cid'])){
         $(document).ready(function(){
             $('#successToast').toast({
                 autohide: true,
-                delay: 3000
+                delay: 1000
             }).toast('show');
             setTimeout(function(){
                 window.location.href = 'google_accounts';
-            }, 3000);
+            }, 1000);
         });
     </script>";
   }else{
@@ -513,13 +687,60 @@ if(isset($_POST['submit_cid'])){
           $(document).ready(function(){
               $('#errorToast').toast({
                   autohide: true,
-                  delay: 3000
+                  delay: 1000
               }).toast('show');
               setTimeout(function(){
                   window.location.href = 'google_accounts';
-              }, 3000);
+              }, 1000);
           });
       </script>";
   }
 
+}
+
+if(isset($_POST['delete_cid'])){
+  $id_account = $_POST['id_account'];
+  $sql = "UPDATE accounts SET cid = NULL WHERE id = $id_account";
+  $result = $conn->query($sql);
+  if ($result) {
+    echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+    <div class='toast-header bg-success text-white'>
+        <strong class='mr-auto'>Success</strong>
+    </div>
+    <div class='toast-body'>
+      با موفقیت انجام شد!
+    </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('#successToast').toast({
+                autohide: true,
+                delay: 1000
+            }).toast('show');
+            setTimeout(function(){
+                window.location.href = 'google_accounts';
+            }, 1000);
+        });
+    </script>";
+  }else{
+    echo "<div id='errorToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+      <div class='toast-header bg-danger text-white'>
+          <strong class='mr-auto'>Error</strong>
+      </div>
+      <div class='toast-body'>
+          خطایی رخ داده، دوباره امتحان کنید!<br>Error: " . htmlspecialchars($stmt->error) . "
+      </div>
+      </div>
+      <script>
+          $(document).ready(function(){
+              $('#errorToast').toast({
+                  autohide: true,
+                  delay: 1000
+              }).toast('show');
+              setTimeout(function(){
+                  window.location.href = 'google_accounts';
+              }, 1000);
+          });
+      </script>";
+  }
 }

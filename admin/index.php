@@ -726,7 +726,7 @@ if($admin == 0){
                                 <tr>
                                   <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 182px;">سفارش</th>
                                   <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 183px;">وضعیت</th>
-                                  <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 241px;">مبلغ فاکتور</th>
+                                  <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 241px;">مبلغ فاکتور(تومان)</th>
                                 </tr>
                               </thead>
                               <?php
@@ -747,7 +747,7 @@ if($admin == 0){
                                       if ($row_order['status'] == 0) echo "رد شده";
                                       ?>
                                   </td>
-                                  <td ><?=$row_order['amount']?></td>
+                                  <td ><?=number_format($row_order['amount'])?></td>
                                 </tr>
                               </tbody>
                               <?php
