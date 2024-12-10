@@ -170,6 +170,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                                         <?php
                                                         if ($row['type'] == 'charge') echo "شارژ اکانت";
                                                         if ($row['type'] == 'click') echo "سفارش ابزار کلیک";
+                                                        if ($row['type'] == 'promotion') echo "ایجاد پروموشن";
                                                         ?>
                                                     </td>
                                                     <td><?= cidAccount($row['account_id']) ?></td>
@@ -200,7 +201,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                                           </form>
                                                         </div>
                                                         <?php
-                                                        }elseif($row['type'] == 'click'){
+                                                        }elseif($row['type'] == 'click' OR $row['type'] == 'promotion'){
                                                           ?>
                                                         <div class="d-flex align-items-center flex-row">
                                                           <form action="invoice_service.php" method="POST">

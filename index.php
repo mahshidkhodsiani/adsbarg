@@ -742,7 +742,14 @@ $admin = $_SESSION["user_data"]["admin"];
                                       if ($row_order['status'] == 0) echo "رد شده";
                                       ?>
                                   </td>
-                                  <td ><?=number_format($row_order['amount'])?></td>
+                                  <td> 
+                                    <?php  
+                                    if (is_numeric($row_order['amount'])) {
+                                        echo number_format($row_order['amount']) . " تومان" ;
+                                    } else {
+                                        echo $row_order['amount'] . " تومان" ;
+                                    }?>
+                                  </td>
                                 </tr>
                               </tbody>
                               <?php

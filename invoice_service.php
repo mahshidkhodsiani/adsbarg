@@ -108,6 +108,35 @@ $id = $_SESSION["user_data"]["id"];
                         }
                     }
                     $stmt->close();
+                }elseif(isset($_POST['amount_service_promotion']) && $_POST['amount_service_promotion'] != ''){
+                    $this_account = $_POST['this_account'];
+                    $amount = $_POST['amount_service_promotion'];
+                    $stmt = $conn->prepare("INSERT INTO orders (user_id, amount, status, shenaseh, type, created_at) VALUES (?, ?, ?, ?, 'promotion', NOW())");
+                    $random = generateRandomID(); 
+                    $status = 2; 
+                    $stmt->bind_param("isis", $id, $amount, $status, $random);
+                    // Execute the statement
+                    if ($stmt->execute()) {
+                        $last_id = $conn->insert_id;
+                        
+                        // Prepare the SELECT query
+                        $stmt = $conn->prepare("SELECT * FROM orders WHERE id = ? AND user_id = ? AND status = ?");
+                        $stmt->bind_param("iii", $last_id, $id, $status); 
+                        $stmt->execute();
+                        
+                        $result = $stmt->get_result();
+                        if ($result->num_rows > 0) {
+                            $last_row = $result->fetch_assoc();
+                            $shenaseh = $last_row['shenaseh'];
+                            $id_order = $last_row['id'];
+
+                        } else {
+                            echo "No records found.";
+                        }
+                    }
+
+
+
                 }elseif(isset($_POST['show_invoice']) && $_POST['show_invoice'] != '') {
                     $idinvoice = $_POST['show_invoice'];
                     $sql1 = "SELECT * FROM payments WHERE order_id = $idinvoice";
@@ -209,6 +238,7 @@ $id = $_SESSION["user_data"]["id"];
                             if(isset($last_row['type'])){
                                 if($last_row['type']== 'charge') echo "شارژ اکانت";
                                 if($last_row['type']== 'click') echo "هزینه ابزار کلیک فیک";
+                                if($last_row['type']== 'promotion') echo "ایجاد پروموشن اکانت";
                             }
                             if(isset($_POST['amount_charge'])){
                                 echo "شارژ اکانت";
@@ -216,7 +246,9 @@ $id = $_SESSION["user_data"]["id"];
                             if(isset($row2['type'])){
                                 if($row2['type']== 'charge')  echo "شارژ اکانت";
                                 if($row2['type']== 'click') echo "هزینه ابزار کلیک فیک";
+                                if($row2['type']== 'promotion') echo "ایجاد پروموشن اکانت";
                             }
+                           
                             ?>
                         </strong>
                     </p>
@@ -236,6 +268,8 @@ $id = $_SESSION["user_data"]["id"];
 
                     <?php
                     if(!isset($id_invoice) AND $status == 2){
+                        // echo $last_row['type'];
+
                     ?>
                     <!-- Checkbox and Button to Open Modal -->
                     <div class="form-check form-check-inline align-items-center d-flex justify-content-center" id="condition">
@@ -248,24 +282,28 @@ $id = $_SESSION["user_data"]["id"];
                         </label>
                     </div>
                     <?php
-                        }else{
+                    }else{
+                        ?>
+                            <p>جمع کل : 
+                            <?php
+                            if (is_numeric($amount)) {
+                                echo number_format($amount);
+                            } else {
+                                echo $amount;
+                            }
                             ?>
-                              <p>جمع کل : <?php
-                                if($last_row['type']== 'charge')  echo number_format($amount);
-                                else echo $amount;
-                                ?>
-                              </p>
-                              <?php
-                                if($row2['status']== 1 ){
-                                    echo "<span>پرداخت شده</span>";
-                                }
-                                if($row2['status']== 0) {
-                                    echo "<span>لغو سیستمی </span>";
-                                }
-                              ?>
+                            </p>
+                            <?php
+                            if($row2['status']== 1 ){
+                                echo "<span>پرداخت شده</span>";
+                            }
+                            if($row2['status']== 0) {
+                                echo "<span>لغو سیستمی </span>";
+                            }
+                            ?>
 
-                        <?php
-                        }
+                    <?php
+                    }
                     ?>
 
                     <!-- Modal for Terms and Conditions -->
@@ -290,7 +328,12 @@ $id = $_SESSION["user_data"]["id"];
                 </div>
                 <div class="col-md-6" style="text-align: left;">
                     <div id="pardakhtmethod" style="display: none;">
-                        <p>جمع کل : <?= $amount. " تومان" ?></p>
+                        <p>جمع کل : <?php  
+                            if (is_numeric($amount)) {
+                                echo number_format($amount) . " تومان" ;
+                            } else {
+                                echo $amount . " تومان" ;
+                            }?></p>
                         <?php
                         if(isset($id_invoice)){
                         ?>
@@ -430,6 +473,12 @@ if (isset($_POST['submit'])) {
     $peygiri = $_POST['peygiri'];
     $explain = $_POST['explain'];
     $fish = $_FILES['fish'];
+
+    if(isset($_POST['amount_service_promotion'])){
+        $update_account = "UPDATE accounts SET get_promotion = 1 WHERE id  =$this_account";
+        $conn->query($update_account);
+    }
+    
 
     // Check if the file is uploaded
     if ($fish['error'] === UPLOAD_ERR_OK) {

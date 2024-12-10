@@ -211,6 +211,7 @@ $id = $_SESSION["user_data"]["id"];
                             if(isset($last_row['type'])){
                                 if($last_row['type']== 'charge') echo "شارژ اکانت";
                                 if($last_row['type']== 'click') echo "هزینه ابزار کلیک فیک";
+                                if($last_row['type']== 'promotion') echo "ایجاد پروموشن اکانت";
                             }
                             if(isset($_POST['amount_charge'])){
                                 echo "شارژ اکانت";
@@ -218,6 +219,8 @@ $id = $_SESSION["user_data"]["id"];
                             if(isset($row2['type'])){
                                 if($row2['type']== 'charge')  echo "شارژ اکانت";
                                 if($row2['type']== 'click') echo "هزینه ابزار کلیک فیک";
+                                if($row2['type']== 'promotion') echo "ایجاد پروموشن اکانت";
+
                             }
                             ?>
                         </strong>
@@ -252,7 +255,12 @@ $id = $_SESSION["user_data"]["id"];
                     <?php
                         }else{
                             ?>
-                              <p>جمع کل : <?= $amount ?></p>
+                                <p>جمع کل : <?php if (is_numeric($amount)) {
+                                                        echo number_format($amount);
+                                                    } else {
+                                                        echo $amount;
+                                                    } ?>
+                                </p>
                               <?php
                                 if($row2['status']== 1 ){
                                     echo "<span>پرداخت شده</span>";
@@ -287,7 +295,12 @@ $id = $_SESSION["user_data"]["id"];
                 </div>
                 <div class="col-md-6" style="text-align: left;">
                     <div id="pardakhtmethod" style="display: none;">
-                        <p>جمع کل : <?= $amount. " تومان" ?></p>
+                            <p>جمع کل : <?php  
+                            if (is_numeric($amount)) {
+                                echo number_format($amount) . " تومان" ;
+                            } else {
+                                echo $amount . " تومان" ;
+                            }?></p>
                         <?php
                         if(isset($id_invoice)){
                         ?>

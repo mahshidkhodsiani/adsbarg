@@ -188,6 +188,7 @@ if ($admin == 0 ){
                                               <?php
                                               if ($row['type'] == 'charge') echo " شارژ اکانت ";
                                               if ($row['type'] == 'click') echo "سفارش ابزار کلیک";
+                                              if ($row['type'] == 'promotion') echo "ایجاد پروموشن";
                                               ?>
                                             </td>
                                             <td><?= cidAccount($row['account_id']) ?></td>
@@ -201,7 +202,7 @@ if ($admin == 0 ){
                                             </td>
                                             <td>
                                                 <?php
-                                                if($row['type'] == 'charge'): echo number_format($row['amount']);
+                                                if($row['type'] == 'charge' OR $row['type'] == 'promotion'): echo number_format($row['amount']);
                                                 else: echo $row['amount'];
                                                 endif;
                                                 ?>
@@ -220,7 +221,7 @@ if ($admin == 0 ){
                                                 </form>
                                               </div>
                                               <?php
-                                              }elseif($row['type'] == 'click'){
+                                              }elseif($row['type'] == 'click' OR $row['type'] == 'promotion'){
                                                 ?>
                                               <div class="d-flex align-items-center flex-row">
                                                 <form action="invoice_service.php" method="POST">

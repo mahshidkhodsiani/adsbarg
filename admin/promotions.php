@@ -163,7 +163,7 @@ if ($admin == 0 ){
                                          
                                           
                                           // Count total rows for pagination
-                                          $total_rows_query = "SELECT COUNT(*) AS total FROM accounts WHERE cid IS NOT NULL";
+                                          $total_rows_query = "SELECT COUNT(*) AS total FROM accounts WHERE cid IS NOT NULL AND get_promotion = 0";
                                           if (!empty($search)) {
                                               $total_rows_query .= " AND cid LIKE '%$search%' ";
                                           }
@@ -173,7 +173,7 @@ if ($admin == 0 ){
                                          
 
 
-                                          $sql = "SELECT * FROM accounts WHERE cid IS NOT NULL";
+                                          $sql = "SELECT * FROM accounts WHERE cid IS NOT NULL AND get_promotion = 0";
                                           
                                           // If a search term is provided, add a LEFT JOIN and WHERE clause
                                           if (!empty($search)) {
@@ -250,6 +250,9 @@ if ($admin == 0 ){
                                     <input type="text" class="form-control" placeholder="پروموشن" name="promotion">
                                   </div>
                                   <div class="col-md-6">
+                                    <input type="text" class="form-control" placeholder="قیمت" name="price">
+                                  </div>
+                                  <div class="col-md-6">
                                     <button class="btn btn-primary" name="submit_promotion">ثبت</button>
                                   </div>
                                 </div>
@@ -316,7 +319,8 @@ if ($admin == 0 ){
 if(isset($_POST['submit_promotion'])){
   $cid = $_POST['cid'];
   $promotion = $_POST['promotion'];
-  $sql = "UPDATE accounts SET promotion = '$promotion' WHERE cid = '$cid'";
+  $price = $_POST['price'];
+  $sql = "UPDATE accounts SET promotion = '$promotion', price_promotion= '$price' WHERE cid = '$cid'";
   $result = $conn->query($sql);
   if ($result) {
     echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>

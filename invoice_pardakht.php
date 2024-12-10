@@ -158,6 +158,7 @@ $id = $_SESSION["user_data"]["id"];
                             <?php
                             if($row['type']== 'charge') echo "شارژ اکانت";
                             if($row['type']== 'click') echo "ابزار کلیک فیک";
+                            if($row['type']== 'promotion') echo "ایجاد پروموشن اکانت";
                             ?>
                         </strong>
                     </p>
@@ -196,7 +197,7 @@ $id = $_SESSION["user_data"]["id"];
             <div class="row mt-4">
                 <div class="col-md-6">
                     <div id="pardakhtmethod" >
-                        <p>جمع کل : <?php  if($row['type']== 'charge') echo number_format($row['amount']) ." تومان" ;
+                        <p>جمع کل : <?php  if($row['type']== 'charge' OR $row['type']== 'promotion') echo number_format($row['amount']) ." تومان" ;
                                             else echo $row['amount'];?>
                         </p>
                             <span>پرداخت شده</span>

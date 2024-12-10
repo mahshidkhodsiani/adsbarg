@@ -183,6 +183,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                                         <?php
                                                         if ($row['type'] == 'charge') echo "شارژ اکانت";
                                                         if ($row['type'] == 'click') echo "پرداخت ابزار کلیک";
+                                                        if ($row['type'] == 'promotion') echo "ایجاد پروموشن";
                                                         ?>
                                                       </td>
                                                       <td><?=  cidAccount($row['account_id'])?></td>

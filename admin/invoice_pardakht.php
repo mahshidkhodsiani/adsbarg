@@ -159,6 +159,7 @@ $id = $_SESSION["user_data"]["id"];
                             <?php
                             if($row['type']== 'charge') echo "شارژ اکانت";
                             if($row['type']== 'click') echo "ابزار کلیک فیک";
+                            if($row['type']== 'promotion') echo "ایجاد پروموشن اکانت";
                             ?>
                         </strong>
                     </p>
