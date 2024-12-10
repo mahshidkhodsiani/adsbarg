@@ -20,12 +20,11 @@ if ($conn->connect_error) {
 }
 
 
-
-// کوئری برای غیرفعال کردن سفارشات
+// کوئری برای غیرفعال کردن سفارشات که مال یک ربع پیش هستند
 $sql = "UPDATE orders 
         SET status = 0 
         WHERE status = 2
-        AND created_at < NOW() - INTERVAL 1 DAY";
+        AND created_at < NOW() - INTERVAL 15 MINUTE";
 
 // اجرای کوئری
 if ($conn->query($sql) === TRUE) {
@@ -33,4 +32,5 @@ if ($conn->query($sql) === TRUE) {
 } else {
     echo "خطا: " . $conn->error;
 }
+
 ?>

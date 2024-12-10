@@ -209,31 +209,43 @@ if ($admin == 0 ){
                                             </td>
                                             <td><?= get_name($row['user_id']) ?></td>
                                             <td>
-                                              <?php
-                                              if ($row['type'] == 'charge'){
-                                              ?>
                                               <div class="d-flex align-items-center flex-row">
-                                                <form action="invoice.php" method="POST">
-                                                  <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
-                                                  <button class="btn btn-outline-info btn-circle btn-sm" name="charge" title="مشاهده">
-                                                    <i class="fs-5 fa fa-credit-card"></i>
-                                                  </button>
-                                                </form>
-                                              </div>
-                                              <?php
-                                              }elseif($row['type'] == 'click' OR $row['type'] == 'promotion'){
+                                                <?php
+                                                if ($row['type'] == 'charge'){
                                                 ?>
-                                              <div class="d-flex align-items-center flex-row">
-                                                <form action="invoice_service.php" method="POST">
-                                                  <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
-                                                  <button class="btn btn-outline-info btn-circle btn-sm" name="charge" title="مشاهده">
-                                                    <i class="fs-5 fa fa-credit-card"></i>
-                                                  </button>
-                                                </form>
+                                                <div class="d-flex align-items-center flex-row">
+                                                  <form action="invoice.php" method="POST">
+                                                    <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
+                                                    <button class="btn btn-outline-info btn-circle btn-sm" name="charge" title="مشاهده">
+                                                      <i class="fs-5 fa fa-credit-card"></i>
+                                                    </button>
+                                                  </form>
+                                                </div>
+                                                <?php
+                                                }elseif($row['type'] == 'click' OR $row['type'] == 'promotion'){
+                                                  ?>
+                                                <div class="d-flex align-items-center flex-row">
+                                                  <form action="invoice_service.php" method="POST">
+                                                    <input type="hidden" name="show_invoice" value="<?= $row['id'] ?>">
+                                                    <button class="btn btn-outline-info btn-circle btn-sm" name="charge" title="مشاهده">
+                                                      <i class="fs-5 fa fa-credit-card"></i>
+                                                    </button>
+                                                  </form>
+                                                </div>
+                                                <?php
+                                                }
+                                                if ($row['status'] == 2){
+                                                ?>
+                                                  <form action="" method="POST">
+                                                    <input type="hidden" name="id_invoice" value="<?= $row['id'] ?>">
+                                                    <button class="btn btn-outline-danger btn-circle btn-sm" name="deactive" title="لغو سیستمی">
+                                                      <i class="fa fa-x"></i>
+                                                    </button>
+                                                  </form>
+                                                <?php
+                                                }
+                                                ?>
                                               </div>
-                                              <?php
-                                              }
-                                              ?>
                                             </td>
                                           </tr>
                                           <?php
@@ -391,3 +403,53 @@ if ($admin == 0 ){
   </body>
   </body>
 </html>
+
+<?php
+
+if(isset($_POST['deactive'])){
+  $id_invoice = $_POST['id_invoice'];
+  $sql = "UPDATE orders SET status = 0 WHERE id = $id_invoice";
+  $result = $conn->query($sql);
+    if($result){
+      echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+      <div class='toast-header bg-success text-white'>
+          <strong class='mr-auto'>Success</strong>
+      </div>
+      <div class='toast-body'>
+        با موفقیت انجام شد!
+      </div>
+      </div>
+      <script>
+          $(document).ready(function(){
+              $('#successToast').toast({
+                  autohide: true,
+                  delay: 1000
+              }).toast('show');
+              setTimeout(function(){
+                  window.location.href = 'invoices';
+              }, 1000);
+          });
+      </script>";
+    }else{
+      echo "<div id='errorToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+      <div class='toast-header bg-danger text-white'>
+          <strong class='mr-auto'>Error</strong>
+      </div>
+      <div class='toast-body'>
+          خطایی رخ داده، دوباره امتحان کنید!<br>Error: " . htmlspecialchars($stmt->error) . "
+      </div>
+      </div>
+      <script>
+          $(document).ready(function(){
+              $('#errorToast').toast({
+                  autohide: true,
+                  delay: 3000
+              }).toast('show');
+              setTimeout(function(){
+                  window.location.href = 'invoices';
+              }, 3000);
+          });
+      </script>";
+    }
+
+}

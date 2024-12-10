@@ -221,12 +221,31 @@ $admin = $_SESSION["user_data"]["admin"];
                                                             <i class="fs-5 fa fa-credit-card"></i>
                                                         </button>
                                                     </form>
+
+                                                    <?php
+                                                    if ($row['confirm'] == 0) {
+                                                         
+                                                    ?>
                                                     <form action="" method="POST">
                                                       <input type="hidden" name="id_invoice" value="<?= $row['payments_id'] ?>">
                                                       <button class="btn btn-outline-info btn-circle btn-sm" name="confirm_payment" title="تایید">
                                                       <i class="fa fa-check"></i>
                                                       </button>
                                                     </form>
+                                                    <?php
+                                                        }
+                                                    if ($row['charge'] == 0) {
+                                                         
+                                                    ?>
+                                                    <form action="" method="POST">
+                                                      <input type="hidden" name="id_invoice" value="<?= $row['payments_id'] ?>">
+                                                      <button class="btn btn-outline-success btn-circle btn-sm" name="confirm_charge" title="شارژ انجام شد">
+                                                      <i class="fa fa-clipboard-check"></i>
+                                                      </button>
+                                                    </form>
+                                                    <?php
+                                                        }
+                                                    ?>
                                                 </div>
                                                 
                                               </td>
@@ -386,6 +405,9 @@ $admin = $_SESSION["user_data"]["admin"];
 if(isset($_POST['confirm_payment'])){
   $id_invoice = $_POST['id_invoice'];
 
+  // echo "yess";
+
+
   $select_number = "SELECT user_id FROM orders where id = $id_invoice";
   $result = $conn->query($select_number);
   if($result-> num_rows > 0){
@@ -434,11 +456,97 @@ if(isset($_POST['confirm_payment'])){
           $(document).ready(function(){
               $('#successToast').toast({
                   autohide: true,
+                  delay: 1000
+              }).toast('show');
+              setTimeout(function(){
+                  window.location.href = 'payments';
+              }, 1000);
+          });
+      </script>";
+    }else{
+      echo "<div id='errorToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+      <div class='toast-header bg-danger text-white'>
+          <strong class='mr-auto'>Error</strong>
+      </div>
+      <div class='toast-body'>
+          خطایی رخ داده، دوباره امتحان کنید!<br>Error: " . htmlspecialchars($stmt->error) . "
+      </div>
+      </div>
+      <script>
+          $(document).ready(function(){
+              $('#errorToast').toast({
+                  autohide: true,
                   delay: 3000
               }).toast('show');
               setTimeout(function(){
                   window.location.href = 'payments';
               }, 3000);
+          });
+      </script>";
+    }
+
+  }
+}
+
+if(isset($_POST['confirm_charge'])){
+  $id_invoice = $_POST['id_invoice'];
+
+  // echo "yess";
+
+
+  $select_number = "SELECT user_id FROM orders where id = $id_invoice";
+  $result = $conn->query($select_number);
+  if($result-> num_rows > 0){
+    $row = $result->fetch_assoc();
+    $user_id = $row['user_id'];
+    $phone = "SELECT phone FROM users WHERE id = $user_id";
+    $result_phone = $conn->query($phone);
+    $row_phone = $result_phone->fetch_assoc();
+    $phone = $row_phone['phone'];
+
+
+    // turn off the WSDL cache
+    ini_set("soap.wsdl_cache_enabled", "0");
+    try {
+      $client = new SoapClient("http://ippanel.com/class/sms/wsdlservice/server.php?wsdl");
+        $user = "arta9120469460";
+        $pass = "43875910";
+        $fromNum = "+983000505";
+        $toNum = $phone;
+        $messageContent = 'مشتری گرامی شارژ شما با موفقیت انجام شد';
+        $op  = "send";
+      //If you want to send in the future  ==> $time = '2016-07-30' //$time = '2016-07-30 12:50:50'
+      
+      $time = '';
+      
+      echo $client->SendSMS($fromNum,$toNum,$messageContent,$user,$pass,$time,$op);
+      echo $status;
+    } catch (SoapFault $ex) {
+        echo $ex->faultstring;
+    }
+
+
+
+    $sql = "UPDATE payments SET charge = 1 WHERE id = $id_invoice";
+    $result = $conn->query($sql);
+    if($result){
+      echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+      <div class='toast-header bg-success text-white'>
+          <strong class='mr-auto'>Success</strong>
+      </div>
+      <div class='toast-body'>
+        با موفقیت انجام شد!
+      </div>
+      </div>
+      <script>
+          $(document).ready(function(){
+              $('#successToast').toast({
+                  autohide: true,
+                  delay: 1000
+              }).toast('show');
+              setTimeout(function(){
+                  window.location.href = 'payments';
+              }, 1000);
           });
       </script>";
     }else{
