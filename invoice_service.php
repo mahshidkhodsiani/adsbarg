@@ -370,16 +370,35 @@ $id = $_SESSION["user_data"]["id"];
             <form action="" method="POST" enctype="multipart/form-data">
                 <div class="row" id="cardtocard" style="display: none;">
                     <?php
-                        $carts = "SELECT * FROM cart_numbers WHERE active = 1";
-                        $result_carts = $conn->query($carts);
-                        if ($result_carts->num_rows > 0){
-                            while($row_carts = $result_carts->fetch_assoc()){
-                                $cart_number = $row_carts['number'];
-                                $named = $row_carts['named'];?>
-                                <p><b> به نام : <?= $named ." ". $cart_number?></b></p>
+                    $carts = "SELECT * FROM cart_numbers WHERE active = 1";
+                    $result_carts = $conn->query($carts);
+                    if ($result_carts->num_rows > 0) {
+                        echo '<div class="container mt-4"><div class="row g-4 mb-5">';
+                        $count = 0;
+                        while ($row_carts = $result_carts->fetch_assoc()) {
+                            $cart_number = $row_carts['number'];
+                            $named = $row_carts['named'];
+                            $account_number = $row_carts['hesab']; // فرض اینکه شماره حساب در دیتابیس با این نام ذخیره شده
+                            $iban = $row_carts['sheba']; // فرض اینکه شماره شبا در دیتابیس با این نام ذخیره شده
+                            ?>
+                            <div class="col-md-6">
+                                <div class="card shadow-sm border-0 h-100">
+                                    <div class="card-body" style="background-color: #f9fafb;">
+                                        <h5 class="card-title text-success fw-bold">صاحب حساب: <?= htmlspecialchars($named) ?></h5>
+                                        <hr>
+                                        <p class="card-text text-secondary"><b>شماره کارت:</b> <?= htmlspecialchars($cart_number) ?></p>
+                                        <p class="card-text text-secondary"><b>شماره حساب:</b> <?= htmlspecialchars($account_number) ?></p>
+                                        <p class="card-text text-secondary"><b>شماره شبا:</b> <?= htmlspecialchars($iban) ?></p>
+                                    </div>
+                                </div>
+                            </div>
                             <?php
-                            }
+                            $count++;
                         }
+                        echo '</div></div>';
+                    } else {
+                        echo "<p class='text-center text-danger mt-4'>هیچ اطلاعاتی یافت نشد.</p>";
+                    }
                     ?>
 
 

@@ -213,6 +213,16 @@ if ($admin == 0 ){
                                         <input type="text" name="number" class="form-control" placeholder="شماره کارت" required>
                                     </div>
                                 </div>
+                                <div class="row mt-1">
+                                    <div class="col-md-6">
+                                        <input type="text" name="hesab" class="form-control" placeholder="شماره حساب" required>
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <div class="col-md-6">
+                                        <input type="text" name="sheba" class="form-control" placeholder="شماره شبا" required>
+                                    </div>
+                                </div>
                                 <div class="row mt-3">
                                     <div class="col-md-6">
                                         <input type="text" name="named" class="form-control" placeholder="به نام" required>
@@ -312,8 +322,10 @@ if(isset($_POST['deactive'])){
 
 if(isset($_POST['submit_cart'])){
     $number = $_POST['number'];
+    $hesab = $_POST['hesab'];
+    $sheba = $_POST['sheba'];
     $named = $_POST['named'];
-    $query = "INSERT INTO cart_numbers (number, named, active) VALUES ('$number', '$named', 1)";
+    $query = "INSERT INTO cart_numbers (number, hesab, sheba, named, active) VALUES ('$number', '$hesab', '$sheba', '$named', 1)";
     $result = $conn->query($query);
     echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
     <div class='toast-header bg-success text-white'>

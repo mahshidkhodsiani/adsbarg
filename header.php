@@ -26,14 +26,14 @@ include "functions.php";
               <span class="d-block text-primary mt-0 lh-1 fs-2">دسترسی کاربر</span>
             </div>
             <div class="user-profile-img">
-              <img id="dashBoard_img1" src="images/user.png" class="rounded-circle" width="35" height="35" alt="">
+              <img id="dashBoard_img1" src="<?=$_SESSION["user_data"]["icon"]?>" class="rounded-circle" width="35" height="35" alt="">
             </div>
           </div>
         </div>
         <div class="dropdown-menu content-dd dropdown-menu-end" aria-labelledby="user-profile" id="user-profile-dropdown">
           <div class="profile-dropdown position-relative" data-simplebar="">
             <div class="d-flex align-items-center py-9 mx-7 border-bottom">
-              <img id="dashBoard_img2" src="images/user.png" class="rounded-circle" width="80" height="80" alt="">
+              <img id="dashBoard_img2" src="<?=$_SESSION["user_data"]["icon"]?>" class="rounded-circle" width="80" height="80" alt="">
               <div class="ms-3">
                 <h5 id="dashBoard_fullName" class="mb-1 fs-3 fw-bolder"><?=get_name($id)?></h5>
                 <span class="mb-1 d-block text-primary">دسترسی کاربر</span>

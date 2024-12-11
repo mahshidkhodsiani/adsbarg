@@ -10,7 +10,7 @@ if (!isset($_SESSION["user_data"])) {
 }
 // $id = $_SESSION["user_data"]["id"];
 $admin = $_SESSION["user_data"]["admin"];
-$id = $_GET['userId'];
+$id = isset($_GET['userId']) ? $_GET['userId'] : null;
 
 ?>
 <!DOCTYPE html>
@@ -64,6 +64,7 @@ $id = $_GET['userId'];
       <!-- سایدبار --> 
        <?php
             include 'sidebar.php';  
+            include '../config.php';  
         ?> 
       <div class="sidebarHolder"></div>
       <!-- کانتینر اصلی دیتا -->
@@ -97,7 +98,13 @@ $id = $_GET['userId'];
                                         <div class="d-flex align-items-center justify-content-center mb-2 flex-column">
                                             <div class="linear-gradient d-flex align-items-center justify-content-center rounded-circle mb-2" style="width: 110px; height: 110px;" ;="">
                                                 <div class="border border-4 border-white d-flex align-items-center justify-content-center rounded-circle overflow-hidden" style="width: 100px; height: 100px;" ;="">
-                                                    <img id="img" src="https://my.g-ads.org/assets/img/avatar/Avatar(9).jpg" alt="" class="w-100 h-100">
+                                                  <?php
+                                                  $pic = "SELECT icon FROM users WHERE id = '$id'";
+                                                  $result = $conn->query($pic);
+                                                  $row = $result->fetch_assoc();
+                                                  $icon = $row['icon'];
+                                                  ?>
+                                                  <img id="img" src="../<?=$icon?>" alt="" class="w-100 h-100">
                                                 </div>
                                             </div>
                                             <button class="btn btn-outline-primary btn-sm rounded-5" data-bs-toggle="modal" data-bs-target="#al-info-alert"><i class="fa fa-edit ms-1"></i>تغییر</button>
@@ -108,30 +115,56 @@ $id = $_GET['userId'];
                                                         <div class="modal-body p-4">
                                                             <div class="text-center text-info">
                                                                 <div class="cc-avatars">
-                                                                    <input id="avatar1" type="radio" name="avatars" value="avatar1" data-img="https://my.g-ads.org/assets/img/avatar/Avatar(1).jpg">
-                                                                    <label class="avatars-cc avatar1" for="avatar1"></label>
-                                                                    <input id="avatar2" type="radio" name="avatars" value="avatar2" data-img="https://my.g-ads.org/assets/img/avatar/Avatar(2).jpg">
-                                                                    <label class="avatars-cc avatar2" for="avatar2"></label>
-                                                                    <input id="avatar3" type="radio" name="avatars" value="avatar3" data-img="https://my.g-ads.org/assets/img/avatar/Avatar(3).jpg">
-                                                                    <label class="avatars-cc avatar3" for="avatar3"></label>
-                                                                    <input id="avatar4" type="radio" name="avatars" value="avatar4" data-img="https://my.g-ads.org/assets/img/avatar/Avatar(4).jpg">
-                                                                    <label class="avatars-cc avatar4" for="avatar4"></label>
-                                                                    <input id="avatar5" type="radio" name="avatars" value="avatar5" data-img="https://my.g-ads.org/assets/img/avatar/Avatar(5).jpg">
-                                                                    <label class="avatars-cc avatar5" for="avatar5"></label>
-                                                                    <input id="avatar6" type="radio" name="avatars" value="avatar6" data-img="https://my.g-ads.org/assets/img/avatar/Avatar(6).jpg">
-                                                                    <label class="avatars-cc avatar6" for="avatar6"></label>
-                                                                    <input id="avatar7" type="radio" name="avatars" value="avatar7" data-img="https://my.g-ads.org/assets/img/avatar/Avatar(7).jpg">
-                                                                    <label class="avatars-cc avatar7" for="avatar7"></label>
-                                                                    <input id="avatar8" type="radio" name="avatars" value="avatar8" data-img="https://my.g-ads.org/assets/img/avatar/Avatar(8).jpg">
-                                                                    <label class="avatars-cc avatar8" for="avatar8"></label>
-                                                                    <input id="avatar9" type="radio" name="avatars" value="avatar9" data-img="https://my.g-ads.org/assets/img/avatar/Avatar(9).jpg">
-                                                                    <label class="avatars-cc avatar9" for="avatar9"></label>
-                                                                    <input id="avatar10" type="radio" name="avatars" value="avatar10" data-img="https://my.g-ads.org/assets/img/avatar/Avatar(10).jpg">
-                                                                    <label class="avatars-cc avatar10" for="avatar10"></label>
+                                                                  <form action="" method="post" id="iconForm">
+                                                                      <input type="hidden" name="selected_icon" id="selectedIcon" value="">
+                                                                      <div>
+                                                                          <button type="button" onclick="selectIcon('../images/avatar1.png')">
+                                                                              <img src="../images/avatar1.png" alt="آیکون 1" height="50px">
+                                                                          </button>
+                                                                          <button type="button" onclick="selectIcon('../images/avatar2.png')">
+                                                                              <img src="../images/avatar2.png" alt="آیکون 2" height="50px">
+                                                                          </button>
+                                                                          <button type="button" onclick="selectIcon('../images/avatar3.png')">
+                                                                              <img src="../images/avatar3.png" alt="آیکون 3" height="50px">
+                                                                          </button>
+                                                                          <button type="button" onclick="selectIcon('../images/avatar4.png')">
+                                                                              <img src="../images/avatar4.png" alt="آیکون 4" height="50px">
+                                                                          </button>
+                                                                          <button type="button" onclick="selectIcon('../images/avatar5.png')">
+                                                                              <img src="../images/avatar5.png" alt="آیکون 5" height="50px">
+                                                                          </button>
+                                                                          <button type="button" onclick="selectIcon('../images/avatar6.png')">
+                                                                              <img src="../images/avatar6.png" alt="آیکون 6" height="50px">
+                                                                          </button>
+                                                                          <button type="button" onclick="selectIcon('../images/avatar7.png')">
+                                                                              <img src="../images/avatar7.png" alt="آیکون 7" height="50px">
+                                                                          </button>
+                                                                          <button type="button" onclick="selectIcon('../images/avatar8.png')">
+                                                                              <img src="../images/avatar8.png" alt="آیکون 8" height="50px">
+                                                                          </button>
+                                                                          <button type="button" onclick="selectIcon('../images/avatar9.png')">
+                                                                              <img src="../images/avatar9.png" alt="آیکون 9" height="50px">
+                                                                          </button>
+                                                                          <button type="button" onclick="selectIcon('../images/avatar10.png')">
+                                                                              <img src="../images/avatar10.png" alt="آیکون 10" height="50px">
+                                                                          </button>
+                                                                        
+                                                                      </div>
+                                                                      <button class="btn btn-info btn-sm">تغییر آیکون</button>
+                                                                  </form>
+
+                                                                  <script> 
+                                                                    function selectIcon(iconPath) {
+                                                                        // Set the selected icon path in the hidden input
+                                                                        document.getElementById('selectedIcon').value = iconPath;
+
+                                                                        // Highlight the selected button (optional)
+                                                                        const buttons = document.querySelectorAll('form button[type="button"]');
+                                                                        buttons.forEach((btn) => btn.style.border = "none"); // Remove border from all buttons
+                                                                        event.target.parentElement.style.border = "2px solid blue"; // Highlight the selected button
+                                                                    }
+                                                                  </script>
                                                                 </div>
-                                                                <button type="button" class="btn btn-light my-2" data-bs-dismiss="modal">
-                                                                    تایید
-                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -166,8 +199,8 @@ $id = $_GET['userId'];
                                                     <form action="" method="POST">
                                                         <!-- سطح دسترسی کاربر -->
                                                          <?php
-                                                         include "../config.php";
                                                          $sql = "SELECT * FROM `users` WHERE id = $id";
+                                                        //  echo $sql;
                                                          $result = $conn->query($sql);
                                                          if ($result->num_rows > 0) {
                                                           $row = $result->fetch_assoc();
@@ -191,8 +224,8 @@ $id = $_GET['userId'];
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="form-floating mb-2">
-                                                                    <input id="user_email" name="email" type="email" dir="ltr" class="form-control" autocomplete="off" placeholder="ایمیل" value="<?=$row['username']?>">
-                                                                    <label><i class="fa fa-at me-2 fs-4"></i>ایمیل</label>
+                                                                    <input id="user_email" name="email" type="text" dir="ltr" class="form-control" autocomplete="off" placeholder="ایمیل" value="<?=$row['username']?>">
+                                                                    <label>یوزرنیم</label>
                                                                 </div>
                                                                 <div class="form-floating mb-2">
                                                                     <input id="user_password" name="password" autocomplete="off" type="password" dir="ltr" class="form-control text-center" placeholder="رمز عبور جدید" value="<?=$row['password']?>">
@@ -415,11 +448,11 @@ if(isset($_POST['edit_user'])){
           $(document).ready(function(){
               $('#successToast').toast({
                   autohide: true,
-                  delay: 3000
+                  delay: 1000
               }).toast('show');
               setTimeout(function(){
                   window.location.href = 'users';
-              }, 3000);
+              }, 1000);
           });
       </script>";
     } else {
@@ -445,4 +478,26 @@ if(isset($_POST['edit_user'])){
     }
   
 
+}
+
+
+if (isset($_POST['selected_icon']) && $_POST['selected_icon'] != '') {
+  // Remove "../" from the selected_icon value
+  $icon = str_replace('../', '', $_POST['selected_icon']);
+  
+  // Sanitize the $icon value for security
+  $icon = mysqli_real_escape_string($conn, $icon);
+  
+  // Construct the SQL query
+  $sql = "UPDATE users SET icon = '$icon' WHERE id = '$id'";
+  $result = mysqli_query($conn, $sql);
+  
+  if ($result) {
+      echo "<script>
+          window.location.href = 'users';
+      </script>";
+  } else {
+      // Output the error if the query fails
+      echo "Error: " . mysqli_error($conn);
+  }
 }

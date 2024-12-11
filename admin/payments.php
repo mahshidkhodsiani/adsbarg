@@ -133,7 +133,8 @@ $admin = $_SESSION["user_data"]["admin"];
                             $total_pages = ceil($total_rows / $rows_per_page); // Total pages
 
                             // Fetch rows for the current page
-                            $sql = "SELECT payments.id as payments_id, orders.user_id as user_id, payments.*, orders.* 
+                            $sql = "SELECT payments.id as payments_id, orders.user_id as user_id, 
+                                    payments.charge as charged, accounts.managed, payments.*, orders.* 
                                     FROM payments 
                                     LEFT JOIN orders ON payments.order_id = orders.id 
                                     LEFT JOIN accounts ON orders.account_id = accounts.id ";
@@ -159,6 +160,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                           <th scope="col">مبلغ(تومان)</th>
                                           <th scope="col">فیش واریزی</th>
                                           <th scope="col">تایید</th>
+                                          <th scope="col">شارژ</th>
                                           <th scope="col">عملیات</th>
                                         </tr>
                                   </thead>
@@ -180,8 +182,20 @@ $admin = $_SESSION["user_data"]["admin"];
                                                 ?>
                                               </td>
                                               <td><?=  cidAccount($row['account_id']) ?></td>
-                                              <td><?= (isset($row['managed']) && $row['managed'] == 1 ? "مدیریت شده" : "اختصاصی") ?></td>
+                                              <td>
+                                                <?php
+                                                if($row['type'] == 'charge'){
+                                                  if(isset($row['managed']) && $row['managed'] == 1){
+                                                    echo "مدیریت شده";
+                                                  }else{
+                                                    echo "اختصاصی";
+                                                  }
+                                                    
+                                                  echo "";
+                                                }
 
+                                                ?>
+                                              </td>
                                               <td>
                                                   <?php
                                                   if ($row['status'] == 2) echo "در حالت پرداخت";
@@ -189,6 +203,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                                   if ($row['status'] == 0) echo "رد شده";
                                                   ?>
                                               </td>
+                                             
 
                                               <td>
                                                 <?php
@@ -210,6 +225,12 @@ $admin = $_SESSION["user_data"]["admin"];
                                                   echo "در انتظار ";
                                                 }
                                                 ?>
+                                              </td>
+                                              <td>
+                                                  <?php
+                                                  if ($row['charged'] == 1) echo "تایید شد";
+                                                  if ($row['charged'] == 0) echo "در انتظار شارژ";
+                                                  ?>
                                               </td>
                                               <td>
                                               

@@ -192,7 +192,20 @@ if ($admin == 0 ){
                                               ?>
                                             </td>
                                             <td><?= cidAccount($row['account_id']) ?></td>
-                                            <td><?= (isset($row['managed']) && $row['managed'] == 1 ? "مدیریت شده" : "اختصاصی") ?></td>
+                                            <td>
+                                                <?php
+                                                if($row['type'] == 'charge'){
+                                                  if(get_managed($row['account_id'] )== 1){
+                                                    echo "مدیریت شده";
+                                                  }else{
+                                                    echo "اختصاصی";
+                                                  }
+                                                    
+                                                  echo "";
+                                                }
+
+                                                ?>
+                                              </td>
                                             <td>
                                               <?php
                                               if ($row['status'] == 2) echo "در حالت پرداخت";

@@ -325,11 +325,29 @@ $admin = $_SESSION["user_data"]["admin"];
             <div class="row mt-2" id="accountsgoogle_g">
                 <?php
                 $count = 0;
+                $webs = [];
+                $this_word_has = 0;
                 foreach ($accounts as $account) {
                     // Check if it's the start of a new row
                     if ($count % 3 == 0 && $count != 0) {
                         echo '</div><div class="row" id="accountsgoogle_g">';
                     }
+                    $id1 = $account['id'] ;
+                    $website_find = "SELECT * FROM robot_words WHERE account_id =$id1";
+                    $website_result = $conn->query($website_find);
+                    if($website_result->num_rows > 0) {
+                      while($website_rows = $website_result->fetch_assoc()){
+                        $webs[]= $website_rows["account_id"];
+                      }
+                    
+                    }
+
+                    if (in_array($account['id'], $webs)) {
+                      $this_word_has = TRUE ;
+                    }else{
+                      $this_word_has = FALSE ;
+                    }
+                   
                     ?>
                     <div class="accountGoogle_item col-12 col-md-12 mb-2" data-accounttype="0" data-id="<?= $account['id'] ?>" data-currencycode="<?= $account['currency'] ?>" data-customerid="">
                         <div class="card mb-0">
@@ -364,6 +382,17 @@ $admin = $_SESSION["user_data"]["admin"];
                                         </button>
                                    
                                     </p>
+                                    <?php
+                                      if(isset($this_word_has) AND $this_word_has == 1){
+                                        ?>
+                                        <p>
+                                          سایت مورد نظر جزو لیست پر ریسک در گوگل ادز قراردارد : 6% افزایش
+                                        </p>
+
+                                      <?php
+                                      }
+                                    ?>
+                                    
                                 
                                 </div>
                             </div>
@@ -439,7 +468,7 @@ $admin = $_SESSION["user_data"]["admin"];
 
 
                             <script>
-                               document.addEventListener('DOMContentLoaded', () => {
+                              document.addEventListener('DOMContentLoaded', () => {
                                   const account = <?= json_encode($account); ?>; // انتقال متغیر account از PHP به جاوااسکریپت
                                   const amountInput = document.getElementById('amount_charge_<?= $account['id'] ?>');
                                   const priceSpan = document.getElementById('price_<?= $account['id'] ?>');
@@ -448,16 +477,17 @@ $admin = $_SESSION["user_data"]["admin"];
                                   const hiddenTotalInput = document.getElementById('hidden_total_price_<?= $account['id'] ?>');
 
                                   const price = parseFloat(priceSpan.textContent.replace(/,/g, '')) || 0;
+                                  const isHighRisk = <?= json_encode($this_word_has); ?>; // وضعیت پر ریسک بودن
 
                                   amountInput.addEventListener('input', () => {
                                       const amount = parseFloat(amountInput.value) || 0;
                                       let total = price * amount;
                                       let feePercentage = 0;
 
-                                        // اگر حساب مدیریت شده باشد، مبلغ کل را ضرب در 2 کنید
-                                        if (account.managed == 1) {
+                                      // اگر حساب مدیریت شده باشد، مبلغ کل را ضرب در 2 کنید
+                                      if (account.managed == 1) {
                                           total *= 2;
-                                        }
+                                      }
 
                                       // اضافه کردن منطق برای محاسبه کارمزد بر اساس ارز و مقدار وارد شده
                                       if (account.currency === 'USD') {
@@ -518,7 +548,10 @@ $admin = $_SESSION["user_data"]["admin"];
                                           }
                                       }
 
-                                    
+                                      // اضافه کردن 6٪ اگر سایت جزو پر ریسک باشد
+                                      if (isHighRisk) {
+                                          total *= 1.06;
+                                      }
 
                                       // محاسبه مبلغ کارمزد
                                       const feeAmount = (total * feePercentage) / 100;
@@ -530,8 +563,8 @@ $admin = $_SESSION["user_data"]["admin"];
                                       hiddenTotalInput.value = finalAmount; // ذخیره مبلغ نهایی در فیلد مخفی
                                   });
                               });
-
                             </script>
+
 
 
 
@@ -561,10 +594,10 @@ $admin = $_SESSION["user_data"]["admin"];
         </div>
 
         <div class="social-icons" id="socialIcons">
-            <a href="https://wa.me/1234567890" class="whatsapp" target="_blank">
+            <a href="https://wa.me/9120469460" class="whatsapp" target="_blank">
                 <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="واتساپ">
             </a>
-            <a href="https://t.me/yourtelegram" class="telegram" target="_blank">
+            <a href="https://t.me/adsbargsupports" class="telegram" target="_blank">
                 <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="تلگرام">
             </a>
         </div>

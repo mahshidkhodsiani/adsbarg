@@ -274,12 +274,12 @@ $admin = $_SESSION["user_data"]["admin"];
       </div>
 
       <div class="social-icons" id="socialIcons">
-            <a href="https://wa.me/1234567890" class="whatsapp" target="_blank">
-                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="واتساپ">
-            </a>
-            <a href="https://t.me/yourtelegram" class="telegram" target="_blank">
-                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="تلگرام">
-            </a>
+          <a href="https://wa.me/9120469460" class="whatsapp" target="_blank">
+              <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="واتساپ">
+          </a>
+          <a href="https://t.me/adsbargsupports" class="telegram" target="_blank">
+              <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="تلگرام">
+          </a>
       </div>  
         
       <script>

@@ -1,6 +1,7 @@
 <?php
 
 
+
 function get_name($id) {
     if (empty($id) || !is_numeric($id)) {
         return "Invalid ID";
@@ -61,5 +62,21 @@ function cidAccount($id) {
         return $row['cid'] ?? "CID ایجاد نشده";
     } else {
         return "CID ایجاد نشده";
+    }
+}
+
+function get_managed($id){
+    include "config.php";
+
+    if (empty($id) || !is_numeric($id)) {
+        return "Invalid ID";
+    }
+    $sql = "SELECT managed FROM accounts WHERE id = $id ";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['managed'] ;
+    }else{
+        return "null";
     }
 }

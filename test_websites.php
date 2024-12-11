@@ -1,10 +1,5 @@
 <?php
-// Database connection
 
-
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
 
 
 $host = '185.141.212.171'; // Change as needed
@@ -29,7 +24,7 @@ $conn->set_charset("utf8");
 
 
 // Fetch websites where robot_checked is 0
-$query = "SELECT user_id, user_website FROM user_websites WHERE robot_checked = 0";
+$query = "SELECT user_id, user_website, account_id FROM user_websites WHERE robot_checked = 0";
 $result = $conn->query($query);
 
 if ($result->num_rows > 0) {
@@ -43,6 +38,7 @@ if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $id = $row['user_id'];
             $url = $row['user_website'];
+            $account_id = $row['account_id'];
 
             // Fetch content from the URL
             $content = fetchWebsiteContent($url);
@@ -56,8 +52,8 @@ if ($result->num_rows > 0) {
                         echo "Keyword '$keyword' found in website ID: $id ($url)<br>";
 
                         // Insert the found keyword into the robot_words table
-                        $stmt = $conn->prepare("INSERT INTO robot_words (user_id, user_websites, user_words) VALUES (?, ?, ?)");
-                        $stmt->bind_param("iss", $id, $url, $keyword);
+                        $stmt = $conn->prepare("INSERT INTO robot_words (user_id, account_id, user_websites, user_words) VALUES (?, ?, ?, ?)");
+                        $stmt->bind_param("iiss", $id, $account_id, $url, $keyword);
 
                         if ($stmt->execute()) {
                             echo "Data inserted into robot_words for website ID: $id ($url) with keyword '$keyword'<br>";
