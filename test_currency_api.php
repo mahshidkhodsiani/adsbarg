@@ -1,9 +1,9 @@
 <?php
 // Database connection settings
-$host = 'localhost'; 
-$username = 'root'; 
-$password = ''; 
-$dbname = 'adsbarg'; 
+$servername = '185.141.212.171'; 
+$username = 'adsbarg_admin'; 
+$password = 'HL(to{PCYL=b'; 
+$dbname = 'adsbarg_dashboard'; 
 
 // URL to scrape
 $url = "https://www.tgju.org/currency";
@@ -62,11 +62,11 @@ foreach ($currencyQueries as $key => $query) {
     }
 }
 
-// Corrected calculations
-$currencyValues['dollar'] = 0.04 * (float)$currencyValues['dollar'] + (float)$currencyValues['dollar'];
-$currencyValues['derham'] = 0.07 * (float)$currencyValues['derham'] + (float)$currencyValues['derham'];
-$currencyValues['lira'] = 0.07 * (float)$currencyValues['lira'] + (float)$currencyValues['lira'];
-$currencyValues['bat'] = 0.11 * (float)$currencyValues['bat'] + (float)$currencyValues['bat'];
+// Corrected calculations and convert to Toman with 3 decimals
+$currencyValues['dollar'] = number_format(round((0.04 * (float)$currencyValues['dollar'] + (float)$currencyValues['dollar']) / 10, 3), 3, '.', '');
+$currencyValues['derham'] = number_format(round((0.07 * (float)$currencyValues['derham'] + (float)$currencyValues['derham']) / 10, 3), 3, '.', '');
+$currencyValues['lira'] = number_format(round((0.07 * (float)$currencyValues['lira'] + (float)$currencyValues['lira']) / 10, 3), 3, '.', '');
+$currencyValues['bat'] = number_format(round((0.11 * (float)$currencyValues['bat'] + (float)$currencyValues['bat']) / 10, 3), 3, '.', '');
 
 // Save the data to a JSON file
 $filePath = 'currency_data.json';
