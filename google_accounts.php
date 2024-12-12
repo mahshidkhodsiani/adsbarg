@@ -594,10 +594,16 @@ $admin = $_SESSION["user_data"]["admin"];
         </div>
 
         <div class="social-icons" id="socialIcons">
-            <a href="https://wa.me/9120469460" class="whatsapp" target="_blank">
+            <a href="https://wa.me/989120469460" class="whatsapp" target="_blank">
                 <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="واتساپ">
             </a>
             <a href="https://t.me/adsbargsupports" class="telegram" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="تلگرام">
+            </a>
+            <a href="https://wa.me/989120469465" class="whatsapp" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="واتساپ">
+            </a>
+            <a href="https://t.me/adsbargsupport" class="telegram" target="_blank">
                 <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="تلگرام">
             </a>
         </div>

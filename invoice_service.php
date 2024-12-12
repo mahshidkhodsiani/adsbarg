@@ -502,7 +502,7 @@ if (isset($_POST['submit'])) {
     // Check if the file is uploaded
     if ($fish['error'] === UPLOAD_ERR_OK) {
         // Define the target directory and file name
-        $targetDir = "uploads/infos/";
+        $targetDir = "uploads/".$id."/";
         $targetFile = $targetDir . basename($fish['name']);
         
         // Move the uploaded file to the target directory

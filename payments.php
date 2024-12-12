@@ -169,7 +169,6 @@ $admin = $_SESSION["user_data"]["admin"];
                                                   <th scope="col">وضعیت</th>
                                                   <th scope="col">مبلغ(تومان)</th>
                                                   <th scope="col">تایید</th>
-                                                  <th scope="col">شارژ</th>
                                                   <th scope="col">عملیات</th>
                                               </tr>
                                           </thead>
@@ -225,15 +224,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                                         }
                                                         ?>
                                                       </td>
-                                                      <td>
-                                                        <?php
-                                                        if ($row['charged'] == 1) {
-                                                          echo "تایید شارژ";
-                                                        } else {
-                                                          echo "در انتظار شارژ";
-                                                        }
-                                                        ?>
-                                                      </td>
+                                           
                                                       <td>
                                                           <div class="d-flex align-items-center flex-row">
                                                               <form action="invoice_pardakht.php" method="POST">
@@ -372,10 +363,16 @@ $admin = $_SESSION["user_data"]["admin"];
       </div>
 
       <div class="social-icons" id="socialIcons">
-          <a href="https://wa.me/9120469460" class="whatsapp" target="_blank">
+          <a href="https://wa.me/989120469460" class="whatsapp" target="_blank">
               <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="واتساپ">
           </a>
           <a href="https://t.me/adsbargsupports" class="telegram" target="_blank">
+              <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="تلگرام">
+          </a>
+          <a href="https://wa.me/989120469465" class="whatsapp" target="_blank">
+              <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="واتساپ">
+          </a>
+          <a href="https://t.me/adsbargsupport" class="telegram" target="_blank">
               <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="تلگرام">
           </a>
       </div>  

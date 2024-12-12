@@ -122,6 +122,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                                     <th scope="col"> آیدی اکانت</th>
                                                     <th scope="col">نوع</th>
                                                     <th scope="col">وضعیت</th>
+                                                    <th scope="col">شارژ</th>
                                                     <th scope="col">مبلغ(تومان)</th>
                                                     <th scope="col">عملیات</th>
                                                 </tr>
@@ -147,8 +148,11 @@ $admin = $_SESSION["user_data"]["admin"];
                                                 $total_rows = $total_rows_result->fetch_assoc()['total'];
                                                 $total_pages = ceil($total_rows / $rows_per_page); // Total pages
                                                 
+
+
                                                 // Fetch rows for the current page
-                                                $sql = "SELECT orders.id as id ,  orders.* FROM orders LEFT JOIN accounts ON orders.account_id = accounts.id WHERE orders.user_id = $id";
+                                                $sql = "SELECT orders.id as id ,  orders.* FROM orders LEFT JOIN accounts 
+                                                        ON orders.account_id = accounts.id WHERE orders.user_id = $id";
                                                 
                                                 if (!empty($search)) {
                                                     $sql .= " AND accounts.cid LIKE '%$search%'";
@@ -193,6 +197,12 @@ $admin = $_SESSION["user_data"]["admin"];
                                                         if ($row['status'] == 2) echo "در حالت پرداخت";
                                                         if ($row['status'] == 1) echo "پرداخت شده";
                                                         if ($row['status'] == 0) echo "<p>لغو سیستمی</p>";
+                                                        ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php
+                                                        if (got_charge($row['id']) == 0) echo "در انتظار شارژ";
+                                                        else  echo "<p style='color: green'>شارژ شده</p>";
                                                         ?>
                                                     </td>
                                                     <td>
@@ -355,10 +365,16 @@ $admin = $_SESSION["user_data"]["admin"];
       </div>
 
       <div class="social-icons" id="socialIcons">
-          <a href="https://wa.me/9120469460" class="whatsapp" target="_blank">
+          <a href="https://wa.me/989120469460" class="whatsapp" target="_blank">
               <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="واتساپ">
           </a>
           <a href="https://t.me/adsbargsupports" class="telegram" target="_blank">
+              <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="تلگرام">
+          </a>
+          <a href="https://wa.me/989120469465" class="whatsapp" target="_blank">
+              <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="واتساپ">
+          </a>
+          <a href="https://t.me/adsbargsupport" class="telegram" target="_blank">
               <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="تلگرام">
           </a>
       </div>  

@@ -270,6 +270,7 @@ $id = $_SESSION["user_data"]["id"];
 if (isset($_POST['submit'])) {
     include 'config.php';
 
+    $user_id = $id;
     $idOrder = $_POST['id_order'];
     $cardNumber = $_POST['card_number'];
     $explain = $_POST['explain'];
@@ -278,7 +279,7 @@ if (isset($_POST['submit'])) {
     // Check if the file is uploaded
     if ($fish['error'] === UPLOAD_ERR_OK) {
         // Define the target directory and file name
-        $targetDir = "uploads/infos/";
+        $targetDir = "uploads/".$id."/";
         $targetFile = $targetDir . basename($fish['name']);
         
         // Move the uploaded file to the target directory

@@ -80,3 +80,19 @@ function get_managed($id){
         return "null";
     }
 }
+
+function got_charge($id){
+    include "config.php";
+
+    if (empty($id) || !is_numeric($id)) {
+        return "Invalid ID";
+    }
+    $sql = "SELECT * FROM payments WHERE order_id = $id";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['charge'] ;
+    }else{
+        return NULL;
+    } 
+}
