@@ -86,10 +86,15 @@ $id = $_SESSION["user_data"]["id"];
               
                 if (isset($_POST['amount_service_click']) && $_POST['amount_service_click'] != '') {
                     $amount = "6/500/000";
-                    $stmt = $conn->prepare("INSERT INTO orders (user_id, amount, status, shenaseh, type, created_at) VALUES (?, ?, ?, ?, 'click', NOW())");
+                    if(isset($_POST['account_id']) && $_POST['account_id'] !=''){
+                        $cid = $_POST['account_id'] ;
+                    }else{
+                        $cid = NULL;
+                    }
+                    $stmt = $conn->prepare("INSERT INTO orders (user_id, account_id, amount, status, shenaseh, type, created_at) VALUES (?, ?, ?, ?, ?, 'click', NOW())");
                     $random = generateRandomID(); 
                     $status = 2; 
-                    $stmt->bind_param("isis", $id, $amount, $status, $random);
+                    $stmt->bind_param("issis", $id, $cid, $amount, $status, $random);
                     // Execute the statement
                     if ($stmt->execute()) {
                         $last_id = $conn->insert_id;
@@ -128,6 +133,7 @@ $id = $_SESSION["user_data"]["id"];
                         $id_order =$row2['id'];
                         $account_id = $row2['account_id'];
                         $status = $row2['status'];
+                        $date = $row2['created_at'];
 
                     }
                 }
@@ -167,9 +173,11 @@ $id = $_SESSION["user_data"]["id"];
                         <strong id="insertDate">
                             <?php 
                             if (isset($last_row['created_at'])) {
-                                echo mds_date("l j F Y", strtotime($last_row['created_at']), 0); 
+                                echo mds_date("l j F Y H:i:s", strtotime($last_row['created_at']), 0); 
+                            } elseif (isset($date)) {
+                                echo mds_date("l j F Y H:i:s", strtotime($date), 0); // Fixed the misplaced closing parenthesis here
                             } else {
-                                echo mds_date("l j F Y ", time(), 0); 
+                                echo mds_date("l j F Y H:i:s", time(), 0); 
                             }
                             ?>
                         </strong>
@@ -224,6 +232,23 @@ $id = $_SESSION["user_data"]["id"];
                             }
                             ?>
                         </strong>
+                    </p>
+                </div>
+                <div class="col-md-4 d-flex flex-column mt-4">
+                    <p class="text-primary fs-4 mb-0">
+                        <p class="text-primary fs-4 mb-0">آیدی اکانت :</p>
+
+                        <p class="text-primary fs-4 mb-0">
+                        <strong>
+                            <?php
+                                if(isset($row2['account_id'])){
+                                    echo cidAccount($row2['account_id']);
+                                }else{
+                                     echo cidAccount($cid);
+                                }
+                            ?>
+                        </strong>
+                        </p>
                     </p>
                 </div>
        

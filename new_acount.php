@@ -125,7 +125,7 @@ $id = $_SESSION["user_data"]["id"];
                             <lable class="form-check-label" for="accTry">لیر</lable>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input success" type="radio" id="accountGoogle_i_currencyCode4" value="BHT" name="currencyCode">
+                            <input class="form-check-input success" type="radio" id="accountGoogle_i_currencyCode4" value="THB" name="currencyCode">
                             <lable class="form-check-label" for="accTry">بات</lable>
                         </div>
                         

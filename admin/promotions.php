@@ -250,7 +250,7 @@ if ($admin == 0 ){
                                     <input type="text" class="form-control" placeholder="پروموشن" name="promotion">
                                   </div>
                                   <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="قیمت" name="price">
+                                    <input type="text" class="form-control" placeholder="قیمت(تومان)" name="price">
                                   </div>
                                   <div class="col-md-6">
                                     <button class="btn btn-primary" name="submit_promotion">ثبت</button>

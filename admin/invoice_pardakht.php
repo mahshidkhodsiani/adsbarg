@@ -129,9 +129,11 @@ $id = $_SESSION["user_data"]["id"];
                         <strong id="insertDate">
                             <?php 
                             if (isset($row['created_at'])) {
-                                echo mds_date("l j F Y", strtotime($row['created_at']), 0); 
+                                echo mds_date("l j F Y H:i:s", strtotime($row['created_at']), 0); 
+                            } elseif (isset($date)) {
+                                echo mds_date("l j F Y H:i:s", strtotime($date), 0); // Fixed the misplaced closing parenthesis here
                             } else {
-                                echo mds_date("l j F Y ", time(), 0); 
+                                echo mds_date("l j F Y H:i:s", time(), 0); 
                             }
                             ?>
                         </strong>
@@ -166,14 +168,19 @@ $id = $_SESSION["user_data"]["id"];
                 </div>
                 <div class="col-md-4 d-flex flex-column mt-4">
                     <p class="text-primary fs-4 mb-0">
+                        <p class="text-primary fs-4 mb-0">آیدی اکانت :</p>
                         <?php
                         if($_POST['type_account'] == 'charge'){
                         ?>
-
-                            <p class="text-primary fs-4 mb-0">آیدی اکانت :</p>
                             <p class="text-primary fs-4 mb-0"><strong><?= cidAccount($row['account_id'])?></strong></p>
                         
                         <?php
+                        }else{
+                            if(isset($row['account_id'])){
+                                echo cidAccount($row['account_id']);
+                            }else{
+                                 echo "NULL";
+                            }
                         }
                         ?>
                     </p>

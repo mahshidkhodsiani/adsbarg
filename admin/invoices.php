@@ -133,6 +133,7 @@ if ($admin == 0 ){
                                             <th scope="col">آیدی اکانت</th>
                                             <th scope="col">نوع</th>
                                             <th scope="col">وضعیت</th>
+                                            <th scope="col">شارژ</th>
                                             <th scope="col">مبلغ(تومان)</th>
                                             <th scope="col">یوزر</th>
                                             <th scope="col">عملیات</th>
@@ -212,6 +213,12 @@ if ($admin == 0 ){
                                               if ($row['status'] == 1) echo "پرداخت شده";
                                               if ($row['status'] == 0) echo "لغو سیستمی";
                                               ?>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                if (got_charge($row['id']) == 0) echo "در انتظار شارژ";
+                                                else  echo "<p style='color: green'>شارژ شده</p>";
+                                                ?>
                                             </td>
                                             <td>
                                                 <?php

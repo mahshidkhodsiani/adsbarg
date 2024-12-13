@@ -106,14 +106,10 @@ $admin = $_SESSION["user_data"]["admin"];
                        
                         <div class="card-body p-0 pb-0 position-relative" style="min-height:1000px">
                             <div class="d-flex justify-content-end align-items-center mb-4">
-                         
-
-                              <button class="btn btn-success mb-2 font-medium me-2 px-2 rounded-pill cursor-pointer" onclick="show_card()">
-                                <span class="d-md-inline d-none">پروموشن جدید</span>
-                                <i class="fa fa-plus"></i>
-                              </button>
+                        
 
 
+                              <h4>آیدی خود را اینجا جستجو کنید :</h4>
                               <form class="position-relative" action="" method="GET">
                                 <input type="text" class="form-control search-chat py-2 ps-5 text-right" 
                                 name="search" id="txtSearch" placeholder="جست و جو بر اساس cid">
@@ -143,7 +139,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                             <th scope="col">ردیف</th>
                                             <th scope="col">آیدی اکانت</th>
                                             <th scope="col">پروموشن</th>
-                                            <th scope="col">قیمت</th>
+                                            <th scope="col">قیمت(تومان)</th>
                                             <th scope="col">عملیات</th>
                                           </tr>
                                         </thead>
@@ -174,7 +170,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                          
 
 
-                                          $sql = "SELECT * FROM accounts WHERE cid IS NOT NULL AND user_id = $id AND get_promotion = 0";
+                                          $sql = "SELECT * FROM accounts WHERE cid IS NOT NULL AND user_id = $id AND get_promotion = 0 AND promotion IS NOT NULL";
                                           
                                           // If a search term is provided, add a LEFT JOIN and WHERE clause
                                           if (!empty($search)) {
@@ -196,10 +192,11 @@ $admin = $_SESSION["user_data"]["admin"];
                                             <th scope="row"><?= $i ?></th>
                                             <td><?=$row['cid']?></td>
                                             <td><?=$row['promotion']?></td>
-                                            <td><?=$row['price_promotion']?></td>
+                                            <td><?=number_format($row['price_promotion'])?></td>
                                             <td>
                                               <form method="post" action="invoice_service">
                                                  <input type="hidden" name="this_account" value="<?=$row['id']?>">
+                                                 <input type="hidden" name="cid" value="<?=$row['cid']?>">
                                                  <input type="hidden" name="amount_service_promotion" value="<?=$row['price_promotion']?>">
                                                  <button name="charge" class="btn btn-success btn-sm">گرفتن</button>
                                               </form>
@@ -211,7 +208,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                                 $i++;
                                             }
                                           } else {
-                                            echo "<tr><td colspan='7'>No records found.</td></tr>";
+                                            echo "<tr><td colspan='7'>آیدی ثبت نشده.</td></tr>";
                                           }
                                           ?>
                                         </tbody>
@@ -248,33 +245,7 @@ $admin = $_SESSION["user_data"]["admin"];
                             </div>
 
 
-                            <div class="border">
-                              <form action="" method="POST" id="new_promotion" style="display: none;">
-                                <h2>افزودن پروموشن جدید </h2>
-                                <div class="row">
-                                  <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="آیدی اکانت" name="cid">
-                                  </div>
-                                  <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="پروموشن" name="promotion">
-                                  </div>
-                                  <div class="col-md-6">
-                                    <button class="btn btn-primary" name="submit_promotion">ثبت</button>
-                                  </div>
-                                </div>
-                              </form>
-                            </div>
-                            
-
-                            
-                            
-                     
-
-
-                         
-
-
-
+                    
 
 
                         </div>

@@ -9,6 +9,9 @@ if (!isset($_SESSION["user_data"])) {
     exit(); // Stop further execution of the script
 }
 $id = $_SESSION["user_data"]["id"];
+
+date_default_timezone_set('Asia/Tehran');
+
 ?>
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
@@ -171,6 +174,7 @@ $id = $_SESSION["user_data"]["id"];
                         $id_order =$row2['id'];
                         $account_id = $row2['account_id'];
                         $status = $row2['status'];
+                        $date = $row2['created_at'];
 
                         $this_acount = "SELECT * FROM accounts WHERE id = $account_id";
                         $acc_result = $conn->query($this_acount);
@@ -216,9 +220,11 @@ $id = $_SESSION["user_data"]["id"];
                         <strong id="insertDate">
                             <?php 
                             if (isset($row2['created_at'])) {
-                                echo mds_date("l j F Y", strtotime($row2['created_at']), 0); 
+                                echo mds_date("l j F Y H:i:s", strtotime($row2['created_at']), 0); 
+                            } elseif (isset($date)) {
+                                echo mds_date("l j F Y H:i:s", strtotime($date), 0); // Fixed the misplaced closing parenthesis here
                             } else {
-                                echo mds_date("l j F Y ", time(), 0); 
+                                echo mds_date("l j F Y H:i:s", time(), 0); 
                             }
                             ?>
                         </strong>
@@ -552,11 +558,11 @@ if (isset($_POST['submit'])) {
                             $(document).ready(function(){
                                 $('#successToast').toast({
                                     autohide: true,
-                                    delay: 3000
+                                    delay: 1000
                                 }).toast('show');
                                 setTimeout(function(){
                                     window.location.href = 'payments';
-                                }, 3000);
+                                }, 1000);
                             });
                         </script>";
             } else {

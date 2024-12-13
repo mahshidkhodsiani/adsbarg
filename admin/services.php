@@ -179,7 +179,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                    
                                       <p class="text-justify text-black lh-lg fs-5" style="text-align:justify"></p>
                                       <div class="productMaximize">
-                                      <p class="shortDescP text-justify text-black lh-lg fs-5">برای افزایش کلیک وبسایت شما</p>
+                                      <p class="shortDescP text-justify lh-lg fs-5" style="color: #ff0000;">برای جلوگیری از کلیک های فیک و حمله احتمالی ربات</p>
                                       <div class="offcanvas offcanvas-start" tabindex="-1" id="moreData-306e6a86-6567-47cf-9f9e-5c2afbbde319" aria-labelledby="offcanvasExampleLabel">
                                           <div class="offcanvas-header w-100 d-flex flex-column" style="align-items:normal !important">
                                           <div class="d-flex align-items-center justify-content-between mx-3 mt-3">
@@ -215,7 +215,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                    
                                       <p class="text-justify text-black lh-lg fs-5" style="text-align:justify"></p>
                                       <div class="productMaximize">
-                                      <p class="shortDescP text-justify text-black lh-lg fs-5">تبلیغات از طریق پروموشن کد گوگل ادز</p>
+                                      <p class="shortDescP text-justify lh-lg fs-5 " style="color: #ff0000;">با وارد کردن آیدی اکانت خود از فعال شدن پروموشن مطلع شوید</p>
                                       <div class="offcanvas offcanvas-start" tabindex="-1" id="moreData-306e6a86-6567-47cf-9f9e-5c2afbbde319" aria-labelledby="offcanvasExampleLabel">
                                           <div class="offcanvas-header w-100 d-flex flex-column" style="align-items:normal !important">
                                           <div class="d-flex align-items-center justify-content-between mx-3 mt-3">

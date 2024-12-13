@@ -66,6 +66,7 @@ $admin = $_SESSION["user_data"]["admin"];
       <!-- سایدبار --> 
        <?php
             include 'sidebar.php';  
+            include 'config.php';  
         ?> 
       <div class="sidebarHolder"></div>
       <!-- کانتینر اصلی دیتا -->
@@ -181,7 +182,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                    
                                       <p class="text-justify text-black lh-lg fs-5" style="text-align:justify"></p>
                                       <div class="productMaximize">
-                                      <p class="shortDescP text-justify text-black lh-lg fs-5">برای افزایش کلیک وبسایت شما</p>
+                                      <p class="shortDescP text-justify lh-lg fs-5" style="color: #ff0000;">برای جلوگیری از کلیک های فیک و حمله احتمالی ربات</p>
                                       <div class="offcanvas offcanvas-start" tabindex="-1" id="moreData-306e6a86-6567-47cf-9f9e-5c2afbbde319" aria-labelledby="offcanvasExampleLabel">
                                           <div class="offcanvas-header w-100 d-flex flex-column" style="align-items:normal !important">
                                           <div class="d-flex align-items-center justify-content-between mx-3 mt-3">
@@ -201,8 +202,29 @@ $admin = $_SESSION["user_data"]["admin"];
                                           <span>تومان</span>
                                           </h6>
                                           <form method="POST" action="invoice_service.php">
+                                            <?php
+                                              $sql = "SELECT * FROM accounts WHERE user_id = $id AND cid IS NOT NULL";
+                                              $result = $conn->query($sql);
+                                              if ($result->num_rows > 0 ){
+                                                ?>
+                                                <label for="account_id">کدام اکانت آیدی؟</label>
+                                                <select name="account_id">
+                                                  <?php
+                                                
+                                                    while($row = $result->fetch_assoc()){
+                                                    ?>
+                                                    <option value="<?=$row['id']?>"><?=$row['cid']?></option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                               <?php
+                                                }else{
+                                                  echo "<option>اکانتی وجود ندارد</option>";
+                                                }
+                                              ?>
                                             <input type="hidden" name="amount_service_click" value="0">
-                                          <button class="btn btn-success text-white" name="charge">ثبت سفارش </button>
+                                            <button class="btn btn-success text-white" name="charge">ثبت سفارش </button>
                                           </form>
                                       </div>
                                       </div>
@@ -217,7 +239,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                    
                                       <p class="text-justify text-black lh-lg fs-5" style="text-align:justify"></p>
                                       <div class="productMaximize">
-                                      <p class="shortDescP text-justify text-black lh-lg fs-5">تبلیغات از طریق پروموشن کد گوگل ادز</p>
+                                      <p class="shortDescP text-justify lh-lg fs-5 " style="color: #ff0000;">با وارد کردن آیدی اکانت خود از فعال شدن پروموشن مطلع شوید</p>
                                       <div class="offcanvas offcanvas-start" tabindex="-1" id="moreData-306e6a86-6567-47cf-9f9e-5c2afbbde319" aria-labelledby="offcanvasExampleLabel">
                                           <div class="offcanvas-header w-100 d-flex flex-column" style="align-items:normal !important">
                                           <div class="d-flex align-items-center justify-content-between mx-3 mt-3">
