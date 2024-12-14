@@ -380,9 +380,7 @@ date_default_timezone_set('Asia/Tehran');
                     <a class="btn btn-sm btn-outline-primary" data-bs-toggle="tab" href="#navpill-2"  aria-selected="false" tabindex="-1"  onclick="show_cart()">
                         <span>کارت به کارت</span>
                     </a>
-                    <a class="btn btn-sm btn-outline-primary" >
-                        <span>واریز به کیف پول آنلاین</span>
-                    </a>
+                
 
                     <br>
                     <br>
@@ -532,6 +530,13 @@ if (isset($_POST['submit'])) {
     if ($fish['error'] === UPLOAD_ERR_OK) {
         // Define the target directory and file name
         $targetDir = "../uploads/infos/";
+
+        if (!is_dir($targetDir)) {
+            if (!mkdir($targetDir, 0777, true)) { // Recursive creation
+                die("خطا در ایجاد پوشه مقصد.");
+            }
+        }
+        
         $targetFile = $targetDir . basename($fish['name']);
         
         // Move the uploaded file to the target directory

@@ -159,6 +159,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                           <th scope="col">وضعیت</th>
                                           <th scope="col">مبلغ(تومان)</th>
                                           <th scope="col">فیش واریزی</th>
+                                          <th scope="col">شماره پیگیری</th>
                                           <th scope="col">تایید پرداخت</th>
                                           <th scope="col">شارژ</th>
                                           <th scope="col">عملیات</th>
@@ -214,7 +215,10 @@ $admin = $_SESSION["user_data"]["admin"];
                                               </td>
 
                                               <td>
-                                                <a title="مشاهده" href="dashboard/../<?=$row['fish']?>"><img src="dashboard/../<?=$row['fish']?>" height="50px" width="50px"></a>
+                                                <a title="مشاهده" href="dashboard/../../<?=$row['fish']?>"><img src="dashboard/../../<?=$row['fish']?>" height="50px" width="50px"></a>
+                                              </td>
+                                              <td>
+                                                <?=$row['peygiri']?>
                                               </td>
 
                                               <td>

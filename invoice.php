@@ -386,9 +386,7 @@ date_default_timezone_set('Asia/Tehran');
                         aria-selected="false" tabindex="-1"  onclick="show_cart()">
                         <span>کارت به کارت</span>
                     </a>
-                    <a class="btn btn-sm btn-outline-primary" >
-                        <span>واریز به کیف پول آنلاین</span>
-                    </a>
+              
 
                     <br>
                     <br>
@@ -522,7 +520,7 @@ date_default_timezone_set('Asia/Tehran');
 if (isset($_POST['submit'])) {
     include 'config.php';
 
-    $user_id = $id;
+    $user_id = $id; // فرض کنید $id از قبل مقداردهی شده
     $idOrder = $_POST['id_order'];
     $peygiri = $_POST['peygiri'];
     $explain = $_POST['explain'];
@@ -531,7 +529,14 @@ if (isset($_POST['submit'])) {
     // Check if the file is uploaded
     if ($fish['error'] === UPLOAD_ERR_OK) {
         // Define the target directory and file name
-        $targetDir = "uploads/".$id."/";
+        $targetDir = "uploads/" . $id . "/";
+
+        // Check if directory exists, if not create it
+        if (!is_dir($targetDir)) {
+            if (!mkdir($targetDir, 0777, true)) { // Recursive creation
+                die("خطا در ایجاد پوشه مقصد.");
+            }
+        }
 
         $targetFile = $targetDir . basename($fish['name']);
         

@@ -145,6 +145,7 @@ if ($admin == 0 ){
                                             <th scope="col">ردیف</th>
                                             <th scope="col">آیدی اکانت</th>
                                             <th scope="col">پروموشن</th>
+                                            <th scope="col">قیمت(تومان)</th>
                                           </tr>
                                         </thead>
                                         <tbody>
@@ -195,6 +196,7 @@ if ($admin == 0 ){
                                             <th scope="row"><?= $i ?></th>
                                             <td><?=$row['cid']?></td>
                                             <td><?=$row['promotion']?></td>
+                                            <td><?=number_format($row['price_promotion'])?></td>
                                 
                                          
                                           </tr>

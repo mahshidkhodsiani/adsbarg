@@ -289,6 +289,13 @@ if (isset($_POST['submit'])) {
     if ($fish['error'] === UPLOAD_ERR_OK) {
         // Define the target directory and file name
         $targetDir = "uploads/".$id."/";
+
+        if (!is_dir($targetDir)) {
+            if (!mkdir($targetDir, 0777, true)) { // Recursive creation
+                die("خطا در ایجاد پوشه مقصد.");
+            }
+        }
+        
         $targetFile = $targetDir . basename($fish['name']);
         
         // Move the uploaded file to the target directory

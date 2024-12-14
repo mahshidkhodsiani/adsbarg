@@ -398,9 +398,9 @@ $admin = $_SESSION["user_data"]["admin"];
 
                                     // به‌روزرسانی مقادیر در صفحه
                                     if (managedFeePercentage > 0) {
-                                        feeSpan.textContent = `${feePercentage}% کارمزد + ${managedFeePercentage}% کارمزد مدیریت`;
+                                        feeSpan.textContent = `${feePercentage}% کارمزد شارژ + ${managedFeePercentage}% کارمزد مدیریت`;
                                     } else {
-                                        feeSpan.textContent = `${feePercentage}% کارمزد`;
+                                        feeSpan.textContent = `${feePercentage}% کارمزد شارژ`;
                                     }
 
                                     totalPriceSpan.textContent = finalAmount.toLocaleString('en-US');
