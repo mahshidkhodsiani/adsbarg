@@ -44,9 +44,11 @@ if($admin == 0){
 
     <title>ادمین | صفحه اصلی</title>
     <style>
+      
       body {
-        font-family: "tahoma" !important;
-        /* font-family: "g", 'sans-serif' !important; */
+        /* font-family: "tahoma" !important; */
+        font-family: 'Yekan', sans-serif;
+        font-weight: bold !important;
         /* font-family: "g" !important; */
       }
       /* Reset padding and margin for the body */
@@ -55,6 +57,16 @@ if($admin == 0){
           padding: 0 !important;
           overflow-x: hidden !important; /* Prevents horizontal scrolling */
       }
+
+      @font-face {
+          font-family: 'Yekan';
+          src: url('../yekan/Yekan.woff2') format('woff2'),
+              url('../yekan/Yekan.woff') format('woff'),
+              url('../yekan/Yekan.ttf') format('truetype');
+          font-weight: bold !important;
+          font-style:normal
+      }
+
 
     </style>
 
@@ -112,7 +124,7 @@ if($admin == 0){
                       <div class="card-body">
                         <div class="d-flex align-items-center">
                           <div>
-                            <h6 class="card-title fw-semibold" style="font-family: system-ui;">
+                            <h6 class="card-title fw-semibold" >
                               <img src="../images/usd.jpg" alt="قیمت دلار امروز" width="20px"> قیمت حواله دلار آمریکا <span><?=number_format(floatval($row_currency['dollar']) * 100) ?></span> تومان
                             </h6>
                             <p>آخرین بروز رسانی : <?= mds_date("l j F Y H:i:s", strtotime($row_currency['updated']), 0);?></p>
@@ -233,7 +245,7 @@ if($admin == 0){
                       <div class="card-body">
                         <div class="d-flex align-items-center">
                           <div>
-                            <h6 class="card-title fw-semibold" style="font-family: system-ui;">
+                            <h6 class="card-title fw-semibold" >
                               <img src="../images/aed.png" alt="قیمت درهم امروز" width="15px"> قیمت حواله درهم امارات <span><?=number_format(floatval($row_currency['derham']) * 100) ?></span> تومان
                             </h6>
                             <p>آخرین بروز رسانی : <?= mds_date("l j F Y H:i:s", strtotime($row_currency['updated']), 0);?></p>
@@ -355,7 +367,7 @@ if($admin == 0){
                       <div class="card-body">
                         <div class="d-flex align-items-center">
                           <div>
-                            <h6 class="card-title fw-semibold" style="font-family: system-ui;">
+                            <h6 class="card-title fw-semibold" >
                               <img src="../images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت حواله لیر ترکیه <span><?=number_format(floatval($row_currency['lira']) * 100) ?></span> تومان
                             
                             </h6>
@@ -478,7 +490,7 @@ if($admin == 0){
                       <div class="card-body">
                         <div class="d-flex align-items-center">
                           <div>
-                            <h6 class="card-title fw-semibold" style="font-family: system-ui;">
+                            <h6 class="card-title fw-semibold" >
                             <img src="../images/bat.jpg" alt="قیمت بات امروز" width="20px"> قیمت حواله بات تایلند <span><?=number_format(floatval($row_currency['bat']) * 100) ?></span> تومان
                             </h6>
                             <p>آخرین بروز رسانی : <?= mds_date("l j F Y H:i:s", strtotime($row_currency['updated']), 0);?></p>

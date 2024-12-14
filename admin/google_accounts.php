@@ -38,8 +38,11 @@ $admin = $_SESSION["user_data"]["admin"];
 
     <title>صفحه اصلی</title>
     <style>
+      
       body {
-        font-family: "tahoma" !important;
+        /* font-family: "tahoma" !important; */
+        font-family: 'Yekan', sans-serif;
+        font-weight: bold !important;
         /* font-family: "g" !important; */
       }
       /* Reset padding and margin for the body */
@@ -48,6 +51,16 @@ $admin = $_SESSION["user_data"]["admin"];
           padding: 0 !important;
           overflow-x: hidden !important; /* Prevents horizontal scrolling */
       }
+
+      @font-face {
+          font-family: 'Yekan';
+          src: url('../yekan/Yekan.woff2') format('woff2'),
+              url('../yekan/Yekan.woff') format('woff'),
+              url('../yekan/Yekan.ttf') format('truetype');
+          font-weight: bold !important;
+          font-style:normal
+      }
+
 
     </style>
 
