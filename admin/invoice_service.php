@@ -98,7 +98,7 @@ $id = $_SESSION["user_data"]["id"];
             
               
                 if (isset($_POST['amount_service_click']) && $_POST['amount_service_click'] != '') {
-                    $amount = "6/500/000";
+                    $amount = "6,500,000";
                     if(isset($_POST['account_id']) && $_POST['account_id'] !=''){
                         $cid = $_POST['account_id'] ;
                     }else{

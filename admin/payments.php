@@ -221,7 +221,8 @@ $admin = $_SESSION["user_data"]["admin"];
 
                                               <td>
                                                 <?php
-                                                if($row['type'] == 'charge'): echo number_format($row['amount']);
+                                                if($row['type'] == 'charge' OR $row['type'] == 'promotion'): 
+                                                  echo number_format($row['amount']);
                                                 else: echo $row['amount'];
                                                 endif;
                                                 ?>
@@ -457,25 +458,30 @@ if(isset($_POST['confirm_payment'])){
     $phone = $row_phone['phone'];
 
 
-    // turn off the WSDL cache
-    ini_set("soap.wsdl_cache_enabled", "0");
-    try {
-      $client = new SoapClient("http://ippanel.com/class/sms/wsdlservice/server.php?wsdl");
-        $user = "arta9120469460";
-        $pass = "43875910";
-        $fromNum = "+983000505";
-        $toNum = $phone;
-        $messageContent = 'مشتری گرامی پرداخت شما با موفقیت انجام شد';
-        $op  = "send";
-      //If you want to send in the future  ==> $time = '2016-07-30' //$time = '2016-07-30 12:50:50'
-      
-      $time = '';
-      
-      echo $client->SendSMS($fromNum,$toNum,$messageContent,$user,$pass,$time,$op);
-      echo $status;
-    } catch (SoapFault $ex) {
-        echo $ex->faultstring;
-    }
+    
+    $curl = curl_init();
+      curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://api2.ippanel.com/api/v1/sms/pattern/normal/send',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS =>'{
+            "code": "7lx2kenv29vo7os" ,
+            "sender": "3000505" ,
+            "recipient": "'.$phone.'" }',
+        CURLOPT_HTTPHEADER => array(
+        'apikey: tlx26aCDjiYqOdvtKOBvwEkbu9laYEE5DfTp9Y5a4ro=',
+        'Content-Type: application/json',
+        ),
+    ));
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+    
 
 
 

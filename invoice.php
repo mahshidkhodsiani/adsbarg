@@ -143,7 +143,7 @@ date_default_timezone_set('Asia/Tehran');
 
                 // 3
                 } elseif (isset($_POST['amount_service']) && $_POST['amount_service'] != '') {
-                    $amount = "6/500/000" ;
+                    $amount = "6,500,000" ;
                     $stmt = $conn->prepare("INSERT INTO orders (user_id, amount, status, shenaseh, type) VALUES (?, ?, ?, ?, 'sefaresh')");
                     $random = generateRandomID(); 
                     $status = 2; 
