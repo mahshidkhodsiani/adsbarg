@@ -267,6 +267,8 @@ $admin = $_SESSION["user_data"]["admin"];
                                                     ?>
                                                     <form action="" method="POST">
                                                       <input type="hidden" name="id_invoice" value="<?= $row['payments_id'] ?>">
+                                                      <input type="hidden" name="order_id" value="<?= $row['order_id'] ?>">
+
                                                       <button class="btn btn-outline-info btn-circle btn-sm" name="confirm_payment" title="تایید">
                                                       <i class="fa fa-check"></i>
                                                       </button>
@@ -278,6 +280,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                                     ?>
                                                     <form action="" method="POST">
                                                       <input type="hidden" name="id_invoice" value="<?= $row['payments_id'] ?>">
+                                                      <input type="hidden" name="order_id" value="<?= $row['order_id'] ?>">
                                                       <button class="btn btn-outline-success btn-circle btn-sm" name="confirm_charge" title="شارژ انجام شد">
                                                       <i class="fa fa-clipboard-check"></i>
                                                       </button>
@@ -443,19 +446,21 @@ $admin = $_SESSION["user_data"]["admin"];
 
 if(isset($_POST['confirm_payment'])){
   $id_invoice = $_POST['id_invoice'];
+  $order_id = $_POST['order_id'];
 
   // echo "yess";
 
 
-  $select_number = "SELECT user_id FROM orders where id = $id_invoice";
+  $select_number = "SELECT user_id FROM orders where id = $order_id";
   $result = $conn->query($select_number);
   if($result-> num_rows > 0){
     $row = $result->fetch_assoc();
     $user_id = $row['user_id'];
-    $phone = "SELECT phone FROM users WHERE id = $user_id";
-    $result_phone = $conn->query($phone);
+    $phone1 = "SELECT * FROM users WHERE id = $user_id";
+    $result_phone = $conn->query($phone1);
     $row_phone = $result_phone->fetch_assoc();
     $phone = $row_phone['phone'];
+    $name_family = $row_phone['name']." ".$row_phone['family'];
 
 
     
@@ -472,7 +477,8 @@ if(isset($_POST['confirm_payment'])){
         CURLOPT_POSTFIELDS =>'{
             "code": "7lx2kenv29vo7os" ,
             "sender": "3000505" ,
-            "recipient": "'.$phone.'" }',
+            "recipient": "'.$phone.'" ,
+            "variable": {"name_family": "'.$name_family.'" } }',
         CURLOPT_HTTPHEADER => array(
         'apikey: tlx26aCDjiYqOdvtKOBvwEkbu9laYEE5DfTp9Y5a4ro=',
         'Content-Type: application/json',
@@ -532,42 +538,54 @@ if(isset($_POST['confirm_payment'])){
   }
 }
 
+
 if(isset($_POST['confirm_charge'])){
   $id_invoice = $_POST['id_invoice'];
+  $order_id = $_POST['order_id'];
+
 
   // echo "yess";
 
 
-  $select_number = "SELECT user_id FROM orders where id = $id_invoice";
+  $select_number = "SELECT user_id FROM orders where id = $order_id";
   $result = $conn->query($select_number);
   if($result-> num_rows > 0){
     $row = $result->fetch_assoc();
     $user_id = $row['user_id'];
-    $phone = "SELECT phone FROM users WHERE id = $user_id";
-    $result_phone = $conn->query($phone);
+    $phone1 = "SELECT * FROM users WHERE id = $user_id";
+    $result_phone = $conn->query($phone1);
     $row_phone = $result_phone->fetch_assoc();
     $phone = $row_phone['phone'];
 
 
-    // turn off the WSDL cache
-    ini_set("soap.wsdl_cache_enabled", "0");
-    try {
-      $client = new SoapClient("http://ippanel.com/class/sms/wsdlservice/server.php?wsdl");
-        $user = "arta9120469460";
-        $pass = "43875910";
-        $fromNum = "+983000505";
-        $toNum = $phone;
-        $messageContent = 'مشتری گرامی شارژ شما با موفقیت انجام شد';
-        $op  = "send";
-      //If you want to send in the future  ==> $time = '2016-07-30' //$time = '2016-07-30 12:50:50'
-      
-      $time = '';
-      
-      echo $client->SendSMS($fromNum,$toNum,$messageContent,$user,$pass,$time,$op);
-      echo $status;
-    } catch (SoapFault $ex) {
-        echo $ex->faultstring;
-    }
+    $name_family = $row_phone['name']." ".$row_phone['family'];
+
+
+
+    
+    $curl = curl_init();
+      curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://api2.ippanel.com/api/v1/sms/pattern/normal/send',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS =>'{
+            "code": "ile6ehnqpgyrx7w" ,
+            "sender": "3000505" ,
+            "recipient": "'.$phone.'" ,
+            "variable": {"name_family": "'.$name_family.'" } }',
+        CURLOPT_HTTPHEADER => array(
+        'apikey: tlx26aCDjiYqOdvtKOBvwEkbu9laYEE5DfTp9Y5a4ro=',
+        'Content-Type: application/json',
+        ),
+    ));
+
+    $response = curl_exec($curl);
+    curl_close($curl);
 
 
 

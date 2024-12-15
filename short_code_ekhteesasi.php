@@ -29,6 +29,11 @@ if ($result_currency === FALSE) {
         $lira_to_toman = $row_currency['lira'] * 100; // لیر به تومان
         $bat_to_toman = $row_currency['bat'] * 100; // بات به تومان
         ?>
+            <div style="display: flex;">
+                <button id="exclusive_button" onclick="changeMode('exclusive')" style="width: 100px; margin-left: 10px; margin-right: 20px" disabled>اختصاصی</button>
+                <button id="managed_button" onclick="changeMode('managed')" style="width: 100px;">مدیریت‌شده</button>
+            </div>
+
             <div class="currency-container">
                 <div class="currency-box">
                     <div class="currency-title">دلار : <?= number_format($dollar_to_toman) ?> تومان</div>
@@ -97,7 +102,7 @@ $conn->close();
         padding: 15px;
         border-radius: 8px;
         border: 2px solid #ccc;
-        width: 220px;
+        width: 300px;
         text-align: center;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
@@ -155,13 +160,19 @@ $conn->close();
 </style>
 
 <script>
+let mode = 'exclusive'; // حالت پیش‌فرض اختصاصی است
+
+function changeMode(selectedMode) {
+    mode = selectedMode;
+    location.reload(); // بازنشانی صفحه برای اعمال تغییر حالت
+}
+
 function calculateFee(currency) {
     let amount;
     let fee = 0;
     let totalPrice;
     let exchangeRate;
 
-    // مقادیر نرخ ارزها از PHP به جاوااسکریپت منتقل می‌شود
     let dollarToToman = <?= $dollar_to_toman ?>;
     let derhamToToman = <?= $derham_to_toman ?>;
     let liraToToman = <?= $lira_to_toman ?>;
@@ -190,6 +201,7 @@ function calculateFee(currency) {
             fee = 6;
         }
         let amountInToman = amount * dollarToToman;
+        if (mode === 'managed') fee *= 2; // در حالت مدیریت‌شده کارمزد دو برابر است
         totalPrice = amountInToman + (amountInToman * fee / 100);
     } else if (currency === 'aed') {
         amount = parseFloat(document.getElementById('aed_amount').value);
@@ -210,6 +222,7 @@ function calculateFee(currency) {
         } else if (amount >= 3500) {
             fee = 6;
         }
+        if (mode === 'managed') fee *= 2;
         let amountInCurrency = amount * exchangeRate;
         totalPrice = amountInCurrency + (amountInCurrency * fee / 100);
     } else if (currency === 'try') {
@@ -233,6 +246,7 @@ function calculateFee(currency) {
         } else if (amount >= 10000) {
             fee = 6.5;
         }
+        if (mode === 'managed') fee *= 2;
         let amountInCurrency = amount * exchangeRate;
         totalPrice = amountInCurrency + (amountInCurrency * fee / 100);
     } else if (currency === 'thb') {
@@ -256,13 +270,27 @@ function calculateFee(currency) {
         } else if (amount >= 15000) {
             fee = 7;
         }
+        if (mode === 'managed') fee *= 2;
         let amountInCurrency = amount * exchangeRate;
         totalPrice = amountInCurrency + (amountInCurrency * fee / 100);
     }
 
-   if (!isNaN(totalPrice)) {
-    document.getElementById(currency + '_fee').textContent = "کارمزد: " + fee + "%";
-    document.getElementById(currency + '_total_price').textContent = "قیمت کل: " + totalPrice.toLocaleString('fa-IR');
+    if (!isNaN(totalPrice)) {
+        document.getElementById(currency + '_fee').textContent = "کارمزد: " + fee + "%";
+        document.getElementById(currency + '_total_price').textContent = "قیمت کل: " + totalPrice.toLocaleString('fa-IR');
+    }
 }
+function changeMode(selectedMode) {
+    mode = selectedMode;
+
+    // فعال/غیرفعال کردن دکمه‌ها
+    if (mode === 'exclusive') {
+        document.getElementById('exclusive_button').disabled = true;
+        document.getElementById('managed_button').disabled = false;
+    } else if (mode === 'managed') {
+        document.getElementById('exclusive_button').disabled = false;
+        document.getElementById('managed_button').disabled = true;
+    }
 }
+
 </script>

@@ -29,51 +29,12 @@ if ($result_currency === FALSE) {
         $lira_to_toman = $row_currency['lira'] * 100; // لیر به تومان
         $bat_to_toman = $row_currency['bat'] * 100; // بات به تومان
         ?>
-            <div>
-    <button id="exclusive_button" onclick="changeMode('exclusive')" disabled>اختصاصی</button>
-    <button id="managed_button" onclick="changeMode('managed')">مدیریت‌شده</button>
-</div>
+            <div style="display: flex;">
+                <button id="exclusive_button" onclick="changeMode('exclusive')" style="width: 100px; margin-left: 10px; margin-right: 20px" disabled>اختصاصی</button>
+                <button id="managed_button" onclick="changeMode('managed')" style="width: 100px;">مدیریت‌شده</button>
+            </div>
 
-            <div class="currency-container">
-                <div class="currency-box">
-                    <div class="currency-title">دلار : <?= number_format($dollar_to_toman) ?> تومان</div>
-                    <form onsubmit="return false;">
-                        <input type="number" id="dollar_amount" placeholder="مقدار دلار را وارد کنید">
-                        <button onclick="calculateFee('dollar')">تبدیل</button>
-                        <p id="dollar_fee"></p>
-                        <p id="dollar_total_price"></p>
-                    </form>
-                </div>
-                <div class="currency-box">
-                    <div class="currency-title">درهم : <?= number_format($derham_to_toman) ?> تومان</div>
-                    <form onsubmit="return false;">
-                        <input type="number" id="aed_amount" placeholder="مقدار درهم را وارد کنید">
-                        <button onclick="calculateFee('aed')">تبدیل</button>
-                        <p id="aed_fee"></p>
-                        <p id="aed_total_price"></p>
-                    </form>
-                </div>
-            </div>
-            <div class="currency-container">
-                <div class="currency-box">
-                    <div class="currency-title">لیر : <?= number_format($lira_to_toman) ?> تومان</div>
-                    <form onsubmit="return false;">
-                        <input type="number" id="try_amount" placeholder="مقدار لیر را وارد کنید">
-                        <button onclick="calculateFee('try')">تبدیل</button>
-                        <p id="try_fee"></p>
-                        <p id="try_total_price"></p>
-                    </form>
-                </div>
-                <div class="currency-box">
-                    <div class="currency-title">بات : <?= number_format($bat_to_toman) ?> تومان</div>
-                    <form onsubmit="return false;">
-                        <input type="number" id="thb_amount" placeholder="مقدار بات را وارد کنید">
-                        <button onclick="calculateFee('thb')">تبدیل</button>
-                        <p id="thb_fee"></p>
-                        <p id="thb_total_price"></p>
-                    </form>
-                </div>
-            </div>
+            
             <div class="currency-container">
                 <div class="currency-box">
                     <a href="https://adsbarg.com/dashboard" class="link">شارژ دلخواه</a>
@@ -102,7 +63,7 @@ $conn->close();
         padding: 15px;
         border-radius: 8px;
         border: 2px solid #ccc;
-        width: 220px;
+        width: 300px;
         text-align: center;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
@@ -159,24 +120,58 @@ $conn->close();
     }
 </style>
 
+
 <script>
+
 let mode = 'exclusive'; // حالت پیش‌فرض اختصاصی است
 
+
+
 function changeMode(selectedMode) {
+    if (mode !== selectedMode) { // فقط اگر تغییر مود رخ دهد
+        console.log(`Mode changed from ${mode} to ${selectedMode}`); // ثبت تغییر مود در کنسول
+        onModeChange(mode, selectedMode); // فراخوانی تابع هنگام تغییر مود
+    }
+
     mode = selectedMode;
-    location.reload(); // بازنشانی صفحه برای اعمال تغییر حالت
+
+    // فعال/غیرفعال کردن دکمه‌ها
+    if (mode === 'exclusive') {
+        document.getElementById('exclusive_button').disabled = true;
+        document.getElementById('managed_button').disabled = false;
+    } else if (mode === 'managed') {
+        document.getElementById('exclusive_button').disabled = false;
+        document.getElementById('managed_button').disabled = true;
+    }
+
+    // پس از تغییر مود، مجدداً محاسبه کارمزد و قیمت‌ها برای همه ارزها
+    calculateFee('dollar');
+    calculateFee('aed');
+    calculateFee('try');
+    calculateFee('thb');
 }
+
+// تابعی که هنگام تغییر مود اجرا می‌شود
+function onModeChange(previousMode, newMode) {
+    alert(`تغییر حالت: از ${previousMode} به ${newMode}`);
+}
+
 
 function calculateFee(currency) {
     let amount;
     let fee = 0;
     let totalPrice;
     let exchangeRate;
+    let chargeFeeDescription = ""; // توضیح کارمزد شارژ
 
     let dollarToToman = <?= $dollar_to_toman ?>;
     let derhamToToman = <?= $derham_to_toman ?>;
     let liraToToman = <?= $lira_to_toman ?>;
     let batToToman = <?= $bat_to_toman ?>;
+
+    // مقدار پیش‌فرض پیام‌ها پاک شود
+    document.getElementById(currency + '_fee').textContent = '';
+    document.getElementById(currency + '_total_price').textContent = '';
 
     if (currency === 'dollar') {
         amount = parseFloat(document.getElementById('dollar_amount').value);
@@ -187,21 +182,30 @@ function calculateFee(currency) {
         }
         if (amount >= 50 && amount <= 99) {
             fee = 10;
+            chargeFeeDescription = "10% کارمزد شارژ";
         } else if (amount >= 100 && amount <= 199) {
             fee = 9;
+            chargeFeeDescription = "9% کارمزد شارژ";
         } else if (amount >= 200 && amount <= 299) {
             fee = 8;
+            chargeFeeDescription = "8% کارمزد شارژ";
         } else if (amount >= 300 && amount <= 499) {
             fee = 7.5;
+            chargeFeeDescription = "7.5% کارمزد شارژ";
         } else if (amount >= 500 && amount <= 749) {
             fee = 7;
+            chargeFeeDescription = "7% کارمزد شارژ";
         } else if (amount >= 750 && amount <= 999) {
             fee = 6.5;
+            chargeFeeDescription = "6.5% کارمزد شارژ";
         } else if (amount >= 1000) {
             fee = 6;
+            chargeFeeDescription = "6% کارمزد شارژ";
+        }
+        if (mode === 'managed') {
+            fee *= 2; // در حالت مدیریت‌شده، کارمزد ضربدر 2 می‌شود
         }
         let amountInToman = amount * dollarToToman;
-        if (mode === 'managed') fee *= 2; // در حالت مدیریت‌شده کارمزد دو برابر است
         totalPrice = amountInToman + (amountInToman * fee / 100);
     } else if (currency === 'aed') {
         amount = parseFloat(document.getElementById('aed_amount').value);
@@ -213,16 +217,23 @@ function calculateFee(currency) {
         exchangeRate = derhamToToman;
         if (amount >= 300 && amount <= 499) {
             fee = 10;
+            chargeFeeDescription = "10% کارمزد شارژ";
         } else if (amount >= 500 && amount <= 999) {
             fee = 9;
+            chargeFeeDescription = "9% کارمزد شارژ";
         } else if (amount >= 1000 && amount <= 1999) {
             fee = 8;
+            chargeFeeDescription = "8% کارمزد شارژ";
         } else if (amount >= 2000 && amount <= 3499) {
             fee = 7;
+            chargeFeeDescription = "7% کارمزد شارژ";
         } else if (amount >= 3500) {
             fee = 6;
+            chargeFeeDescription = "6% کارمزد شارژ";
         }
-        if (mode === 'managed') fee *= 2;
+        if (mode === 'managed') {
+            fee *= 2; // در حالت مدیریت‌شده، کارمزد ضربدر 2 می‌شود
+        }
         let amountInCurrency = amount * exchangeRate;
         totalPrice = amountInCurrency + (amountInCurrency * fee / 100);
     } else if (currency === 'try') {
@@ -235,18 +246,26 @@ function calculateFee(currency) {
         exchangeRate = liraToToman;
         if (amount >= 500 && amount <= 999) {
             fee = 10;
+            chargeFeeDescription = "10% کارمزد شارژ";
         } else if (amount >= 1000 && amount <= 1999) {
             fee = 9;
+            chargeFeeDescription = "9% کارمزد شارژ";
         } else if (amount >= 2000 && amount <= 2999) {
             fee = 8.5;
+            chargeFeeDescription = "8.5% کارمزد شارژ";
         } else if (amount >= 3000 && amount <= 4999) {
             fee = 8;
+            chargeFeeDescription = "8% کارمزد شارژ";
         } else if (amount >= 5000 && amount <= 9999) {
             fee = 7.5;
+            chargeFeeDescription = "7.5% کارمزد شارژ";
         } else if (amount >= 10000) {
             fee = 6.5;
+            chargeFeeDescription = "6.5% کارمزد شارژ";
         }
-        if (mode === 'managed') fee *= 2;
+        if (mode === 'managed') {
+            fee *= 2; // در حالت مدیریت‌شده، کارمزد ضربدر 2 می‌شود
+        }
         let amountInCurrency = amount * exchangeRate;
         totalPrice = amountInCurrency + (amountInCurrency * fee / 100);
     } else if (currency === 'thb') {
@@ -259,38 +278,79 @@ function calculateFee(currency) {
         exchangeRate = batToToman;
         if (amount >= 2000 && amount <= 3499) {
             fee = 10;
+            chargeFeeDescription = "10% کارمزد شارژ";
         } else if (amount >= 3500 && amount <= 4999) {
             fee = 9;
+            chargeFeeDescription = "9% کارمزد شارژ";
         } else if (amount >= 5000 && amount <= 7999) {
             fee = 8.5;
+            chargeFeeDescription = "8.5% کارمزد شارژ";
         } else if (amount >= 8000 && amount <= 9999) {
             fee = 8;
+            chargeFeeDescription = "8% کارمزد شارژ";
         } else if (amount >= 10000 && amount <= 14999) {
             fee = 7.5;
+            chargeFeeDescription = "7.5% کارمزد شارژ";
         } else if (amount >= 15000) {
             fee = 7;
+            chargeFeeDescription = "7% کارمزد شارژ";
         }
-        if (mode === 'managed') fee *= 2;
+        if (mode === 'managed') {
+            fee *= 2; // در حالت مدیریت‌شده، کارمزد ضربدر 2 می‌شود
+        }
         let amountInCurrency = amount * exchangeRate;
         totalPrice = amountInCurrency + (amountInCurrency * fee / 100);
     }
 
     if (!isNaN(totalPrice)) {
-        document.getElementById(currency + '_fee').textContent = "کارمزد: " + fee + "%";
+        document.getElementById(currency + '_fee').textContent = "کارمزد: " + chargeFeeDescription;
         document.getElementById(currency + '_total_price').textContent = "قیمت کل: " + totalPrice.toLocaleString('fa-IR');
     }
 }
-function changeMode(selectedMode) {
-    mode = selectedMode;
 
-    // فعال/غیرفعال کردن دکمه‌ها
-    if (mode === 'exclusive') {
-        document.getElementById('exclusive_button').disabled = true;
-        document.getElementById('managed_button').disabled = false;
-    } else if (mode === 'managed') {
-        document.getElementById('exclusive_button').disabled = false;
-        document.getElementById('managed_button').disabled = true;
-    }
-}
+
+
 
 </script>
+
+
+<div style="display: flex;">
+    <div class="currency-box" style="margin-left: 50px;">
+        <div class="currency-title">دلار : <?= number_format($dollar_to_toman) ?> تومان</div>
+        <form>
+            <input type="number" id="dollar_amount" placeholder="مقدار دلار را وارد کنید" oninput="calculateFee('dollar')">
+            <p id="dollar_fee"></p>
+            <p id="dollar_total_price"></p>
+        </form>
+    </div>
+
+    <div class="currency-box">
+        <div class="currency-title">درهم : <?= number_format($derham_to_toman) ?> تومان</div>
+        <form>
+            <input type="number" id="aed_amount" placeholder="مقدار درهم را وارد کنید" oninput="calculateFee('aed')">
+            <p id="aed_fee"></p>
+            <p id="aed_total_price"></p>
+        </form>
+    </div>
+</div>
+
+
+<div style="display: flex;">
+    <div class="currency-box" style="margin-left: 50px;">
+        <div class="currency-title">لیر : <?= number_format($lira_to_toman) ?> تومان</div>
+        <form>
+            <input type="number" id="try_amount" placeholder="مقدار لیر را وارد کنید" oninput="calculateFee('try')">
+            <p id="try_fee"></p>
+            <p id="try_total_price"></p>
+        </form>
+    </div>
+
+    <div class="currency-box">
+        <div class="currency-title">بات : <?= number_format($bat_to_toman) ?> تومان</div>
+        <form>
+            <input type="number" id="thb_amount" placeholder="مقدار بات را وارد کنید" oninput="calculateFee('thb')">
+            <p id="thb_fee"></p>
+            <p id="thb_total_price"></p>
+        </form>
+    </div>
+</div>
