@@ -6,11 +6,16 @@ session_start();
 if (!isset($_SESSION["user_data"])) {
     // Redirect to the login page
     header("Location: login.php");
-    exit(); // Stop further execution of the script
+    exit(); 
 }
 
 $id = $_SESSION["user_data"]["id"];
 $admin = $_SESSION["user_data"]["admin"];
+
+if($admin == 1){
+  header("Location: logout_proccess.php");
+  exit(); 
+}
 
 ?>
 <!DOCTYPE html>
