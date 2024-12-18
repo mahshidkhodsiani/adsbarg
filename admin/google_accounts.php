@@ -313,16 +313,33 @@ $admin = $_SESSION["user_data"]["admin"];
 
 
                           
-                              // دریافت داده‌های JSON از API
-                              $jsonData = file_get_contents("https://api.ratebox.ir/apijson.php?token=6396cded07a5df6ff6979e013db38535");
-
-                              // JSON را به آرایه تبدیل می‌کنیم
-                              $data = json_decode($jsonData, true);
-
-                              // بررسی برای خطا در دیکود کردن JSON
-                              if ($data === null) {
-                                  die("Error decoding JSON");
+                              $ch = curl_init("https://api.ratebox.ir/apijson.php?token=6396cded07a5df6ff6979e013db38535");
+                
+                              // Set cURL options
+                              curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                              curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Follow redirects if any
+                              
+                              // Execute the cURL request
+                              $jsonData = curl_exec($ch);
+                              
+                              // Check if there was an error during the request
+                              if (curl_errno($ch)) {
+                                  die("cURL error: " . curl_error($ch));
                               }
+                              
+                              // Check if the response is empty
+                              if (empty($jsonData)) {
+                                  die("No data returned from the API.");
+                              }
+                              
+                              // Decode the JSON response
+                              $data = json_decode($jsonData, true);
+                              
+                              // Check if decoding was successful
+                              if ($data === null) {
+                                  die("Error decoding JSON: " . json_last_error_msg());
+                              }
+                              
 
                               $row_currency = [];
 

@@ -118,49 +118,64 @@ if($admin == 0){
                 // }
 
                 
+                $ch = curl_init("https://api.ratebox.ir/apijson.php?token=6396cded07a5df6ff6979e013db38535");
                 
-                  $jsonData = file_get_contents("https://api.ratebox.ir/apijson.php?token=6396cded07a5df6ff6979e013db38535");
-
-                  // JSON رو به آرایه تبدیل می‌کنیم
-                  $data = json_decode($jsonData, true);
-
-                  // بررسی برای خطا در دیکود کردن JSON
-                  if ($data === null) {
-                      die("Error decoding JSON");
-                  }
-
-                  $row_currency = [];
-
-                  // کلیدهای مربوط به ارزهای موردنظر
-                  $currencies = ["usd", "aed", "try", "thb"];
-
-                  // پیمایش داده‌ها و استخراج قیمت‌ها
-                  foreach ($data as $key => $value) {
-                      // بررسی اینکه مقدار فعلی یک آرایه است و ارز درخواستی را بررسی می‌کنیم
-                      if (is_array($value) && isset($value['slug']) && in_array($value['slug'], $currencies)) {
-                       
-
-                          $price = (float)$value['h']; 
-
-                          if ($value['slug'] == 'usd') {
-                              $row_currency['dollar'] = $price + ($price * 0.04); // افزایش 4 درصدی
-                              $row_currency['updated'] = $value['updated_at'];
-                          } elseif ($value['slug'] == 'aed') {
-                              $row_currency['derham'] = $price + ($price * 0.07); // افزایش 4 درصدی
-                              $row_currency['updated'] = $value['updated_at'];
-
-                          } elseif ($value['slug'] == 'try') {
-                              $row_currency['lira'] = $price + ($price * 0.07); // افزایش 4 درصدی
-                              $row_currency['updated'] = $value['updated_at'];
-
-                          } elseif ($value['slug'] == 'thb') {
-                              $row_currency['bat'] = $price + ($price * 0.11); // افزایش 4 درصدی
-                              $row_currency['updated'] = $value['updated_at'];
-
-                          }
-                      }
-                  }
+                // Set cURL options
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Follow redirects if any
+                
+                // Execute the cURL request
+                $jsonData = curl_exec($ch);
+                
+                // Check if there was an error during the request
+                if (curl_errno($ch)) {
+                    die("cURL error: " . curl_error($ch));
+                }
+                
+                // Check if the response is empty
+                if (empty($jsonData)) {
+                    die("No data returned from the API.");
+                }
+                
+                // Decode the JSON response
+                $data = json_decode($jsonData, true);
+                
+                // Check if decoding was successful
+                if ($data === null) {
+                    die("Error decoding JSON: " . json_last_error_msg());
+                }
+                
+                // Process the JSON data
+                $row_currency = [];
+                
+                // Define the currencies we want
+                $currencies = ["usd", "aed", "try", "thb"];
+                
+                // Loop through the data and extract the required information
+                foreach ($data as $key => $value) {
+                    if (is_array($value) && isset($value['slug']) && in_array($value['slug'], $currencies)) {
+                        $price = (float)$value['h']; 
+                
+                        if ($value['slug'] == 'usd') {
+                            $row_currency['dollar'] = $price + ($price * 0.04); // Increase by 4%
+                            $row_currency['updated'] = $value['updated_at'];
+                        } elseif ($value['slug'] == 'aed') {
+                            $row_currency['derham'] = $price + ($price * 0.07); // Increase by 7%
+                            $row_currency['updated'] = $value['updated_at'];
+                        } elseif ($value['slug'] == 'try') {
+                            $row_currency['lira'] = $price + ($price * 0.07); // Increase by 7%
+                            $row_currency['updated'] = $value['updated_at'];
+                        } elseif ($value['slug'] == 'thb') {
+                            $row_currency['bat'] = $price + ($price * 0.11); // Increase by 11%
+                            $row_currency['updated'] = $value['updated_at'];
+                        }
+                    }
+                }
+                
+                curl_close($ch);
+                
                 ?>
+
 
                 <div class="row d-md-flex" id="currencys">
                   <div class="col-md-3 d-flex align-items-stretch">
