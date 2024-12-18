@@ -1,119 +1,201 @@
 <?php
-// Database connection settings
 
+// $jsonData = file_get_contents("https://api.ratebox.ir/apijson.php?token=6396cded07a5df6ff6979e013db38535");
 
-// $host = '185.141.212.171'; // Change as needed
-// $username = 'adsbarg_admin'; // Your database username
-// $password = 'HL(to{PCYL=b'; // Your database password
-// $dbname = 'adsbarg_dashboard'; // Replace with your database name
+// // JSON رو به آرایه تبدیل می‌کنیم
+// $data = json_decode($jsonData, true);
 
-$host = 'localhost'; // Change as needed
-$username = 'root'; // Your database username
-$password = ''; // Your database password
-$dbname = 'adsbarg'; // Replace with your database name
+// // بررسی برای خطا در دیکود کردن JSON
+// if ($data === null) {
+//     die("Error decoding JSON");
+// }
 
-// Create a database connection
-$conn = new mysqli($host, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Database connection failed: " . $conn->connect_error);
-}
-
-// URL to scrape
-$url = "https://www.tgju.org/currency";
-
-// Initialize cURL
-$ch = curl_init();
-
-// Set cURL options
-curl_setopt($ch, CURLOPT_URL, $url);
+$ch = curl_init("https://api.ratebox.ir/apijson.php?token=6396cded07a5df6ff6979e013db38535");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; PHP bot)');
 
-// Execute the request
-$response = curl_exec($ch);
+$jsonData = curl_exec($ch);
+$data = json_decode($jsonData, true);
 
-// Check for errors
-if (curl_errno($ch)) {
-    echo "cURL Error: " . curl_error($ch);
-    exit;
-}
 
-// Close cURL session
-curl_close($ch);
 
-// Load HTML into DOMDocument
-$dom = new DOMDocument();
-@$dom->loadHTML($response); // Suppress warnings from malformed HTML
+$row_currency = [];
 
-// XPath to query the DOM
-$xpath = new DOMXPath($dom);
+// کلیدهای مربوط به ارزهای موردنظر
+$currencies = ["usd", "aed", "try", "thb"];
 
-// Define XPath queries for all currencies
-$currencyQueries = [
-    "dollar" => "//tr[@data-market-nameslug='price_dollar_rl']//td[@class='nf']",
-    "derham" => "//tr[contains(@data-market-nameslug, 'price_aed')]//td[@class='nf']",
-    "lira" => "//tr[contains(@data-market-nameslug, 'price_try')]//td[@class='nf']",
-    "bat" => "//tr[contains(@data-market-nameslug, 'price_thb')]//td[@class='nf']"
-];
 
-// Initialize an array to store the currency values
-$currencyValues = [
-    "dollar" => null,
-    "derham" => null,
-    "lira" => null,
-    "bat" => null
-];
+foreach ($data as $key => $value) {
+    // بررسی اینکه مقدار فعلی یک آرایه است و ارز درخواستی را بررسی می‌کنیم
+    if (is_array($value) && isset($value['slug']) && in_array($value['slug'], $currencies)) {
+        // بسته به نوع ارز، مقدار مربوطه رو ذخیره می‌کنیم
 
-// Fetch the currency prices
-foreach ($currencyQueries as $key => $query) {
-    $nodes = $xpath->query($query);
-    if ($nodes->length > 0) {
-        $currencyValues[$key] = trim($nodes[0]->textContent);
-    } else {
-        $currencyValues[$key] = "اطلاعات موجود نیست"; // No data available
+        $price = (float)$value['h'];
+
+        if ($value['slug'] == 'usd') {
+            $row_currency['dollar'] =  $price + ($price * 0.04); // افزایش 4 درصدی
+            $dollar = number_format(floatval($row_currency['dollar']) * 100);
+        } elseif ($value['slug'] == 'aed') {
+            $row_currency['derham'] =  $price + ($price * 0.07); // افزایش 4 درصدی
+            $derham = number_format(floatval($row_currency['derham']) * 100);
+        } elseif ($value['slug'] == 'try') {
+            $row_currency['lira'] =  $price + ($price * 0.07); // افزایش 4 درصدی
+            $lira = number_format(floatval($row_currency['lira']) * 100);
+        } elseif ($value['slug'] == 'thb') {
+            $row_currency['bat'] =  $price + ($price * 0.11); // افزایش 4 درصدی
+            $bat = number_format(floatval($row_currency['bat']) * 100);
+        }
     }
 }
 
-// Prepare the SQL statement for inserting all currencies
-$stmt = $conn->prepare("INSERT INTO currencys (dollar, derham, lira, bat, updated) VALUES (?, ?, ?, ?, NOW())");
+// چاپ نتایج
 
-// Corrected calculations
-$p1 = 0.05 * (float)$currencyValues['dollar'];
-$dollar = $p1 + (float)$currencyValues['dollar'];
+echo $dollar;
+echo "<br>";
 
-$p2 = 0.07 * (float)$currencyValues['derham'];
-$derham = $p2 + (float)$currencyValues['derham'];
+echo $derham;
+echo "<br>";
 
-$p3 = 0.07 * (float)$currencyValues['lira'];
-$lira = $p3 + (float)$currencyValues['lira'];
+echo $lira;
+echo "<br>";
 
-$p4 = 0.12 * (float)$currencyValues['bat'];
-$bat = $p4 + (float)$currencyValues['bat'];
+echo $bat;
+echo "<br>";
+// echo $row_currency['dollar']/ 10;
 
 
-// Bind parameters to the query
-$stmt->bind_param(
-    "ssss",
-    $dollar,
-    $derham,
-    $lira,
-    $bat
-);
-
-// Execute the query
-if ($stmt->execute()) {
-    echo "Currency data inserted successfully:<br>";
-    foreach ($currencyValues as $currency => $value) {
-        echo ucfirst($currency) . ": $value<br>";
-    }
-} else {
-    echo "Error inserting data into the database: " . $stmt->error;
-}
-
-// Close the statement and the database connection
-$stmt->close();
-$conn->close();
 ?>
+
+
+
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            direction: rtl;
+            text-align: right;
+            margin: 0;
+            padding: 0;
+        }
+
+        .form-container {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #007bff;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+
+<form id="currencyForm">
+            <div class="form-group">
+                <label for="ramzarz">انتخاب ارز مورد نظر:</label>
+                <select id="ramzarz">
+                    <option value="USD">دلار</option>
+                    <option value="AED">درهم</option>
+                    <option value="TRY">لیر</option>
+                    <option value="THB">بات</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="charge_rate">میزان شارژ:</label>
+                <input type="number" id="charge_rate" placeholder="مبلغ شارژ را وارد کنید." required>
+                <span class="error-message" id="errorMessage"></span>
+            </div>
+            <button type="submit">محاسبه</button>
+            <div id="result">نتیجه در اینجا نمایش داده می‌شود</div>
+        </form>
+ <script>
+        document.getElementById("currencyForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            // مقادیر فرم
+            const currency = document.getElementById("ramzarz").value;
+            const amount = parseFloat(document.getElementById("charge_rate").value);
+            const errorMessage = document.getElementById("errorMessage");
+            const resultDiv = document.getElementById("result");
+
+            // چک کردن مقدار ورودی
+            if (isNaN(amount) || amount <= 0) {
+                errorMessage.textContent = "لطفاً مبلغ معتبر وارد کنید.";
+                resultDiv.textContent = "";
+                return;
+            } else {
+                errorMessage.textContent = "";
+            }
+
+            // قیمت‌های مثال (می‌توانید از API سمت سرور بگیرید)
+            const prices = {
+                "USD": 50000, // قیمت دلار
+                "AED": 13600, // قیمت درهم
+                "TRY": 1700,  // قیمت لیر
+                "THB": 1500   // قیمت بات
+            };
+
+            // افزایش 4 درصدی
+            const basePrice = prices[currency];
+            const finalPrice = (basePrice + (basePrice * 0.04)) * amount;
+
+            // نمایش نتیجه
+            resultDiv.textContent = `قیمت نهایی برای ${amount} واحد ${currency}: ${finalPrice.toLocaleString()} تومان`;
+        });
+    </script>

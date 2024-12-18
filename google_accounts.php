@@ -248,21 +248,74 @@ $admin = $_SESSION["user_data"]["admin"];
 
                             <?php 
                          
-                              $currencys = "SELECT * FROM currencys ORDER BY id DESC LIMIT 1";
-                              $result_currency = $conn->query($currencys);
-                              if ($result_currency->num_rows > 0) {
-                                  $row_currency = $result_currency->fetch_assoc();
+                              // $currencys = "SELECT * FROM currencys ORDER BY id DESC LIMIT 1";
+                              // $result_currency = $conn->query($currencys);
+                              // if ($result_currency->num_rows > 0) {
+                              //     $row_currency = $result_currency->fetch_assoc();
 
-                                  if ($account['currency'] == 'USD') {
-                                      $price = number_format(floatval($row_currency['dollar']) * 100);
-                                  } elseif ($account['currency'] == 'AED') {
-                                      $price = number_format(floatval($row_currency['derham']) * 100);
-                                  } elseif ($account['currency'] == 'TRY') {
-                                      $price = number_format(floatval($row_currency['lira']) * 100);
-                                  } elseif ($account['currency'] == 'THB') {
-                                      $price = number_format(floatval($row_currency['bat']) * 100);
+                              //     if ($account['currency'] == 'USD') {
+                              //         $price = number_format(floatval($row_currency['dollar']) * 100);
+                              //     } elseif ($account['currency'] == 'AED') {
+                              //         $price = number_format(floatval($row_currency['derham']) * 100);
+                              //     } elseif ($account['currency'] == 'TRY') {
+                              //         $price = number_format(floatval($row_currency['lira']) * 100);
+                              //     } elseif ($account['currency'] == 'THB') {
+                              //         $price = number_format(floatval($row_currency['bat']) * 100);
+                              //     }
+                              // }
+
+                              
+                          
+                              // دریافت داده‌های JSON از API
+                              $jsonData = file_get_contents("https://api.ratebox.ir/apijson.php?token=6396cded07a5df6ff6979e013db38535");
+
+                              // JSON را به آرایه تبدیل می‌کنیم
+                              $data = json_decode($jsonData, true);
+
+                              // بررسی برای خطا در دیکود کردن JSON
+                              if ($data === null) {
+                                  die("Error decoding JSON");
+                              }
+
+                              $row_currency = [];
+
+                              // کلیدهای مربوط به ارزهای موردنظر
+                              $currencies = ["usd", "aed", "try", "thb"];
+
+                              // پیمایش داده‌ها و استخراج قیمت‌ها
+                              foreach ($data as $key => $value) {
+                                  // بررسی اینکه مقدار فعلی یک آرایه است و ارز درخواستی را بررسی می‌کنیم
+                                  if (is_array($value) && isset($value['slug']) && in_array($value['slug'], $currencies)) {
+                                      $price = (float)$value['h']; // قیمت ارز
+
+                                      // برای هر ارز، قیمت جدید با درصد موردنظر محاسبه می‌شود
+                                      if ($value['slug'] == 'usd') {
+                                          $row_currency['dollar'] = $price + ($price * 0.04); // افزایش 4 درصدی
+                                          $row_currency['updated'] = $value['updated_at'];
+                                      } elseif ($value['slug'] == 'aed') {
+                                          $row_currency['derham'] = $price + ($price * 0.07); // افزایش 7 درصدی
+                                          $row_currency['updated'] = $value['updated_at'];
+                                      } elseif ($value['slug'] == 'try') {
+                                          $row_currency['lira'] = $price + ($price * 0.07); // افزایش 7 درصدی
+                                          $row_currency['updated'] = $value['updated_at'];
+                                      } elseif ($value['slug'] == 'thb') {
+                                          $row_currency['bat'] = $price + ($price * 0.11); // افزایش 11 درصدی
+                                          $row_currency['updated'] = $value['updated_at'];
+                                      }
                                   }
                               }
+
+                              // پس از دریافت قیمت‌ها، می‌توانید بر اساس ارز حساب کاربر قیمت را محاسبه کنید
+                              if ($account['currency'] == 'USD') {
+                                  $price = number_format(floatval($row_currency['dollar']) * 100);
+                              } elseif ($account['currency'] == 'AED') {
+                                  $price = number_format(floatval($row_currency['derham']) * 100);
+                              } elseif ($account['currency'] == 'TRY') {
+                                  $price = number_format(floatval($row_currency['lira']) * 100);
+                              } elseif ($account['currency'] == 'THB') {
+                                  $price = number_format(floatval($row_currency['bat']) * 100);
+                              }
+
                             ?>
 
 
