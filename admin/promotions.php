@@ -157,8 +157,8 @@ if ($admin == 0 ){
                                           <tr>
                                             <th scope="col">ردیف</th>
                                             <th scope="col">آیدی اکانت</th>
-                                            <th scope="col">پروموشن</th>
                                             <th scope="col">قیمت(تومان)</th>
+                                            <th scope="col">عملیات</th>
                                           </tr>
                                         </thead>
                                         <tbody>
@@ -208,8 +208,13 @@ if ($admin == 0 ){
                                           <tr>
                                             <th scope="row"><?= $i ?></th>
                                             <td><?=$row['cid']?></td>
-                                            <td><?=$row['promotion']?></td>
                                             <td><?=number_format($row['price_promotion'])?></td>
+                                            <td>
+                                              <form action="" method="POST">
+                                                <input type="hidden" name="id_account" value="<?=$row['id']?>" />
+                                                <button name="delete_promotion" class="btn btn-outline-danger">حذف قیمت پروموشن</button>
+                                              </form>
+                                            </td>
                                 
                                          
                                           </tr>
@@ -261,9 +266,7 @@ if ($admin == 0 ){
                                   <div class="col-md-6">
                                     <input type="text" class="form-control" placeholder="آیدی اکانت" name="cid">
                                   </div>
-                                  <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="پروموشن" name="promotion">
-                                  </div>
+                              
                                   <div class="col-md-6">
                                     <input type="text" class="form-control" placeholder="قیمت(تومان)" name="price">
                                   </div>
@@ -333,9 +336,55 @@ if ($admin == 0 ){
 
 if(isset($_POST['submit_promotion'])){
   $cid = $_POST['cid'];
-  $promotion = $_POST['promotion'];
   $price = $_POST['price'];
-  $sql = "UPDATE accounts SET promotion = '$promotion', price_promotion= '$price' WHERE cid = '$cid'";
+  $sql = "UPDATE accounts SET price_promotion= '$price' WHERE cid = '$cid'";
+  $result = $conn->query($sql);
+  if ($result) {
+    echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+    <div class='toast-header bg-success text-white'>
+        <strong class='mr-auto'>Success</strong>
+    </div>
+    <div class='toast-body'>
+      با موفقیت انجام شد!
+    </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('#successToast').toast({
+                autohide: true,
+                delay: 1000
+            }).toast('show');
+            setTimeout(function(){
+                window.location.href = 'promotions';
+            }, 1000);
+        });
+    </script>";
+  }else{
+    echo "<div id='errorToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+      <div class='toast-header bg-danger text-white'>
+          <strong class='mr-auto'>Error</strong>
+      </div>
+      <div class='toast-body'>
+          خطایی رخ داده، دوباره امتحان کنید!<br>Error: " . htmlspecialchars($stmt->error) . "
+      </div>
+      </div>
+      <script>
+          $(document).ready(function(){
+              $('#errorToast').toast({
+                  autohide: true,
+                  delay: 3000
+              }).toast('show');
+              setTimeout(function(){
+                  window.location.href = 'promotions';
+              }, 3000);
+          });
+      </script>";
+  }
+}
+
+if(isset($_POST['delete_promotion'])){
+  $id = $_POST['id_account'];
+  $sql = "UPDATE accounts SET price_promotion = NULL WHERE id = '$id'";
   $result = $conn->query($sql);
   if ($result) {
     echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>

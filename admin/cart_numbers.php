@@ -171,7 +171,12 @@ if ($admin == 0 ){
                                                 <td>
                                                     <?php
                                                         if ($row['active'] == 0) {
-                                                            echo "غیر فعال";
+                                                            ?>
+                                                            <form action="" method="POST">
+                                                            <input type="hidden" name="id_cart" value="<?= $row['id']?>">
+                                                            <button class="btn btn-outline-primary" name="active"> فعال کردن</button>
+                                                        </form>
+                                                        <?php
                                                         }else{?>
                                                             <form action="" method="POST">
                                                                 <input type="hidden" name="id_cart" value="<?= $row['id']?>">
@@ -312,6 +317,32 @@ if(isset($_POST['deactive'])){
     $query = "UPDATE cart_numbers SET active = 0 WHERE id = $id";
     $result = $conn->query($query);
     // انتقال با جاوااسکریپت
+    echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
+    <div class='toast-header bg-success text-white'>
+        <strong class='mr-auto'>Success</strong>
+    </div>
+    <div class='toast-body'>
+      با موفقیت انجام شد!
+    </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('#successToast').toast({
+                autohide: true,
+                delay: 1000
+            }).toast('show');
+            setTimeout(function(){
+                window.location.href = 'cart_numbers';
+            }, 1000);
+        });
+    </script>";
+}
+
+if(isset($_POST['active'])){
+    $id = $_POST['id_cart'];
+    $query = "UPDATE cart_numbers SET active = 1 WHERE id = $id";
+    $result = $conn->query($query);
+  
     echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
     <div class='toast-header bg-success text-white'>
         <strong class='mr-auto'>Success</strong>

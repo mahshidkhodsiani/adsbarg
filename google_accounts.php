@@ -353,17 +353,43 @@ if($admin == 1){
                                           <input type="hidden" name="id_account" value="<?= $account['id'] ?>">
                                           <input type="hidden" name="total_amount" id="hidden_total_price_<?= $account['id'] ?>" value="0">
                                           <input 
-                                            type="number" 
-                                            name="amount_charge" 
-                                            id="amount_charge_<?= $account['id'] ?>" 
-                                            class="accountGoogle_amount form-control mb-2 text-end"  
-                                            placeholder="عدد وارد کنید" 
-                                            min="<?= $account['currency'] === 'USD' ? 50 : ($account['currency'] === 'THB' ? 2000 : ($account['currency'] === 'TRY' ? 500 : ($account['currency'] === 'AED' ? 300 : 0))) ?>" 
-                                            required>
-                                          <label>
-                                              <i class="fa fa-USD me-2 fs-5 text-primary fw-bolder"></i> 
-                                              مقدار را وارد کنید
-                                          </label>
+                                              type="number" 
+                                              name="amount_charge" 
+                                              id="amount_charge_<?= $account['id'] ?>" 
+                                              class="accountGoogle_amount form-control mb-2 text-end"  
+                                              placeholder="عدد وارد کنید" 
+                                              min="<?= $account['currency'] === 'USD' ? 50 : ($account['currency'] === 'THB' ? 2000 : ($account['currency'] === 'TRY' ? 500 : ($account['currency'] === 'AED' ? 300 : 0))) ?>" 
+                                              required 
+                                              oninput="validateAmount(this)">
+                                            <label>
+                                                <i class="fa fa-USD me-2 fs-5 text-primary fw-bolder"></i> 
+                                                مقدار را وارد کنید
+                                            </label>
+
+                                            <script>
+                                              function validateAmount(input) {
+                                                  const minAmount = parseFloat(input.min);  // حداقل مقدار را دریافت می‌کنیم
+                                                  let errorMessage = "";  // پیغام خطای پیش‌فرض
+
+                                                  // انتخاب پیغام خطا بر اساس ارز
+                                                  if (input.value < minAmount) {
+                                                      if (input.min == 50) {
+                                                          errorMessage = "مقدار وارد شده برای دلار باید بیشتر از 50 باشد.";
+                                                      } else if (input.min == 2000) {
+                                                          errorMessage = "مقدار وارد شده برای بات تایلند باید بیشتر از 2000 باشد.";
+                                                      } else if (input.min == 500) {
+                                                          errorMessage = "مقدار وارد شده برای لیر ترکیه باید بیشتر از 500 باشد.";
+                                                      } else if (input.min == 300) {
+                                                          errorMessage = "مقدار وارد شده برای درهم امارات باید بیشتر از 300 باشد.";
+                                                      } else {
+                                                          errorMessage = "مقدار وارد شده باید بیشتر از حداقل مقدار باشد.";
+                                                      }
+                                                      input.setCustomValidity(errorMessage);  // پیغام خطای سفارشی
+                                                  } else {
+                                                      input.setCustomValidity(""); // پیغام خطا را پاک می‌کنیم
+                                                  }
+                                              }
+                                            </script>
                                       </div>
                                   
                                       <p class="form-control-feedback text text-center">
