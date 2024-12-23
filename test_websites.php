@@ -48,7 +48,8 @@ if ($result->num_rows > 0) {
                 while ($row_word = $words_result->fetch_assoc()) {
                     $keyword = $row_word['word'];
 
-                    if (strpos($content, $keyword) !== false) {
+                    if (preg_match('/\b' . preg_quote($keyword, '/') . '\b/u', $content)) {
+
                         echo "Keyword '$keyword' found in website ID: $id ($url)<br>";
 
                         // Insert the found keyword into the robot_words table

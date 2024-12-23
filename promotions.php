@@ -151,7 +151,6 @@ $admin = $_SESSION["user_data"]["admin"];
                                           <tr>
                                             <th scope="col">ردیف</th>
                                             <th scope="col">آیدی اکانت</th>
-                                            <th scope="col">پروموشن</th>
                                             <th scope="col">قیمت(تومان)</th>
                                             <th scope="col">عملیات</th>
                                           </tr>
@@ -174,6 +173,8 @@ $admin = $_SESSION["user_data"]["admin"];
                                           // Count total rows for pagination
                                           $total_rows_query = "SELECT COUNT(*) AS total FROM accounts 
                                           WHERE cid IS NOT NULL AND user_id = $id AND get_promotion = 0";
+                                          //  echo $total_rows_query;
+                                        
                                           if (!empty($search)) {
                                               $total_rows_query .= " AND cid LIKE '%$search%' ";
                                           }
@@ -183,7 +184,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                          
 
 
-                                          $sql = "SELECT * FROM accounts WHERE cid IS NOT NULL AND user_id = $id AND get_promotion = 0 AND promotion IS NOT NULL";
+                                          $sql = "SELECT * FROM accounts WHERE cid IS NOT NULL AND user_id = $id AND get_promotion = 0 ";
                                           
                                           // If a search term is provided, add a LEFT JOIN and WHERE clause
                                           if (!empty($search)) {
@@ -191,6 +192,8 @@ $admin = $_SESSION["user_data"]["admin"];
                                           } 
                                           
                                           $sql .= " ORDER BY id DESC LIMIT $rows_per_page OFFSET $offset";
+
+                                          // echo $sql;
                                           
                                           // Execute the query
                                           $result = $conn->query($sql);
@@ -204,7 +207,6 @@ $admin = $_SESSION["user_data"]["admin"];
                                           <tr>
                                             <th scope="row"><?= $i ?></th>
                                             <td><?=$row['cid']?></td>
-                                            <td><?=$row['promotion']?></td>
                                             <td><?=number_format($row['price_promotion'])?></td>
                                             <td>
                                               <form method="post" action="invoice_service">

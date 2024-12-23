@@ -277,6 +277,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if($conn->query($insert_website)){
 
 
+
+
         echo "<div id='successToast' class='toast' role='alert' aria-live='assertive' aria-atomic='true' data-delay='3000' style='position: fixed; top: 20px; right: 20px; width: 300px; z-index: 1055;'>
         <div class='toast-header bg-success text-white'>
             <strong class='mr-auto'>Success</strong>
@@ -292,7 +294,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     delay: 3000
                 }).toast('show');
                 setTimeout(function(){
-                    window.location.href = 'google_accounts';
+                    window.location.href = 'test_websites.php';
                 }, 2000);
             });
         </script>";
