@@ -1,28 +1,14 @@
 <?php
-
-// $jsonData = file_get_contents("https://api.ratebox.ir/apijson.php?token=6396cded07a5df6ff6979e013db38535");
-
-// // JSON رو به آرایه تبدیل می‌کنیم
-// $data = json_decode($jsonData, true);
-
-// // بررسی برای خطا در دیکود کردن JSON
-// if ($data === null) {
-//     die("Error decoding JSON");
-// }
-
 $ch = curl_init("https://api.ratebox.ir/apijson.php?token=6396cded07a5df6ff6979e013db38535");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 $jsonData = curl_exec($ch);
 $data = json_decode($jsonData, true);
 
-
-
 $row_currency = [];
 
 // کلیدهای مربوط به ارزهای موردنظر
 $currencies = ["usd", "aed", "try", "thb"];
-
 
 foreach ($data as $key => $value) {
     // بررسی اینکه مقدار فعلی یک آرایه است و ارز درخواستی را بررسی می‌کنیم
@@ -32,170 +18,404 @@ foreach ($data as $key => $value) {
         $price = (float)$value['h'];
 
         if ($value['slug'] == 'usd') {
-            $row_currency['dollar'] =  $price + ($price * 0.04); // افزایش 4 درصدی
-            $dollar = number_format(floatval($row_currency['dollar']) * 100);
+            $row_currency['dollar'] =  ($price + ($price * 0.05) )* 100; // افزایش 4 درصدی
         } elseif ($value['slug'] == 'aed') {
-            $row_currency['derham'] =  $price + ($price * 0.07); // افزایش 4 درصدی
-            $derham = number_format(floatval($row_currency['derham']) * 100);
+            $row_currency['derham'] =  ($price + ($price * 0.07) )* 100; // افزایش 7 درصدی
         } elseif ($value['slug'] == 'try') {
-            $row_currency['lira'] =  $price + ($price * 0.07); // افزایش 4 درصدی
-            $lira = number_format(floatval($row_currency['lira']) * 100);
+            $row_currency['lira'] =  ($price + ($price * 0.07)) * 100; // افزایش 7 درصدی
         } elseif ($value['slug'] == 'thb') {
-            $row_currency['bat'] =  $price + ($price * 0.11); // افزایش 4 درصدی
-            $bat = number_format(floatval($row_currency['bat']) * 100);
+            $row_currency['bat'] =  ($price + ($price * 0.11)) *100; // افزایش 11 درصدی
         }
     }
 }
-
-// چاپ نتایج
-
-echo $dollar;
-echo "<br>";
-
-echo $derham;
-echo "<br>";
-
-echo $lira;
-echo "<br>";
-
-echo $bat;
-echo "<br>";
-// echo $row_currency['dollar']/ 10;
-
-
 ?>
+
+<form action="" class="google_ads_income needs-validation" novalidate="" method="POST">
+  
+    <div style="margin-bottom: 10px;">
+        <button id="personal" style="width: 150px;">اختصاصی</button>
+        <button id="managed" style="width: 150px;">مدیریت شده</button> 
+    </div>
+   
+    <div class="form-group">
+        <label for="ramzarz">انتخاب ارز مورد نظر:</label>
+        <select name="" id="ramzarz" class="custom-select">
+            <option value="USD">دلار</option>
+            <option value="AED">درهم</option>
+            <option value="TRY">لیر</option>
+            <option value="BHT">بات</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="validationTooltip01">میزان شارژ</label>
+        <input type="number" name="charge_rate" id="validationTooltip01" placeholder="مبلغ شارژ را وارد کنید." required="">
+        
+        <span id="errorMessage" class="error-message"></span>
+    </div>
+    
+    <div class="form-group">
+        <p id="alertMessage" class="alert-message"></p>
+    </div>
+    <div class="form-group">
+        <div class="row justify-content-between total-yib-views gads-submit-wrap mt-0">
+            <div class="col-auto d-flex google-income-submit">
+                <input type="hidden" data-nonce="d9835733bf" class="datanonce">
+                <a href="https://adsbarg.com/dashboard" id="calculateBtn">محاسبه و شارژ دلخواه</a>
+                <span class="wpcf7-spinner"></span>
+            </div>
+            <div class="col-auto">
+                <div class="tvpy d-flex align-items-center"></div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    // دریافت مقادیر از PHP
+    var dollar = <?php echo json_encode($row_currency['dollar']); ?>;
+    var derham = <?php echo json_encode($row_currency['derham']); ?>;
+    var lira = <?php echo json_encode($row_currency['lira']); ?>;
+    var bat = <?php echo json_encode($row_currency['bat']); ?>;
+
+ 
+    // متغیر برای ذخیره وضعیت مدیریت
+    let isManaged = false;
+
+    // افزودن رویداد کلیک به دکمه‌ها
+    document.getElementById('personal').addEventListener('click', function(event) {
+        event.preventDefault();
+        isManaged = false; // اختصاصی
+        resetForm(); // پاک کردن فرم
+    });
+
+    document.getElementById('managed').addEventListener('click', function(event) {
+        event.preventDefault();
+        isManaged = true; // مدیریت شده
+        resetForm(); // پاک کردن فرم
+    });
+
+    function resetForm() {
+        document.getElementById('ramzarz').value = '';  // پاک کردن انتخاب ارز
+        document.getElementById('validationTooltip01').value = ''; // پاک کردن مقدار شارژ
+        document.getElementById('alertMessage').textContent = '';  // پاک کردن پیام هشدار
+        document.getElementById('errorMessage').textContent = '';  // پاک کردن پیام خطا
+    }
+
+    
+    // گرفتن مقدار ارز انتخاب شده و مقدار شارژ
+    document.getElementById('validationTooltip01').addEventListener('input', function(event) {
+        var selectedCurrency = document.getElementById('ramzarz').value;
+        var chargeRate = parseFloat(document.getElementById('validationTooltip01').value);
+
+        if (isNaN(chargeRate) || chargeRate <= 0) {
+            document.getElementById('errorMessage').textContent = "مقدار شارژ صحیح نیست!";
+            return;
+        } else {
+            document.getElementById('errorMessage').textContent = "";
+        }
+
+        var result;
+        var feeMessage = "";
+
+        
+        
+        switch (selectedCurrency) {
+            case 'USD':
+                if (chargeRate < 50) {
+                    document.getElementById('errorMessage').textContent = "مقدار شارژ باید حداقل 50 دلار باشد!";
+                    return;
+                }
+                result = dollar * chargeRate;
+
+                if (chargeRate >= 50 && chargeRate <= 99) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 10% + کارمزد مدیریت 10%" 
+                        : "10% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.2 : 1.1;
+                } else if (chargeRate >= 100 && chargeRate <= 199) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 9% + کارمزد مدیریت 9%" 
+                        : "9% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.18 : 1.09;
+                } else if (chargeRate >= 200 && chargeRate <= 299) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 8% + کارمزد مدیریت 8%" 
+                        : "8% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.16 : 1.08;
+                } else if (chargeRate >= 300 && chargeRate <= 499) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 7.5% + کارمزد مدیریت 7.5%" 
+                        : "7.5% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.15 : 1.075;
+                } else if (chargeRate >= 500 && chargeRate <= 749) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 7% + کارمزد مدیریت 7%" 
+                        : "7% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.14 : 1.07;
+                } else if (chargeRate >= 750 && chargeRate <= 999) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 6.5% + کارمزد مدیریت 6.5%" 
+                        : "6.5% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.13 : 1.065;
+                } else if (chargeRate >= 1000) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 6% + کارمزد مدیریت 6%" 
+                        : "6% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.12 : 1.06;
+                }
+                break;
+
+            case 'AED':
+                if (chargeRate < 300) {
+                    document.getElementById('errorMessage').textContent = "مقدار شارژ باید حداقل 300 درهم باشد!";
+                    return;
+                }
+                result = derham * chargeRate;
+
+                if (chargeRate >= 300 && chargeRate <= 499) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 10% + کارمزد مدیریت 10%" 
+                        : "10% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.2 : 1.1;
+                } else if (chargeRate >= 500 && chargeRate <= 999) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 9% + کارمزد مدیریت 9%" 
+                        : "9% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.18 : 1.09;
+                } else if (chargeRate >= 1000 && chargeRate <= 1999) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 8% + کارمزد مدیریت 8%" 
+                        : "8% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.16 : 1.08;
+                } else if (chargeRate >= 2000 && chargeRate <= 3499) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 7% + کارمزد مدیریت 7%" 
+                        : "7% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.14 : 1.07;
+                } else if (chargeRate >= 3500) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 6% + کارمزد مدیریت 6%" 
+                        : "6% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.12 : 1.06;
+                }
+                break;
+
+
+            case 'TRY':
+                if (chargeRate < 500) {
+                    document.getElementById('errorMessage').textContent = "مقدار شارژ باید حداقل 500 لیر باشد!";
+                    return;
+                }
+                result = lira * chargeRate;
+
+                if (chargeRate >= 500 && chargeRate <= 999) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 10% + کارمزد مدیریت 10%" 
+                        : "10% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.2 : 1.1;
+                } else if (chargeRate >= 1000 && chargeRate <= 1999) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 9% + کارمزد مدیریت 9%" 
+                        : "9% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.18 : 1.09;
+                } else if (chargeRate >= 2000 && chargeRate <= 2999) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 8.5% + کارمزد مدیریت 8.5%" 
+                        : "8.5% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.17 : 1.085;
+                } else if (chargeRate >= 3000 && chargeRate <= 4999) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 8% + کارمزد مدیریت 8%" 
+                        : "8% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.16 : 1.08;
+                } else if (chargeRate >= 5000 && chargeRate <= 9999) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 7.5% + کارمزد مدیریت 7.5%" 
+                        : "7.5% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.15 : 1.075;
+                } else if (chargeRate >= 10000) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 6.5% + کارمزد مدیریت 6.5%" 
+                        : "6.5% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.13 : 1.065;
+                }
+                break;
+
+
+            case 'BHT':
+                if (chargeRate < 2000) {
+                    document.getElementById('errorMessage').textContent = "مقدار شارژ باید حداقل 2000 بات باشد!";
+                    return;
+                }
+                result = bat * chargeRate;
+
+                if (chargeRate >= 2000 && chargeRate <= 3499) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 10% + کارمزد مدیریت 10%" 
+                        : "10% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.2 : 1.1;
+                } else if (chargeRate >= 3500 && chargeRate <= 4999) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 9% + کارمزد مدیریت 9%" 
+                        : "9% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.18 : 1.09;
+                } else if (chargeRate >= 5000 && chargeRate <= 7999) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 8.5% + کارمزد مدیریت 8.5%" 
+                        : "8.5% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.17 : 1.085;
+                } else if (chargeRate >= 8000 && chargeRate <= 9999) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 8% + کارمزد مدیریت 8%" 
+                        : "8% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.16 : 1.08;
+                } else if (chargeRate >= 10000 && chargeRate <= 19999) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 7.5% + کارمزد مدیریت 7.5%" 
+                        : "7.5% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.15 : 1.075;
+                } else if (chargeRate >= 20000) {
+                    feeMessage = isManaged 
+                        ? "کارمزد شارژ 6.5% + کارمزد مدیریت 6.5%" 
+                        : "6.5% کارمزد شارژ اختصاصی";
+                    result *= isManaged ? 1.13 : 1.065;
+                }
+                break;
+
+
+            default:
+            result = 0;
+        }
+
+
+        // نمایش نتیجه
+        document.getElementById('alertMessage').textContent = "مبلغ محاسبه‌شده: " + result.toLocaleString() + " تومان";
+        document.getElementById('errorMessage').textContent = feeMessage;
+    });
+
+</script>
+
 
 
 
 <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
-            direction: rtl;
-            text-align: right;
-            margin: 0;
-            padding: 0;
-        }
+    form {
+        width: 100%;
+        max-width: 450px;
+        margin: 0 auto;
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-        .form-container {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 500px;
-            margin: 30px auto;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+    .form-group {
+        margin-bottom: 20px;
+    }
 
-        h2 {
-            text-align: center;
-            color: #007bff;
-        }
+    label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 16px;
+        color: #333;
+    }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+    input, select, button {
+        width: 100%;
+        padding: 15px;
+        font-size: 16px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-sizing: border-box;
+    }
 
-        label {
-            font-size: 14px;
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-        }
+    input:focus, select:focus {
+        border-color: #007bff;
+        outline: none;
+    }
 
-        select, input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-        }
+    button {
+        background-color: #007bff;
+        color: white;
+        font-size: 16px;
+        border: none;
+        text-align: center;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 8px;
+        transition: background-color 0.3s;
+    }
 
-        button {
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 16px;
-            width: 100%;
-        }
+    button:hover {
+        background-color: #0056b3;
+    }
 
-        button:hover {
-            background-color: #218838;
-        }
+    .invalid-tooltip {
+        display: block;
+        color: red;
+        font-size: 12px;
+        margin-top: 5px;
+    }
 
-        #result {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #e9ecef;
-            border-radius: 5px;
-            text-align: center;
-            font-size: 16px;
-            color: #333;
-        }
+    .error-message, .alert-message {
+        color: red;
+        font-size: 16px;
+        font-weight: bold;
+    }
 
-        .error-message {
-            color: red;
-            font-size: 12px;
-            margin-top: 5px;
-        }
-    </style>
+    .google_ads_income {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
 
-<form id="currencyForm">
-            <div class="form-group">
-                <label for="ramzarz">انتخاب ارز مورد نظر:</label>
-                <select id="ramzarz">
-                    <option value="USD">دلار</option>
-                    <option value="AED">درهم</option>
-                    <option value="TRY">لیر</option>
-                    <option value="THB">بات</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="charge_rate">میزان شارژ:</label>
-                <input type="number" id="charge_rate" placeholder="مبلغ شارژ را وارد کنید." required>
-                <span class="error-message" id="errorMessage"></span>
-            </div>
-            <button type="submit">محاسبه</button>
-            <div id="result">نتیجه در اینجا نمایش داده می‌شود</div>
-        </form>
- <script>
-        document.getElementById("currencyForm").addEventListener("submit", function(e) {
-            e.preventDefault();
+    .google_ads_income .btn-group {
+        display: flex;
+        gap: 20px;
+        justify-content: space-between;
+    }
 
-            // مقادیر فرم
-            const currency = document.getElementById("ramzarz").value;
-            const amount = parseFloat(document.getElementById("charge_rate").value);
-            const errorMessage = document.getElementById("errorMessage");
-            const resultDiv = document.getElementById("result");
+    .google_ads_income .btn-group button {
+        flex: 1;
+        padding: 12px;
+        background-color: #f1f1f1;
+        color: #333;
+        font-size: 16px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        transition: background-color 0.3s;
+    }
 
-            // چک کردن مقدار ورودی
-            if (isNaN(amount) || amount <= 0) {
-                errorMessage.textContent = "لطفاً مبلغ معتبر وارد کنید.";
-                resultDiv.textContent = "";
-                return;
-            } else {
-                errorMessage.textContent = "";
-            }
+    .google_ads_income .btn-group button:hover {
+        background-color: #007bff;
+        color: white;
+    }
 
-            // قیمت‌های مثال (می‌توانید از API سمت سرور بگیرید)
-            const prices = {
-                "USD": 50000, // قیمت دلار
-                "AED": 13600, // قیمت درهم
-                "TRY": 1700,  // قیمت لیر
-                "THB": 1500   // قیمت بات
-            };
+    .gads-currency-nerkh {
+        margin-top: 15px;
+        padding: 10px;
+        background-color: #f1f1f1;
+        text-align: center;
+        border-radius: 8px;
+    }
 
-            // افزایش 4 درصدی
-            const basePrice = prices[currency];
-            const finalPrice = (basePrice + (basePrice * 0.04)) * amount;
+    #calculateBtn {
+        background-color: #28a745;
+        color: white;
+        font-size: 18px;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 8px;
+        cursor: pointer;
+        text-align: center;
+        display: inline-block;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
 
-            // نمایش نتیجه
-            resultDiv.textContent = `قیمت نهایی برای ${amount} واحد ${currency}: ${finalPrice.toLocaleString()} تومان`;
-        });
-    </script>
+    #calculateBtn:hover {
+        background-color: #218838;
+    }
+</style>

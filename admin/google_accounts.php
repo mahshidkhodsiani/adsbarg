@@ -346,41 +346,42 @@ $admin = $_SESSION["user_data"]["admin"];
                               // کلیدهای مربوط به ارزهای موردنظر
                               $currencies = ["usd", "aed", "try", "thb"];
 
-                              // پیمایش داده‌ها و استخراج قیمت‌ها
                               foreach ($data as $key => $value) {
-                                  // بررسی اینکه مقدار فعلی یک آرایه است و ارز درخواستی را بررسی می‌کنیم
-                                  if (is_array($value) && isset($value['slug']) && in_array($value['slug'], $currencies)) {
-                                      $price = (float)$value['h']; // قیمت ارز
-
-                                      // برای هر ارز، قیمت جدید با درصد موردنظر محاسبه می‌شود
-                                      if ($value['slug'] == 'usd') {
-                                          $row_currency['dollar'] = $price + ($price * 0.04); // افزایش 4 درصدی
-                                          $row_currency['updated'] = $value['updated_at'];
-                                      } elseif ($value['slug'] == 'aed') {
-                                          $row_currency['derham'] = $price + ($price * 0.07); // افزایش 7 درصدی
-                                          $row_currency['updated'] = $value['updated_at'];
-                                      } elseif ($value['slug'] == 'try') {
-                                          $row_currency['lira'] = $price + ($price * 0.07); // افزایش 7 درصدی
-                                          $row_currency['updated'] = $value['updated_at'];
-                                      } elseif ($value['slug'] == 'thb') {
-                                          $row_currency['bat'] = $price + ($price * 0.11); // افزایش 11 درصدی
-                                          $row_currency['updated'] = $value['updated_at'];
-                                      }
-                                  }
+                                if (is_array($value) && isset($value['slug']) && in_array($value['slug'], $currencies)) {
+                                    // حذف کاماها و تبدیل به عدد
+                                    $price1 = str_replace(',', '', $value['h']); // قیمت اولیه از داده‌های ورودی
+                                    $price1 = (float)$price1; // تبدیل به عدد اعشاری
+                            
+                           
+                            
+                                    if ($value['slug'] == 'usd') {
+                                        $row_currency['dollar'] = (($price1 * 5 / 100) + $price1)/10; // افزایش 5 درصد برای دلار
+                                        $row_currency['updated'] = $value['t'];
+                                    } elseif ($value['slug'] == 'aed') {
+                                        $row_currency['derham'] = (($price1 * 7 / 100) + $price1)/10; // افزایش 7 درصد برای درهم
+                                        $row_currency['updated'] = $value['t'];
+                                    } elseif ($value['slug'] == 'try') {
+                                        $row_currency['lira'] = (($price1 * 7 / 100) + $price1)/10; // افزایش 7 درصد برای درهم
+                                        $row_currency['updated'] = $value['t'];
+                                    } elseif ($value['slug'] == 'thb') {
+                                        $row_currency['bat'] = (($price1 * 11 / 100) + $price1)/10; // افزایش 11 درصد برای بات
+                                        $row_currency['updated'] = $value['t'];
+                                    }
+                                }
                               }
 
                               // پس از دریافت قیمت‌ها، می‌توانید بر اساس ارز حساب کاربر قیمت را محاسبه کنید
                               if ($account['currency'] == 'USD') {
-                                  $price = number_format(floatval($row_currency['dollar']) * 100);
+                                  $price = number_format($row_currency['dollar']);
                               } elseif ($account['currency'] == 'AED') {
-                                  $price = number_format(floatval($row_currency['derham']) * 100);
+                                  $price = number_format($row_currency['derham']);
                               } elseif ($account['currency'] == 'TRY') {
-                                  $price = number_format(floatval($row_currency['lira']) * 100);
+                                  $price = number_format($row_currency['lira']);
                               } elseif ($account['currency'] == 'THB') {
-                                  $price = number_format(floatval($row_currency['bat']) * 100);
+                                  $price = number_format($row_currency['bat']);
                               }
 
-                              ?>
+                            ?>
 
                             <div class="card-body p-0 shadow-none">
                                 <div class="collapse p-3" id="acc_<?= $account['id'] ?>">

@@ -148,25 +148,28 @@ if($admin == 1){
                 // Define the currencies we want
                 $currencies = ["usd", "aed", "try", "thb"];
                 
-                // Loop through the data and extract the required information
                 foreach ($data as $key => $value) {
-                    if (is_array($value) && isset($value['slug']) && in_array($value['slug'], $currencies)) {
-                        $price = (float)$value['h']; 
-                
-                        if ($value['slug'] == 'usd') {
-                            $row_currency['dollar'] = $price + ($price * 0.04); // Increase by 4%
-                            $row_currency['updated'] = $value['updated_at'];
-                        } elseif ($value['slug'] == 'aed') {
-                            $row_currency['derham'] = $price + ($price * 0.07); // Increase by 7%
-                            $row_currency['updated'] = $value['updated_at'];
-                        } elseif ($value['slug'] == 'try') {
-                            $row_currency['lira'] = $price + ($price * 0.07); // Increase by 7%
-                            $row_currency['updated'] = $value['updated_at'];
-                        } elseif ($value['slug'] == 'thb') {
-                            $row_currency['bat'] = $price + ($price * 0.11); // Increase by 11%
-                            $row_currency['updated'] = $value['updated_at'];
-                        }
-                    }
+                  if (is_array($value) && isset($value['slug']) && in_array($value['slug'], $currencies)) {
+                      // حذف کاماها و تبدیل به عدد
+                      $price1 = str_replace(',', '', $value['h']); // قیمت اولیه از داده‌های ورودی
+                      $price1 = (float)$price1; // تبدیل به عدد اعشاری
+              
+                     
+              
+                      if ($value['slug'] == 'usd') {
+                          $row_currency['dollar'] = (($price1 * 5 / 100) + $price1)/10; // افزایش 5 درصد برای دلار
+                          $row_currency['updated'] = $value['t'];
+                      } elseif ($value['slug'] == 'aed') {
+                          $row_currency['derham'] = (($price1 * 7 / 100) + $price1)/10; // افزایش 7 درصد برای درهم
+                          $row_currency['updated'] = $value['t'];
+                      } elseif ($value['slug'] == 'try') {
+                          $row_currency['lira'] = (($price1 * 7 / 100) + $price1)/10; // افزایش 7 درصد برای درهم
+                          $row_currency['updated'] = $value['t'];
+                      } elseif ($value['slug'] == 'thb') {
+                          $row_currency['bat'] = (($price1 * 11 / 100) + $price1)/10; // افزایش 11 درصد برای بات
+                          $row_currency['updated'] = $value['t'];
+                      }
+                  }
                 }
                 
                 curl_close($ch);
@@ -179,9 +182,9 @@ if($admin == 1){
                         <div class="d-flex align-items-center">
                           <div>
                             <h6 class="card-title fw-semibold" >
-                              <img src="images/usd.jpg" alt="قیمت دلار امروز" width="20px"> قیمت حواله دلار آمریکا <span><?= number_format(floatval($row_currency['dollar']) * 100) ?></span> تومان
+                              <img src="images/usd.jpg" alt="قیمت دلار امروز" width="20px"> قیمت حواله دلار آمریکا <span><?= number_format($row_currency['dollar']) ?></span> تومان
                             </h6>
-                            <p>آخرین بروز رسانی : <?= mds_date("l j F Y H:i:s", strtotime($row_currency['updated']), 0);?></p>
+                            <p>آخرین بروز رسانی : <?= $row_currency['updated'];?></p>
                 
                           </div>
                         </div>
@@ -300,9 +303,9 @@ if($admin == 1){
                         <div class="d-flex align-items-center">
                           <div>
                             <h6 class="card-title fw-semibold" >
-                              <img src="images/aed.png" alt="قیمت درهم امروز" width="15px"> قیمت حواله درهم امارات <span><?=number_format(floatval($row_currency['derham']) * 100) ?></span> تومان
+                              <img src="images/aed.png" alt="قیمت درهم امروز" width="15px"> قیمت حواله درهم امارات <span><?=number_format($row_currency['derham']) ?></span> تومان
                             </h6>
-                            <p>آخرین بروز رسانی : <?= mds_date("l j F Y H:i:s", strtotime($row_currency['updated']), 0);?></p>
+                            <p>آخرین بروز رسانی : <?= $row_currency['updated']?></p>
                
                           </div>
                         </div>
@@ -422,9 +425,9 @@ if($admin == 1){
                         <div class="d-flex align-items-center">
                           <div>
                             <h6 class="card-title fw-semibold" >
-                              <img src="images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت حواله لیر ترکیه <span><?=number_format(floatval($row_currency['lira']) * 100) ?></span> تومان
+                              <img src="images/tur.jpg" alt="قیمت لیر امروز" width="20px"> قیمت حواله لیر ترکیه <span><?=number_format($row_currency['lira']) ?></span> تومان
                             </h6>
-                            <p>آخرین بروز رسانی : <?= mds_date("l j F Y H:i:s", strtotime($row_currency['updated']), 0);?></p>
+                            <p>آخرین بروز رسانی : <?= $row_currency['updated'];?></p>
               
                           </div>
                         </div>
@@ -544,9 +547,9 @@ if($admin == 1){
                         <div class="d-flex align-items-center">
                           <div>
                             <h6 class="card-title fw-semibold" >
-                             <img src="images/bat.jpg" alt="قیمت لیر امروز" width="20px"> قیمت حواله بات تایلند <span><?=number_format(floatval($row_currency['bat']) * 100) ?></span> تومان
+                             <img src="images/bat.jpg" alt="قیمت لیر امروز" width="20px"> قیمت حواله بات تایلند <span><?=number_format($row_currency['bat']) ?></span> تومان
                             </h6>
-                            <p>آخرین بروز رسانی : <?= mds_date("l j F Y H:i:s", strtotime($row_currency['updated']), 0);?></p>
+                            <p>آخرین بروز رسانی : <?= $row_currency['updated'];?></p>
                   
                           </div>
                         </div>
