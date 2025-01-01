@@ -1,5 +1,5 @@
 <?php
-$ch = curl_init("https://api.ratebox.ir/apijson.php?token=6396cded07a5df6ff6979e013db38535");
+$ch = curl_init("https://api.ratebox.ir/apijson.php?token=da3d9b7de75ee423ace2688d137443c2");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 $jsonData = curl_exec($ch);
@@ -15,7 +15,7 @@ foreach ($data as $key => $value) {
     if (is_array($value) && isset($value['slug']) && in_array($value['slug'], $currencies)) {
         // بسته به نوع ارز، مقدار مربوطه رو ذخیره می‌کنیم
 
-        $price = (float)$value['h'];
+        $price = (float)$value['p'];
 
         if ($value['slug'] == 'usd') {
             $row_currency['dollar'] =  ($price + ($price * 0.05) )* 100; // افزایش 4 درصدی

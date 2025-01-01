@@ -272,7 +272,7 @@ if($admin == 1){
                               
                           
                               
-                              $ch = curl_init("https://api.ratebox.ir/apijson.php?token=6396cded07a5df6ff6979e013db38535");
+                              $ch = curl_init("https://api.ratebox.ir/apijson.php?token=da3d9b7de75ee423ace2688d137443c2");
                 
                               // Set cURL options
                               curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -311,7 +311,7 @@ if($admin == 1){
                               foreach ($data as $key => $value) {
                                 if (is_array($value) && isset($value['slug']) && in_array($value['slug'], $currencies)) {
                                     // حذف کاماها و تبدیل به عدد
-                                    $price1 = str_replace(',', '', $value['h']); // قیمت اولیه از داده‌های ورودی
+                                    $price1 = str_replace(',', '', $value['p']); // قیمت اولیه از داده‌های ورودی
                                     $price1 = (float)$price1; // تبدیل به عدد اعشاری
                             
                                   
