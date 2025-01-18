@@ -180,7 +180,8 @@ $id = $_SESSION["user_data"]["id"];
                         <!-- وقتی سرچ رو انتخاب کرده پلیس هولدر بشه آدرس سایت، اپ باشه بشه آدرس اپلیکیشن و یوتیوب بشه آدرس چنل یوتیوب -->
 
                         <input type="text" dir="ltr" autocomplete="off" dv="required" name="url" id="accountGoogle_i_url" class="form-control border-end" 
-                        placeholder="آدرس سایت" aria-label="accountGoogle_i_url_lable" aria-describedby="accountGoogle_i_url_lable">
+                        placeholder="آدرس سایت" aria-label="accountGoogle_i_url_lable" aria-describedby="accountGoogle_i_url_lable" required>
+                    
                     </div>
 
                     <div class="input-group mb-3">

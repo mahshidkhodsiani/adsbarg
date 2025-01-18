@@ -421,7 +421,7 @@ if($admin == 1){
                               </div>
                             </div>
 
-
+                            
                             <script>
                                document.addEventListener('DOMContentLoaded', () => {
                                   const account = <?= json_encode($account); ?>; // انتقال متغیر account از PHP به جاوااسکریپت
@@ -529,10 +529,6 @@ if($admin == 1){
                               });
 
                             </script>
-
-
-
-
 
                         </div>
                     </div>
