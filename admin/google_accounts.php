@@ -364,7 +364,7 @@ $admin = $_SESSION["user_data"]["admin"];
                                         $row_currency['lira'] = (($price1 * 7 / 100) + $price1)/10; // افزایش 7 درصد برای درهم
                                         $row_currency['updated'] = $value['t'];
                                     } elseif ($value['slug'] == 'thb') {
-                                        $row_currency['bat'] = (($price1 * 11 / 100) + $price1)/10; // افزایش 11 درصد برای بات
+                                        $row_currency['bat'] = (($price1 * 12 / 100) + $price1)/10; // افزایش 12 درصد برای بات
                                         $row_currency['updated'] = $value['t'];
                                     }
                                 }

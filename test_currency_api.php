@@ -66,7 +66,7 @@ foreach ($currencyQueries as $key => $query) {
 $currencyValues['dollar'] = number_format(round((0.04 * (float)$currencyValues['dollar'] + (float)$currencyValues['dollar']) / 10, 3), 3, '.', '');
 $currencyValues['derham'] = number_format(round((0.07 * (float)$currencyValues['derham'] + (float)$currencyValues['derham']) / 10, 3), 3, '.', '');
 $currencyValues['lira'] = number_format(round((0.07 * (float)$currencyValues['lira'] + (float)$currencyValues['lira']) / 10, 3), 3, '.', '');
-$currencyValues['bat'] = number_format(round((0.11 * (float)$currencyValues['bat'] + (float)$currencyValues['bat']) / 10, 3), 3, '.', '');
+$currencyValues['bat'] = number_format(round((0.12 * (float)$currencyValues['bat'] + (float)$currencyValues['bat']) / 10, 3), 3, '.', '');
 
 // Save the data to a JSON file
 $filePath = 'currency_data.json';

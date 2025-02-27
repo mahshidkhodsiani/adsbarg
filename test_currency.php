@@ -24,7 +24,7 @@ foreach ($data as $key => $value) {
         } elseif ($value['slug'] == 'try') {
             $row_currency['lira'] =  ($price + ($price * 0.07)) * 100; // افزایش 7 درصدی
         } elseif ($value['slug'] == 'thb') {
-            $row_currency['bat'] =  ($price + ($price * 0.11)) *100; // افزایش 11 درصدی
+            $row_currency['bat'] =  ($price + ($price * 0.12)) *100; // افزایش 12 درصدی
         }
     }
 }
