@@ -355,13 +355,13 @@ $admin = $_SESSION["user_data"]["admin"];
                            
                             
                                     if ($value['slug'] == 'usd') {
-                                        $row_currency['dollar'] = (($price1 * 5 / 100) + $price1)/10; // افزایش 5 درصد برای دلار
+                                        $row_currency['dollar'] = (($price1 * 3 / 100) + $price1)/10; // افزایش 5 درصد برای دلار
                                         $row_currency['updated'] = $value['t'];
                                     } elseif ($value['slug'] == 'aed') {
-                                        $row_currency['derham'] = (($price1 * 7 / 100) + $price1)/10; // افزایش 7 درصد برای درهم
+                                        $row_currency['derham'] = (($price1 * 5 / 100) + $price1)/10; // افزایش 7 درصد برای درهم
                                         $row_currency['updated'] = $value['t'];
                                     } elseif ($value['slug'] == 'try') {
-                                        $row_currency['lira'] = (($price1 * 7 / 100) + $price1)/10; // افزایش 7 درصد برای درهم
+                                        $row_currency['lira'] = (($price1 * 5 / 100) + $price1)/10; // افزایش 7 درصد برای درهم
                                         $row_currency['updated'] = $value['t'];
                                     } elseif ($value['slug'] == 'thb') {
                                         $row_currency['bat'] = (($price1 * 12 / 100) + $price1)/10; // افزایش 12 درصد برای بات

@@ -11,10 +11,10 @@ if (!isset($_SESSION["user_data"])) {
 $id = $_SESSION["user_data"]["id"];
 $admin = $_SESSION["user_data"]["admin"];
 
-if($admin == 1){
-  header("Location: logout_proccess.php");
-  exit(); 
-}
+// if($admin == 1){
+//   header("Location: logout_proccess.php");
+//   exit(); 
+// }
 
 ?>
 <!DOCTYPE html>
