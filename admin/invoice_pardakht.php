@@ -5,7 +5,7 @@ session_start();
 // Check if the user data is set in the session
 if (!isset($_SESSION["user_data"])) {
     // Redirect to the login page
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit(); // Stop further execution of the script
 }
 $id = $_SESSION["user_data"]["id"];
