@@ -788,10 +788,9 @@ if ($admin == 0) {
                   </div>
                 </div>
 
-
+                
                 <div class="col-md-7 col-12 d-flex align-items-stretch">
                   <div class="card w-100 bg-white overflow-hidden flip-container" id="flip-banner-container">
-
                     <img src="../images/banner1.jpg" alt="" class="img-fluid helper-img">
 
                     <div class="flipper">
@@ -800,6 +799,9 @@ if ($admin == 0) {
                       </div>
                       <div class="back">
                         <img src="../images/banner2.png" alt="بنر دوم" class="img-fluid">
+                      </div>
+                      <div class="side">
+                        <img src="../images/banner.jpg" alt="بنر سوم" class="img-fluid">
                       </div>
                     </div>
                   </div>

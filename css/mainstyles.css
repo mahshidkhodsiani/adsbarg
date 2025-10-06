@@ -785,63 +785,61 @@
   background-color: #0088cc;
 }
 
-/* ///////////////////////////////////// */
-
-/* CSS برای ایجاد جلوه ورق خوردن کارت */
-
-/* 1. تنظیمات کانتینر اصلی */
+/* ////////////////////////////// */
 .flip-container {
-  perspective: 1000px; /* ایجاد عمق 3D */
+  perspective: 1000px;
   position: relative;
-  height: auto; /* ارتفاع را از محتوا (عکس کمکی) می‌گیرد */
-  margin-top: 20px; /* اگر نیاز به فاصله از عنصر بالایی دارید */
+  height: auto;
+  margin-top: 20px;
 }
 
-/* 2. عنصر کمکی: این عکس فقط برای تعریف ارتفاع کانتینر اصلی استفاده می‌شود */
 .flip-container .helper-img {
-  visibility: hidden; /* 💥 مخفی کردن عکس از دید (اما نه از لحاظ ساختاری) */
+  visibility: hidden;
   display: block;
   width: 100%;
   height: auto;
 }
 
-/* 3. flipper و رویه‌ها باید تمام کانتینر (که حالا ارتفاع دارد) را بپوشانند */
 .flipper,
 .front,
-.back {
+.back,
+.side {
   width: 100%;
   height: 100%;
-  position: absolute; /* روی هم قرار می‌گیرند */
+  position: absolute;
   top: 0;
   left: 0;
-}
-
-/* 4. تنظیمات 3D */
-.flipper {
-  transition: transform 0.8s;
-  transform-style: preserve-3d; /* حیاتی: برای حفظ عناصر در فضای 3D */
+  backface-visibility: hidden;
+  overflow: hidden;
+  transition: transform 0.8s, opacity 0.8s;
 }
 
 .front,
-.back {
-  backface-visibility: hidden; /* حیاتی: برای مخفی کردن پشت کارت هنگام چرخش */
-  overflow: hidden;
+.back,
+.side {
+  opacity: 0;
 }
 
-.back {
-  transform: rotateY(180deg);
-}
-
-/* 5. کنترل عکس‌های داخل رویه‌ها */
 .front img,
-.back img {
+.back img,
+.side img {
   width: 100%;
   height: 100%;
-  /* 💥 object-fit: contain تضمین می‌کند که هیچ قسمتی از عکس بریده نشود */
   object-fit: contain;
 }
 
-/* 6. منطق چرخش */
-.flip-container.is-flipped .flipper {
-  transform: rotateY(180deg);
+/* حالت‌های مختلف */
+.flip-container.state-1 .front {
+  opacity: 1;
+  transform: rotateY(0deg);
+}
+
+.flip-container.state-2 .back {
+  opacity: 1;
+  transform: rotateY(0deg);
+}
+
+.flip-container.state-3 .side {
+  opacity: 1;
+  transform: rotateY(0deg);
 }
