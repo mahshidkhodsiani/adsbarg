@@ -20,7 +20,8 @@ $admin = $_SESSION["user_data"]["admin"];
 ?>
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-  <head>
+
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <meta name="handheldfriendly" content="true">
@@ -28,7 +29,7 @@ $admin = $_SESSION["user_data"]["admin"];
     <meta name="description">
     <!-- <meta name="keywords" content="Mordenize"> -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     
+
     <link rel="stylesheet" href="css/select2.css">
     <link rel="stylesheet" href="css/datatable.css">
     <link rel="stylesheet" href="css/jalali.css">
@@ -39,58 +40,74 @@ $admin = $_SESSION["user_data"]["admin"];
     <link rel="shortcut icon" type="image/png" href="images/logo.png">
 
 
-    
+
     <script type="text/javascript">
-      !function(){var i="CPbbUM",a=window,d=document;function g(){var g=d.createElement("script"),s="https://www.goftino.com/widget/"+i,l=localStorage.getItem("goftino_"+i);g.async=!0,g.src=l?s+"?o="+l:s;d.getElementsByTagName("head")[0].appendChild(g);}"complete"===d.readyState?g():a.attachEvent?a.attachEvent("onload",g):a.addEventListener("load",g,!1);}();
+    ! function() {
+        var i = "CPbbUM",
+            a = window,
+            d = document;
+
+        function g() {
+            var g = d.createElement("script"),
+                s = "https://www.goftino.com/widget/" + i,
+                l = localStorage.getItem("goftino_" + i);
+            g.async = !0, g.src = l ? s + "?o=" + l : s;
+            d.getElementsByTagName("head")[0].appendChild(g);
+        }
+        "complete" === d.readyState ? g() : a.attachEvent ? a.attachEvent("onload", g) : a.addEventListener("load", g, !
+            1);
+    }();
     </script>
 
 
     <title>اکانت های من</title>
     <style>
-      
-      body {
+    body {
         /* font-family: "tahoma" !important; */
         font-family: 'Yekan', sans-serif;
         font-weight: bold !important;
         /* font-family: "g" !important; */
-      }
-      /* Reset padding and margin for the body */
-      body, html {
-          margin: 0 !important;
-          padding: 0 !important;
-          overflow-x: hidden !important; /* Prevents horizontal scrolling */
-      }
+    }
 
-      @font-face {
-          font-family: 'Yekan';
-          src: url('yekan/Yekan.woff2') format('woff2'),
-              url('yekan/Yekan.woff') format('woff'),
-              url('yekan/Yekan.ttf') format('truetype');
-          font-weight: bold !important;
-          font-style:normal
-      }
+    /* Reset padding and margin for the body */
+    body,
+    html {
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow-x: hidden !important;
+        /* Prevents horizontal scrolling */
+    }
 
-
+    @font-face {
+        font-family: 'Yekan';
+        src: url('yekan/Yekan.woff2') format('woff2'),
+            url('yekan/Yekan.woff') format('woff'),
+            url('yekan/Yekan.ttf') format('truetype');
+        font-weight: bold !important;
+        font-style: normal
+    }
     </style>
 
-  </head>
-  <body id="mainArea" class="mainArea" >
+</head>
+
+<body id="mainArea" class="mainArea">
     <!-- لــودر صفحات  -->
     <div class="preloader" style="display: none;">
-      <img src="images/logo.png" alt="loader" class="lds-ripple img-fluid">
+        <img src="images/logo.png" alt="loader" class="lds-ripple img-fluid">
     </div>
 
     <!-- شروع صفحه -->
-    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" >
-      <!-- سایدبار --> 
-       <?php
-            include 'sidebar.php';  
-        ?> 
-      <div class="sidebarHolder"></div>
-      <!-- کانتینر اصلی دیتا -->
-      <div class="body-wrapper bg-light" >
-        <!-- هدر بالای صفحه -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- سایدبار -->
         <?php
+            include 'sidebar.php';  
+        ?>
+        <div class="sidebarHolder"></div>
+        <!-- کانتینر اصلی دیتا -->
+        <div class="body-wrapper bg-light">
+            <!-- هدر بالای صفحه -->
+            <?php
         include "header.php";
         include "config.php";
         
@@ -110,74 +127,84 @@ $admin = $_SESSION["user_data"]["admin"];
             $accounts[] = $row;
         }
         ?>
-        <div class="container-fluid">
-          <div class="row" id="notify-content"></div>
-          <div class="col-md-12">
+            <div class="container-fluid">
+                <div class="row" id="notify-content"></div>
+                <div class="col-md-12">
 
 
-            <div class="card mb-2 mb-md-3">
-              <div class="card-body pb-0 px-2 px-md-3">
-                <div class="d-flex align-items-center justify-content-between mb-1 mb-md-3">
-                  <div class="mb-3 mb-sm-0">
-                    <div class="d-flex align-items-center">
-                      <div class="p-2 p-md-6 bg-light-primary rounded-2 me-6 d-flex align-items-center justify-content-center">
-                        <i class="fa fa-ad text-primary fs-6 fs-md-6"></i>
-                      </div>
-                      <div>
-                        <h6 class="mb-0 fs-4 fw-semibold">لیست اکانت های تبلیغاتی </h6>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="d-flex align-items-start">
-                    <a href="new_acount" class="btn btn-success mb-2 font-medium me-2 px-2 rounded-pill cursor-pointer" >
-                      <span class="d-md-inline d-none">اکانت جدید</span>
-                      <i class="fa fa-plus"></i>
-                    </a>
-                    <a class="btn btn-light-info font-medium text-info px-2 rounded-pill cursor-pointer" data-bs-toggle="collapse" href="#filteringBox" role="button" aria-expanded="true" aria-controls="filteringBox">
-                      <span class="d-md-inline d-none">فیلتر</span>
-                      <i class="fa fa-filter"></i>
-                    </a>
+                    <div class="card mb-2 mb-md-3">
+                        <div class="card-body pb-0 px-2 px-md-3">
+                            <div class="d-flex align-items-center justify-content-between mb-1 mb-md-3">
+                                <div class="mb-3 mb-sm-0">
+                                    <div class="d-flex align-items-center">
+                                        <div
+                                            class="p-2 p-md-6 bg-light-primary rounded-2 me-6 d-flex align-items-center justify-content-center">
+                                            <i class="fa fa-ad text-primary fs-6 fs-md-6"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0 fs-4 fw-semibold">لیست اکانت های تبلیغاتی </h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-start">
+                                    <a href="new_acount"
+                                        class="btn btn-success mb-2 font-medium me-2 px-2 rounded-pill cursor-pointer">
+                                        <span class="d-md-inline d-none">اکانت جدید</span>
+                                        <i class="fa fa-plus"></i>
+                                    </a>
+                                    <a class="btn btn-light-info font-medium text-info px-2 rounded-pill cursor-pointer"
+                                        data-bs-toggle="collapse" href="#filteringBox" role="button"
+                                        aria-expanded="true" aria-controls="filteringBox">
+                                        <span class="d-md-inline d-none">فیلتر</span>
+                                        <i class="fa fa-filter"></i>
+                                    </a>
 
-                    <form class="position-relative" action="" method="POST">
-                      <input type="text" class="form-control search-chat py-2 ps-5 text-right" 
-                      name="search" id="txtSearch" placeholder="جست و جو بر اساس cid">
-                      <i class="fa fa-search position-absolute top-50  translate-middle-y fs-6 text-dark me-3" style="right:10px"></i>
-                    </form>
+                                    <form class="position-relative" action="" method="POST">
+                                        <input type="text" class="form-control search-chat py-2 ps-5 text-right"
+                                            name="search" id="txtSearch" placeholder="جست و جو بر اساس cid">
+                                        <i class="fa fa-search position-absolute top-50  translate-middle-y fs-6 text-dark me-3"
+                                            style="right:10px"></i>
+                                    </form>
 
-                  </div>
-                </div>
-                <div class="collapse" id="filteringBox">
-                  <div class=" border border-1 rounded p-3">
-                    <div class="row">
-                      <div class="col-md-3">
-                        <div class="form-floating mb-2">
-                          <input id="query" type="text" class="form-control" placeholder="جستجو‌" autocomplete="off">
-                          <label>
-                            <i class="fa fa-123 me-2 fs-4"></i>جستجو‌ </label>
+                                </div>
+                            </div>
+                            <div class="collapse" id="filteringBox">
+                                <div class=" border border-1 rounded p-3">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-floating mb-2">
+                                                <input id="query" type="text" class="form-control" placeholder="جستجو‌"
+                                                    autocomplete="off">
+                                                <label>
+                                                    <i class="fa fa-123 me-2 fs-4"></i>جستجو‌ </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+
+                                        </div>
+                                        <div class="col-12 mt-4 text-end">
+                                            <button id="btnExecFilter" type="button"
+                                                class="d-inline-flex align-items-center justify-content-center btn btn-success btn-circle">
+                                                <i class="fs-5 fa fa-check"></i>
+                                            </button>
+                                            <button id="brnResetFilter" type="button"
+                                                class="d-inline-flex align-items-center justify-content-center btn btn-danger btn-circle collapsed"
+                                                data-bs-toggle="collapse" href="#filteringBox" role="button"
+                                                aria-expanded="false" aria-controls="filteringBox">
+                                                <i class="fs-5 fa fa-x"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                      </div>
-                      <div class="col-md-3">
-                      
-                      </div>
-                      <div class="col-12 mt-4 text-end">
-                        <button id="btnExecFilter" type="button" class="d-inline-flex align-items-center justify-content-center btn btn-success btn-circle">
-                          <i class="fs-5 fa fa-check"></i>
-                        </button>
-                        <button id="brnResetFilter" type="button" class="d-inline-flex align-items-center justify-content-center btn btn-danger btn-circle collapsed" data-bs-toggle="collapse" href="#filteringBox" role="button" aria-expanded="false" aria-controls="filteringBox">
-                          <i class="fs-5 fa fa-x"></i>
-                        </button>
-                      </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
 
 
 
-            
-            <div class="row mt-2" id="accountsgoogle_g">
-                <?php
+
+                    <div class="row mt-2" id="accountsgoogle_g">
+                        <?php
                 $count = 0;
                 $webs = [];
                 $this_word_has = 0;
@@ -203,55 +230,63 @@ $admin = $_SESSION["user_data"]["admin"];
                     }
                    
                     ?>
-                    <div class="accountGoogle_item col-12 col-md-12 mb-2" data-accounttype="0" data-id="<?= $account['id'] ?>" data-currencycode="<?= $account['currency'] ?>" data-customerid="">
-                        <div class="card mb-0">
-                            <div class="card-header text-end pb-2 cursor-pointer position-relative bg-white">
-                                <div class="px-0 rounded-pill collapsed accBoxHed">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <span class="campTypeBadge"> <?= $account['method'] ?> </span>
-                                        </div>
-                                        <div class="d-flex flex-row justify-content-end mb-1">
-                                            <span class="accountGoogle_accountType badge bg-light-warning border rounded-5 border-primary text-primary flex-row fs-2 me-1">
-                                                <i class="fa fa-shield-off"></i>
-                                                <b>
-                                                  <?php
+                        <div class="accountGoogle_item col-12 col-md-12 mb-2" data-accounttype="0"
+                            data-id="<?= $account['id'] ?>" data-currencycode="<?= $account['currency'] ?>"
+                            data-customerid="">
+                            <div class="card mb-0">
+                                <div class="card-header text-end pb-2 cursor-pointer position-relative bg-white">
+                                    <div class="px-0 rounded-pill collapsed accBoxHed">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <span class="campTypeBadge"> <?= $account['method'] ?> </span>
+                                            </div>
+                                            <div class="d-flex flex-row justify-content-end mb-1">
+                                                <span
+                                                    class="accountGoogle_accountType badge bg-light-warning border rounded-5 border-primary text-primary flex-row fs-2 me-1">
+                                                    <i class="fa fa-shield-off"></i>
+                                                    <b>
+                                                        <?php
                                                   if ($account['managed'] == 1) {
                                                       echo 'مدیریت شده';
                                                   } else {
                                                       echo 'اختصاصی';
                                                   }
                                                   ?>
-                                                </b>
-                                            </span>
-                                            <span class="badge bg-primary border rounded-5 border-primary text-white flex-row fs-2 text-uppercase"><?= $account['currency'] ?></span>
+                                                    </b>
+                                                </span>
+                                                <span
+                                                    class="badge bg-primary border rounded-5 border-primary text-white flex-row fs-2 text-uppercase"><?= $account['currency'] ?></span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <p class="accountGoogle_name fw-bolder fs-7 mb-0" style="direction: ltr;"><?= $account['username'] ?></p>
-                                    <p class="mb-1" style="direction:ltr">CID: <span><?=$account['cid'] ?? "هنوز آیدی ایجاد نشده" ?> </span></p>
-                                    
-                                    <p class="text-start mt-2">
-                                        <button class="btn btn-sm btn-success icoAccordian text-white" data-bs-toggle="collapse" data-bs-target="#acc_<?= $account['id'] ?>" aria-expanded="false" aria-controls="acc_<?= $account['id'] ?>">
-                                            <i class="fa fa-circle-arrow-down"></i> شارژ کنید
-                                        </button>
-                                   
-                                    </p>
-                                    <?php
+                                        <p class="accountGoogle_name fw-bolder fs-7 mb-0" style="direction: ltr;">
+                                            <?= $account['username'] ?></p>
+                                        <p class="mb-1" style="direction:ltr">CID:
+                                            <span><?=$account['cid'] ?? "هنوز آیدی ایجاد نشده" ?> </span></p>
+
+                                        <p class="text-start mt-2">
+                                            <button class="btn btn-sm btn-success icoAccordian text-white"
+                                                data-bs-toggle="collapse" data-bs-target="#acc_<?= $account['id'] ?>"
+                                                aria-expanded="false" aria-controls="acc_<?= $account['id'] ?>">
+                                                <i class="fa fa-circle-arrow-down"></i> شارژ کنید
+                                            </button>
+
+                                        </p>
+                                        <?php
                                       if(isset($this_word_has) AND $this_word_has == 1){
                                         ?>
                                         <p>
-                                          سایت مورد نظر جزو لیست پر ریسک در گوگل ادز قراردارد : 6% افزایش
+                                            سایت مورد نظر جزو لیست پر ریسک در گوگل ادز قراردارد : 6% افزایش
                                         </p>
 
-                                      <?php
+                                        <?php
                                       }
                                     ?>
-                                    
-                                
-                                </div>
-                            </div>
 
-                            <?php 
+
+                                    </div>
+                                </div>
+
+                                <?php 
                          
                               // $currencys = "SELECT * FROM currencys ORDER BY id DESC LIMIT 1";
                               // $result_currency = $conn->query($currencys);
@@ -272,7 +307,7 @@ $admin = $_SESSION["user_data"]["admin"];
                               
                           
                               
-                              $ch = curl_init("https://api.ratebox.ir/apijson.php?token=da3d9b7de75ee423ace2688d137443c2");
+                              $ch = curl_init("https://api.ratebox.ir/apijson.php?token=0753667a9c8e046e6976f407bfefbbbd");
                 
                               // Set cURL options
                               curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -347,235 +382,249 @@ $admin = $_SESSION["user_data"]["admin"];
 
 
 
-                            <div class="card-body p-0 shadow-none">
-                              <div class="collapse p-3" id="acc_<?= $account['id'] ?>">
-                                  <form action="invoice.php" method="POST">
-                                      <div class="form-floating mb-2">
-                                          <input type="hidden" name="id_account" value="<?= $account['id'] ?>">
-                                          <input type="hidden" name="total_amount" id="hidden_total_price_<?= $account['id'] ?>" value="0">
-                                          <input 
-                                              type="number" 
-                                              name="amount_charge" 
-                                              id="amount_charge_<?= $account['id'] ?>" 
-                                              class="accountGoogle_amount form-control mb-2 text-end"  
-                                              placeholder="عدد وارد کنید" 
-                                              min="<?= $account['currency'] === 'USD' ? 50 : ($account['currency'] === 'THB' ? 2000 : ($account['currency'] === 'TRY' ? 500 : ($account['currency'] === 'AED' ? 300 : 0))) ?>" 
-                                              required 
-                                              oninput="validateAmount(this)">
-                                            <label>
-                                                <i class="fa fa-USD me-2 fs-5 text-primary fw-bolder"></i> 
-                                                مقدار را وارد کنید
-                                            </label>
+                                <div class="card-body p-0 shadow-none">
+                                    <div class="collapse p-3" id="acc_<?= $account['id'] ?>">
+                                        <form action="invoice.php" method="POST">
+                                            <div class="form-floating mb-2">
+                                                <input type="hidden" name="id_account" value="<?= $account['id'] ?>">
+                                                <input type="hidden" name="total_amount"
+                                                    id="hidden_total_price_<?= $account['id'] ?>" value="0">
+                                                <input type="number" name="amount_charge"
+                                                    id="amount_charge_<?= $account['id'] ?>"
+                                                    class="accountGoogle_amount form-control mb-2 text-end"
+                                                    placeholder="عدد وارد کنید"
+                                                    min="<?= $account['currency'] === 'USD' ? 50 : ($account['currency'] === 'THB' ? 2000 : ($account['currency'] === 'TRY' ? 500 : ($account['currency'] === 'AED' ? 300 : 0))) ?>"
+                                                    required oninput="validateAmount(this)">
+                                                <label>
+                                                    <i class="fa fa-USD me-2 fs-5 text-primary fw-bolder"></i>
+                                                    مقدار را وارد کنید
+                                                </label>
 
-                                            <script>
-                                              function validateAmount(input) {
-                                                  const minAmount = parseFloat(input.min);  // حداقل مقدار را دریافت می‌کنیم
-                                                  let errorMessage = "";  // پیغام خطای پیش‌فرض
+                                                <script>
+                                                function validateAmount(input) {
+                                                    const minAmount = parseFloat(input
+                                                    .min); // حداقل مقدار را دریافت می‌کنیم
+                                                    let errorMessage = ""; // پیغام خطای پیش‌فرض
 
-                                                  // انتخاب پیغام خطا بر اساس ارز
-                                                  if (input.value < minAmount) {
-                                                      if (input.min == 50) {
-                                                          errorMessage = "مقدار وارد شده برای دلار باید بیشتر از 50 باشد.";
-                                                      } else if (input.min == 2000) {
-                                                          errorMessage = "مقدار وارد شده برای بات تایلند باید بیشتر از 2000 باشد.";
-                                                      } else if (input.min == 500) {
-                                                          errorMessage = "مقدار وارد شده برای لیر ترکیه باید بیشتر از 500 باشد.";
-                                                      } else if (input.min == 300) {
-                                                          errorMessage = "مقدار وارد شده برای درهم امارات باید بیشتر از 300 باشد.";
-                                                      } else {
-                                                          errorMessage = "مقدار وارد شده باید بیشتر از حداقل مقدار باشد.";
-                                                      }
-                                                      input.setCustomValidity(errorMessage);  // پیغام خطای سفارشی
-                                                  } else {
-                                                      input.setCustomValidity(""); // پیغام خطا را پاک می‌کنیم
-                                                  }
-                                              }
-                                            </script>
-                                      </div>
-                                  
-                                      <p class="form-control-feedback text text-center">
-                                          قیمت حواله : 
-                                          <span class="accountGoogle_currencyIranAmount" id="price_<?= $account['id'] ?>">
-                                              <?= $price ?>
-                                          </span>
-                                      </p>
-                                      <p class="form-control-feedback text text-center">
-                                          کارمزد: 
-                                          <span class="accountGoogle_currencyIranAmount text-danger fw-bolder" id="fee_<?= $account['id'] ?>">
-                                              0
-                                          </span>
-                                      </p>
-                                      <p class="accountGoogle_serviceCost_parent text-center">
-                                          قابل پرداخت: 
-                                          <span class="accountGoogle_serviceCost fw-bolder text-success fs-6" 
-                                                id="total_price_<?= $account['id'] ?>">
-                                              0
-                                          </span>
-                                      </p>
-                                      <div class="text-center">
-                                          <button class="accountGoogle_submit btn btn-primary" name="charge">
-                                              شارژ کن <i class="fa fa-rocket"></i>
-                                          </button>
-                                      </div>
-                                  </form>
-                              </div>
-                            </div>
+                                                    // انتخاب پیغام خطا بر اساس ارز
+                                                    if (input.value < minAmount) {
+                                                        if (input.min == 50) {
+                                                            errorMessage =
+                                                                "مقدار وارد شده برای دلار باید بیشتر از 50 باشد.";
+                                                        } else if (input.min == 2000) {
+                                                            errorMessage =
+                                                                "مقدار وارد شده برای بات تایلند باید بیشتر از 2000 باشد.";
+                                                        } else if (input.min == 500) {
+                                                            errorMessage =
+                                                                "مقدار وارد شده برای لیر ترکیه باید بیشتر از 500 باشد.";
+                                                        } else if (input.min == 300) {
+                                                            errorMessage =
+                                                                "مقدار وارد شده برای درهم امارات باید بیشتر از 300 باشد.";
+                                                        } else {
+                                                            errorMessage =
+                                                                "مقدار وارد شده باید بیشتر از حداقل مقدار باشد.";
+                                                        }
+                                                        input.setCustomValidity(errorMessage); // پیغام خطای سفارشی
+                                                    } else {
+                                                        input.setCustomValidity(""); // پیغام خطا را پاک می‌کنیم
+                                                    }
+                                                }
+                                                </script>
+                                            </div>
 
-                            
-                            <script>
-                               document.addEventListener('DOMContentLoaded', () => {
-                                  const account = <?= json_encode($account); ?>; // انتقال متغیر account از PHP به جاوااسکریپت
-                                  const amountInput = document.getElementById('amount_charge_<?= $account['id'] ?>');
-                                  const priceSpan = document.getElementById('price_<?= $account['id'] ?>');
-                                  const totalPriceSpan = document.getElementById('total_price_<?= $account['id'] ?>');
-                                  const feeSpan = document.getElementById('fee_<?= $account['id'] ?>');
-                                  const hiddenTotalInput = document.getElementById('hidden_total_price_<?= $account['id'] ?>');
+                                            <p class="form-control-feedback text text-center">
+                                                قیمت حواله :
+                                                <span class="accountGoogle_currencyIranAmount"
+                                                    id="price_<?= $account['id'] ?>">
+                                                    <?= $price ?>
+                                                </span>
+                                            </p>
+                                            <p class="form-control-feedback text text-center">
+                                                کارمزد:
+                                                <span class="accountGoogle_currencyIranAmount text-danger fw-bolder"
+                                                    id="fee_<?= $account['id'] ?>">
+                                                    0
+                                                </span>
+                                            </p>
+                                            <p class="accountGoogle_serviceCost_parent text-center">
+                                                قابل پرداخت:
+                                                <span class="accountGoogle_serviceCost fw-bolder text-success fs-6"
+                                                    id="total_price_<?= $account['id'] ?>">
+                                                    0
+                                                </span>
+                                            </p>
+                                            <div class="text-center">
+                                                <button class="accountGoogle_submit btn btn-primary" name="charge">
+                                                    شارژ کن <i class="fa fa-rocket"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
 
-                                  const price = parseFloat(priceSpan.textContent.replace(/,/g, '')) || 0;
-                                  const isHighRisk = <?= json_encode($this_word_has); ?>; // وضعیت پر ریسک بودن
 
-                                 
-                                  amountInput.addEventListener('input', () => {
-                                    const amount = parseFloat(amountInput.value) || 0;
-                                    let total = price * amount;
-                                    let feePercentage = 0;
+                                <script>
+                                document.addEventListener('DOMContentLoaded', () => {
+                                    const account =
+                                    <?= json_encode($account); ?>; // انتقال متغیر account از PHP به جاوااسکریپت
+                                    const amountInput = document.getElementById(
+                                        'amount_charge_<?= $account['id'] ?>');
+                                    const priceSpan = document.getElementById('price_<?= $account['id'] ?>');
+                                    const totalPriceSpan = document.getElementById(
+                                        'total_price_<?= $account['id'] ?>');
+                                    const feeSpan = document.getElementById('fee_<?= $account['id'] ?>');
+                                    const hiddenTotalInput = document.getElementById(
+                                        'hidden_total_price_<?= $account['id'] ?>');
 
-                                    // اضافه کردن منطق برای محاسبه کارمزد بر اساس ارز و مقدار وارد شده
-                                    if (account.currency === 'USD') {
-                                        if (amount >= 50 && amount < 100) {
-                                            feePercentage = 10;
-                                        } else if (amount >= 100 && amount < 200) {
-                                            feePercentage = 9;
-                                        } else if (amount >= 200 && amount < 300) {
-                                            feePercentage = 8;
-                                        } else if (amount >= 300 && amount < 500) {
-                                            feePercentage = 7.5;
-                                        } else if (amount >= 500 && amount < 750) {
-                                            feePercentage = 7;
-                                        } else if (amount >= 750 && amount < 1000) {
-                                            feePercentage = 6.5;
-                                        } else if (amount >= 1000) {
-                                            feePercentage = 6;
+                                    const price = parseFloat(priceSpan.textContent.replace(/,/g, '')) || 0;
+                                    const isHighRisk =
+                                    <?= json_encode($this_word_has); ?>; // وضعیت پر ریسک بودن
+
+
+                                    amountInput.addEventListener('input', () => {
+                                        const amount = parseFloat(amountInput.value) || 0;
+                                        let total = price * amount;
+                                        let feePercentage = 0;
+
+                                        // اضافه کردن منطق برای محاسبه کارمزد بر اساس ارز و مقدار وارد شده
+                                        if (account.currency === 'USD') {
+                                            if (amount >= 50 && amount < 100) {
+                                                feePercentage = 10;
+                                            } else if (amount >= 100 && amount < 200) {
+                                                feePercentage = 9;
+                                            } else if (amount >= 200 && amount < 300) {
+                                                feePercentage = 8;
+                                            } else if (amount >= 300 && amount < 500) {
+                                                feePercentage = 7.5;
+                                            } else if (amount >= 500 && amount < 750) {
+                                                feePercentage = 7;
+                                            } else if (amount >= 750 && amount < 1000) {
+                                                feePercentage = 6.5;
+                                            } else if (amount >= 1000) {
+                                                feePercentage = 6;
+                                            }
+                                        } else if (account.currency === 'THB') {
+                                            if (amount >= 2000 && amount < 3500) {
+                                                feePercentage = 10;
+                                            } else if (amount >= 3500 && amount < 5000) {
+                                                feePercentage = 9;
+                                            } else if (amount >= 5000 && amount < 8000) {
+                                                feePercentage = 8.5;
+                                            } else if (amount >= 8000 && amount < 10000) {
+                                                feePercentage = 8;
+                                            } else if (amount >= 10000 && amount < 20000) {
+                                                feePercentage = 7.5;
+                                            } else if (amount >= 20000) {
+                                                feePercentage = 6.5;
+                                            }
+                                        } else if (account.currency === 'TRY') {
+                                            if (amount >= 500 && amount < 1000) {
+                                                feePercentage = 10;
+                                            } else if (amount >= 1000 && amount < 2000) {
+                                                feePercentage = 9;
+                                            } else if (amount >= 2000 && amount < 3000) {
+                                                feePercentage = 8.5;
+                                            } else if (amount >= 3000 && amount < 5000) {
+                                                feePercentage = 8;
+                                            } else if (amount >= 5000 && amount < 10000) {
+                                                feePercentage = 7.5;
+                                            } else if (amount >= 10000) {
+                                                feePercentage = 6.5;
+                                            }
+                                        } else if (account.currency === 'AED') {
+                                            if (amount >= 300 && amount < 500) {
+                                                feePercentage = 10;
+                                            } else if (amount >= 500 && amount < 1000) {
+                                                feePercentage = 9;
+                                            } else if (amount >= 1000 && amount < 2000) {
+                                                feePercentage = 8;
+                                            } else if (amount >= 2000 && amount < 3500) {
+                                                feePercentage = 7;
+                                            } else if (amount >= 3500) {
+                                                feePercentage = 6;
+                                            }
                                         }
-                                    } else if (account.currency === 'THB') {
-                                        if (amount >= 2000 && amount < 3500) {
-                                            feePercentage = 10;
-                                        } else if (amount >= 3500 && amount < 5000) {
-                                            feePercentage = 9;
-                                        } else if (amount >= 5000 && amount < 8000) {
-                                            feePercentage = 8.5;
-                                        } else if (amount >= 8000 && amount < 10000) {
-                                            feePercentage = 8;
-                                        } else if (amount >= 10000 && amount < 20000) {
-                                            feePercentage = 7.5;
-                                        } else if (amount >= 20000) {
-                                            feePercentage = 6.5;
+
+                                        // اگر حساب مدیریت‌شده است، کارمزد اضافی اضافه کنید
+                                        let managedFeePercentage = 0;
+                                        if (account.managed == 1) {
+                                            managedFeePercentage =
+                                            feePercentage; // کارمزد اضافی برابر با مقدار فعلی است
                                         }
-                                    } else if (account.currency === 'TRY') {
-                                        if (amount >= 500 && amount < 1000) {
-                                            feePercentage = 10;
-                                        } else if (amount >= 1000 && amount < 2000) {
-                                            feePercentage = 9;
-                                        } else if (amount >= 2000 && amount < 3000) {
-                                            feePercentage = 8.5;
-                                        } else if (amount >= 3000 && amount < 5000) {
-                                            feePercentage = 8;
-                                        } else if (amount >= 5000 && amount < 10000) {
-                                            feePercentage = 7.5;
-                                        } else if (amount >= 10000) {
-                                            feePercentage = 6.5;
+
+                                        // اضافه کردن 6٪ اگر سایت جزو پر ریسک باشد
+                                        if (isHighRisk) {
+                                            total *= 1.06;
                                         }
-                                    } else if (account.currency === 'AED') {
-                                        if (amount >= 300 && amount < 500) {
-                                            feePercentage = 10;
-                                        } else if (amount >= 500 && amount < 1000) {
-                                            feePercentage = 9;
-                                        } else if (amount >= 1000 && amount < 2000) {
-                                            feePercentage = 8;
-                                        } else if (amount >= 2000 && amount < 3500) {
-                                            feePercentage = 7;
-                                        } else if (amount >= 3500) {
-                                            feePercentage = 6;
+
+                                        // محاسبه مبلغ کارمزد
+                                        const feeAmount = (total * feePercentage) / 100;
+                                        const managedFeeAmount = (total * managedFeePercentage) / 100;
+                                        const finalAmount = total + feeAmount + managedFeeAmount;
+
+                                        // به‌روزرسانی مقادیر در صفحه
+                                        if (managedFeePercentage > 0) {
+                                            feeSpan.textContent =
+                                                `${feePercentage}% کارمزد شارژ + ${managedFeePercentage}% کارمزد مدیریت`;
+                                        } else {
+                                            feeSpan.textContent = `${feePercentage}% کارمزد شارژ`;
                                         }
-                                    }
 
-                                    // اگر حساب مدیریت‌شده است، کارمزد اضافی اضافه کنید
-                                    let managedFeePercentage = 0;
-                                    if (account.managed == 1) {
-                                        managedFeePercentage = feePercentage; // کارمزد اضافی برابر با مقدار فعلی است
-                                    }
+                                        totalPriceSpan.textContent = finalAmount.toLocaleString(
+                                        'en-US');
+                                        hiddenTotalInput.value =
+                                        finalAmount; // ذخیره مبلغ نهایی در فیلد مخفی
+                                    });
 
-                                    // اضافه کردن 6٪ اگر سایت جزو پر ریسک باشد
-                                    if (isHighRisk) {
-                                        total *= 1.06;
-                                    }
-
-                                    // محاسبه مبلغ کارمزد
-                                    const feeAmount = (total * feePercentage) / 100;
-                                    const managedFeeAmount = (total * managedFeePercentage) / 100;
-                                    const finalAmount = total + feeAmount + managedFeeAmount;
-
-                                    // به‌روزرسانی مقادیر در صفحه
-                                    if (managedFeePercentage > 0) {
-                                        feeSpan.textContent = `${feePercentage}% کارمزد شارژ + ${managedFeePercentage}% کارمزد مدیریت`;
-                                    } else {
-                                        feeSpan.textContent = `${feePercentage}% کارمزد شارژ`;
-                                    }
-
-                                    totalPriceSpan.textContent = finalAmount.toLocaleString('en-US');
-                                    hiddenTotalInput.value = finalAmount; // ذخیره مبلغ نهایی در فیلد مخفی
                                 });
+                                </script>
 
-                              });
-
-                            </script>
-
+                            </div>
                         </div>
-                    </div>
-                    <?php
+                        <?php
                     $count++;
                 }
                 ?>
+                    </div>
+
+                </div>
             </div>
-           
-          </div>
+
+
+
+
+
+
         </div>
-
-
-
-
-
-
-      </div>
     </div>
-    
 
-        <div class="contact-circle" onclick="toggleIcons()">
-            <img src="https://cdn-icons-png.flaticon.com/512/724/724664.png" alt="تماس">
-        </div>
 
-        <div class="social-icons" id="socialIcons">
-            <a href="https://wa.me/989120469460" class="whatsapp" target="_blank">
-                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="واتساپ">
-            </a>
-            <a href="https://t.me/adsbargsupports" class="telegram" target="_blank">
-                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="تلگرام">
-            </a>
-            <a href="https://wa.me/989120469465" class="whatsapp" target="_blank">
-                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="واتساپ">
-            </a>
-            <a href="https://t.me/adsbargsupport" class="telegram" target="_blank">
-                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="تلگرام">
-            </a>
-        </div>
-        
-        <script>
-            function toggleIcons() {
-                const icons = document.getElementById('socialIcons');
-                icons.style.display = icons.style.display === 'flex' ? 'none' : 'flex';
-            }
-        </script>
-  
+    <div class="contact-circle" onclick="toggleIcons()">
+        <img src="https://cdn-icons-png.flaticon.com/512/724/724664.png" alt="تماس">
+    </div>
+
+    <div class="social-icons" id="socialIcons">
+        <a href="https://wa.me/989120469460" class="whatsapp" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="واتساپ">
+        </a>
+        <a href="https://t.me/adsbargsupports" class="telegram" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="تلگرام">
+        </a>
+        <a href="https://wa.me/989120469465" class="whatsapp" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="واتساپ">
+        </a>
+        <a href="https://t.me/adsbargsupport" class="telegram" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="تلگرام">
+        </a>
+    </div>
+
+    <script>
+    function toggleIcons() {
+        const icons = document.getElementById('socialIcons');
+        icons.style.display = icons.style.display === 'flex' ? 'none' : 'flex';
+    }
+    </script>
+
     <?php include "footer.php"; ?>
 
 
@@ -589,12 +638,13 @@ $admin = $_SESSION["user_data"]["admin"];
 
     <script src="js/javascripts.js"></script>
 
-    
+
 
     <jdp-container style="z-index: 1000;"></jdp-container>
     <jdp-overlay style="z-index: 999;"></jdp-overlay>
-  </body>
-  </body>
+</body>
+</body>
+
 </html>
 
 <?php
